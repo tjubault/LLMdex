@@ -555,10 +555,10 @@ body {
 
     <p class="guide-subgroup">Attention linéaire (hybride) — <code>lin.*</code></p>
     <dl class="guide-dl">
-      <dt><code>lin.qkv</code> · <code>lin.z</code> · <code>lin.o</code></dt>
-      <dd>Entrée, porte de sortie et projection finale d'un bloc récurrent (type SSM/Mamba) qui remplace l'attention classique sur certaines couches — plus rapide sur les longs contextes.</dd>
-      <dt><code>lin.a</code> · <code>lin.b</code> · <code>lin.A</code> · <code>lin.dt</code></dt>
-      <dd>Paramètres de la récurrence : <code>lin.A</code> contrôle ce que l'état « oublie », <code>lin.dt</code> règle la vitesse de mise à jour.</dd>
+      <dt><code>lin.qkv</code> · <code>lin.z</code> · <code>lin.o</code> · <code>lin.in</code></dt>
+      <dd>Entrée, porte de sortie et projection finale d'un bloc récurrent (type SSM/Mamba) qui remplace l'attention classique sur certaines couches — plus rapide sur les longs contextes. Le nom exact (<code>lin.qkv</code> ou <code>lin.in</code>) dépend de la génération du bloc Mamba.</dd>
+      <dt><code>lin.a</code> · <code>lin.b</code> · <code>lin.A</code> · <code>lin.dt</code> · <code>lin.x</code> · <code>lin.d</code></dt>
+      <dd>Paramètres de la récurrence : <code>lin.A</code> contrôle ce que l'état « oublie », <code>lin.dt</code> règle la vitesse de mise à jour, <code>lin.x</code> prépare les coefficients de la récurrence, <code>lin.d</code> est une connexion directe (skip) en parallèle.</dd>
       <dt><code>lin.conv</code></dt>
       <dd>Petite convolution locale appliquée avant la récurrence, pour capter le contexte immédiat.</dd>
       <dt><code>lin.norm</code></dt>

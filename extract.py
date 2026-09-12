@@ -84,6 +84,19 @@ GGUF_COMPONENT_MAP = {
     "ffn_down_exps":       "ff.expert.down",
     "post_attention_norm": "norm.post_attn",
     "post_ffw_norm":       "norm.post_ffn",
+
+    # Mamba / SSM blocks (pure or hybrid linear-attention models)
+    "ssm_in":              "linear_attn.in",
+    "ssm_conv1d":          "linear_attn.conv",
+    "ssm_x":               "linear_attn.x",
+    "ssm_dt":              "linear_attn.dt",
+    "ssm_dt_norm":         "linear_attn.dt_norm",
+    "ssm_a":               "linear_attn.A",
+    "ssm_b_norm":          "linear_attn.b_norm",
+    "ssm_c_norm":          "linear_attn.c_norm",
+    "ssm_d":               "linear_attn.d",
+    "ssm_norm":            "linear_attn.norm",
+    "ssm_out":             "linear_attn.o",
 }
 
 GGUF_GLOBAL_MAP = {
