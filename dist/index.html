@@ -381,6 +381,26 @@ body {
   padding-left: 1rem;
   line-height: 1.55;
 }
+.guide-subintro {
+  text-align: center;
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  font-style: italic;
+  margin-bottom: 0.6rem;
+}
+.guide-subgroup {
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--accent);
+  margin: 1rem 0 0.3rem;
+}
+.guide-subgroup:first-of-type { margin-top: 0.4rem; }
+.guide-dl dt code, .guide-subgroup code {
+  font-family: var(--font-mono);
+  text-transform: none;
+  letter-spacing: 0;
+}
 
 /* --- Comparative cross-section --- */
 .comparative-section {
@@ -395,7 +415,16 @@ body {
   letter-spacing: 0.18em;
   text-transform: uppercase;
   color: var(--text-muted);
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.35rem;
+}
+.comparative-caption {
+  text-align: center;
+  font-size: 0.76rem;
+  font-style: italic;
+  color: var(--text-muted);
+  max-width: 32rem;
+  margin: 0 auto 0.9rem;
+  line-height: 1.5;
 }
 .comparative-wrap {
   overflow-x: auto;
@@ -511,6 +540,65 @@ body {
       <dd>Stabilise les valeurs entre les couches pour que le réseau converge bien. Comme un thermostat : empêche les signaux de devenir trop grands ou trop petits en traversant les couches.</dd>
     </dl>
 
+    <div class="guide-section-title">Abréviations des tenseurs</div>
+    <p class="guide-subintro">Les noms courts affichés dans le spectre et la morphologie, groupés par famille.</p>
+
+    <p class="guide-subgroup">Attention classique — <code>attn.*</code></p>
+    <dl class="guide-dl">
+      <dt><code>attn.q</code> · <code>attn.k</code> · <code>attn.v</code></dt>
+      <dd>Matrices Query / Key / Value : projettent chaque token pour calculer qui doit « regarder » qui.</dd>
+      <dt><code>attn.o</code></dt>
+      <dd>Projection de sortie de l'attention — recombine les têtes en un seul vecteur.</dd>
+      <dt><code>attn.qkv</code></dt>
+      <dd>Variante où Q, K et V sont fusionnées en une seule matrice, plus compacte.</dd>
+    </dl>
+
+    <p class="guide-subgroup">Attention linéaire (hybride) — <code>lin.*</code></p>
+    <dl class="guide-dl">
+      <dt><code>lin.qkv</code> · <code>lin.z</code> · <code>lin.o</code></dt>
+      <dd>Entrée, porte de sortie et projection finale d'un bloc récurrent (type SSM/Mamba) qui remplace l'attention classique sur certaines couches — plus rapide sur les longs contextes.</dd>
+      <dt><code>lin.a</code> · <code>lin.b</code> · <code>lin.A</code> · <code>lin.dt</code></dt>
+      <dd>Paramètres de la récurrence : <code>lin.A</code> contrôle ce que l'état « oublie », <code>lin.dt</code> règle la vitesse de mise à jour.</dd>
+      <dt><code>lin.conv</code></dt>
+      <dd>Petite convolution locale appliquée avant la récurrence, pour capter le contexte immédiat.</dd>
+      <dt><code>lin.norm</code></dt>
+      <dd>Normalisation interne propre au bloc linéaire.</dd>
+    </dl>
+
+    <p class="guide-subgroup">Feed-Forward &amp; Mixture of Experts — <code>ff.*</code> / <code>exp.*</code> / <code>shr.*</code></p>
+    <dl class="guide-dl">
+      <dt><code>ff.gate</code> · <code>ff.up</code> · <code>ff.down</code></dt>
+      <dd>Les trois projections du MLP : gate filtre l'information, up l'étale dans un espace plus large, down la ramène à la taille d'origine.</dd>
+      <dt><code>ff.router</code></dt>
+      <dd>L'aiguilleur d'un modèle MoE : décide, pour chaque token, quels experts activer.</dd>
+      <dt><code>exp.gate</code> · <code>exp.up</code> · <code>exp.down</code></dt>
+      <dd>Mêmes rôles que <code>ff.*</code>, mais à l'intérieur d'un expert routé — un sous-réseau parmi beaucoup, activé seulement pour certains tokens.</dd>
+      <dt><code>shr.gate</code> · <code>shr.up</code> · <code>shr.down</code> · <code>ff.shared_gate</code></dt>
+      <dd>Un expert « partagé », toujours actif en plus des experts routés ; <code>ff.shared_gate</code> pondère sa contribution.</dd>
+    </dl>
+
+    <p class="guide-subgroup">Normalisation &amp; plongement — <code>norm.*</code> / <code>embed</code> / <code>output</code></p>
+    <dl class="guide-dl">
+      <dt><code>norm.attn</code> · <code>norm.ffn</code></dt>
+      <dd>Normalisation juste avant l'attention et juste avant le feed-forward de chaque couche.</dd>
+      <dt><code>norm.q</code> · <code>norm.k</code></dt>
+      <dd>Normalisation appliquée directement aux projections Query/Key — stabilise l'entraînement des grands modèles.</dd>
+      <dt><code>norm.final</code></dt>
+      <dd>Dernière normalisation, juste avant de prédire le mot suivant.</dd>
+      <dt><code>embed</code> · <code>output</code></dt>
+      <dd><code>embed</code> convertit chaque token en vecteur à l'entrée ; <code>output</code> fait l'inverse en sortie (vecteur → probabilités sur le vocabulaire).</dd>
+    </dl>
+
+    <p class="guide-subgroup">Tour de vision — <code>vt.*</code></p>
+    <dl class="guide-dl">
+      <dt><code>vt.attn.qkv</code> · <code>vt.attn.proj</code></dt>
+      <dd>Attention de l'encodeur d'image — même principe que <code>attn.*</code>, mais appliquée à des patchs d'image plutôt qu'à des mots.</dd>
+      <dt><code>vt.ff.up</code> · <code>vt.ff.down</code></dt>
+      <dd>Feed-forward de l'encodeur d'image.</dd>
+      <dt><code>vt.norm.attn</code> · <code>vt.norm.ffn</code></dt>
+      <dd>Normalisations de l'encodeur d'image.</dd>
+    </dl>
+
     <div class="guide-section-title">Spectre des poids</div>
     <dl class="guide-dl">
       <dt>Grille</dt>
@@ -536,7 +624,8 @@ body {
 </div>
 
 <section class="comparative-section">
-  <div class="comparative-title">Coupe architecturale comparée</div>
+  <div class="comparative-title">Planche comparative — à même échelle</div>
+  <p class="comparative-caption">Chaque spécimen est dessiné à l'échelle réelle : l'aire du cercle est proportionnelle au poids du modèle sur le disque. Les mouchetures signalent un mélange d'experts (MoE).</p>
   <div class="comparative-wrap" id="comparative"></div>
 </section>
 
@@ -806,6 +895,7 @@ function renderMorphology(tensorStats, meta, container) {
   const largestArea = Math.max(...allTensors.map(t => t.area));
   const scaleFactor = Math.sqrt(maxArea / largestArea);
   const minDim = 3;
+  const minDimVector = 11; // 1D tensors (biases, norm weights) get a cheat-floor so they stay legible
 
   // Layout: groups left to right, tensors in each group side by side
   const ns = 'http://www.w3.org/2000/svg';
@@ -825,7 +915,7 @@ function renderMorphology(tensorStats, meta, container) {
     const rects = [];
     for (const t of tensors) {
       const w = Math.max(minDim, Math.round(t.cols * scaleFactor));
-      const h = Math.max(minDim, Math.round(t.rows * scaleFactor));
+      const h = Math.max(t.rows === 1 ? minDimVector : minDim, Math.round(t.rows * scaleFactor));
       rects.push({ t, w, h });
       gw += w + tensorGap;
       gh = Math.max(gh, h);
@@ -1096,146 +1186,131 @@ function renderComparativeSection() {
 
   const ns = 'http://www.w3.org/2000/svg';
 
-  // Layout constants
-  const labelW = 130;
-  const barX = labelW + 8;
-  const maxBarW = 500;
-  const rowGap = 6;
-  const layerScale = 0.55;
-  const rightPad = 80;
+  // Specimens are drawn true-to-scale: circle area ∝ file_size (weight on disk),
+  // like animals set on a common ground line in an old comparative-anatomy plate.
+  const sorted = [...MODELS].sort((a, b) => (a.meta.file_size || 0) - (b.meta.file_size || 0));
+  const maxFileSize = Math.max(...sorted.map(m => m.meta.file_size || 0));
+  if (maxFileSize === 0) return;
 
-  // Compute global scale from max dimension across all models
-  let globalMaxDim = 0;
-  for (const m of MODELS) {
-    const dE = m.meta.d_embed || 0;
-    const dFF = m.meta.d_ff || 0;
-    const dFFe = m.meta.d_ff_expert || 0;
-    const nAct = m.meta.n_experts_active || 0;
-    const effectiveFF = m.meta.n_experts ? dFFe * nAct : dFF;
-    globalMaxDim = Math.max(globalMaxDim, dE, effectiveFF, dFF);
-  }
-  if (globalMaxDim === 0) return;
-  const px = maxBarW / globalMaxDim;
+  const R_MAX = 100;
+  const R_FLOOR = 5;
+  const PIN_H = 16;
+  const GUTTER = 26;
+  const MARGIN = 20;
+  const LABEL_LINE1 = 15;
+  const LABEL_LINE2 = 26;
 
-  // Compute total SVG height
-  let totalH = 0;
-  for (const m of MODELS) {
-    const h = Math.max(12, Math.round((m.meta.n_layers || 1) * layerScale));
-    totalH += h + rowGap;
+  function radiusFor(fileSize) {
+    return Math.max(R_FLOOR, R_MAX * Math.sqrt((fileSize || 0) / maxFileSize));
   }
-  totalH -= rowGap;
-  const svgW = barX + maxBarW + rightPad;
-  const svgH = totalH + 16;
+
+  // Estimate label footprint so specimens never collide with their own caption.
+  function labelWidth(name, statsStr) {
+    return Math.max(name.length * 6.2, statsStr.length * 4.6) + 6;
+  }
+
+  const specimens = sorted.map(model => {
+    const m = model.meta;
+    const r = radiusFor(m.file_size);
+    const stats = `${formatNum(m.params_total)} · ${formatBytes(m.file_size || 0)}`;
+    const slot = Math.max(2 * r, labelWidth(m.name, stats)) + GUTTER;
+    return { model, m, r, stats, slot };
+  });
+
+  const baselineY = 2 * R_MAX + PIN_H + 10;
+  const svgH = baselineY + LABEL_LINE2 + 10;
+  const svgW = specimens.reduce((sum, s) => sum + s.slot, 0) + MARGIN * 2;
 
   const svg = document.createElementNS(ns, 'svg');
   svg.setAttribute('viewBox', `0 0 ${svgW} ${svgH}`);
   svg.setAttribute('width', svgW);
 
-  function rect(x, y, w, h, fill, stroke, tip) {
-    const r = document.createElementNS(ns, 'rect');
-    r.setAttribute('x', x); r.setAttribute('y', y);
-    r.setAttribute('width', Math.max(0, w)); r.setAttribute('height', h);
-    r.setAttribute('fill', fill);
-    if (stroke) { r.setAttribute('stroke', stroke); r.setAttribute('stroke-width', '0.5'); }
-    if (tip) { const t = document.createElementNS(ns, 'title'); t.textContent = tip; r.appendChild(t); }
-    svg.appendChild(r); return r;
+  function el(tag, attrs) {
+    const e = document.createElementNS(ns, tag);
+    for (const k in attrs) e.setAttribute(k, attrs[k]);
+    svg.appendChild(e);
+    return e;
   }
 
-  function text(x, y, str, opts) {
-    const t = document.createElementNS(ns, 'text');
-    t.setAttribute('x', x); t.setAttribute('y', y);
-    t.setAttribute('text-anchor', opts?.anchor || 'start');
-    t.setAttribute('font-size', opts?.size || '9');
-    t.setAttribute('fill', opts?.fill || 'var(--text-mid)');
-    t.setAttribute('font-family', opts?.font || 'var(--font-body)');
-    if (opts?.italic) t.setAttribute('font-style', 'italic');
-    if (opts?.weight) t.setAttribute('font-weight', opts.weight);
+  function text(x, y, str, opts = {}) {
+    const t = el('text', {
+      x, y,
+      'text-anchor': opts.anchor || 'middle',
+      'font-size': opts.size || '9',
+      fill: opts.fill || 'var(--text-mid)',
+      'font-family': opts.font || 'var(--font-body)',
+      'font-style': opts.italic ? 'italic' : 'normal',
+      'letter-spacing': opts.spacing || '0',
+    });
     t.textContent = str;
-    svg.appendChild(t); return t;
+    return t;
   }
 
-  let curY = 4;
+  // Ground line — the mounting rail all specimens are pinned above
+  el('line', {
+    x1: MARGIN * 0.4, y1: baselineY, x2: svgW - MARGIN * 0.4, y2: baselineY,
+    stroke: 'var(--rule)', 'stroke-width': '0.8', 'stroke-dasharray': '1,3',
+  });
 
-  for (const model of MODELS) {
-    const m = model.meta;
-    const dEmbed = m.d_embed || 0;
-    const dFF = m.d_ff || 0;
-    const dFFe = m.d_ff_expert || 0;
-    const nExp = m.n_experts || 0;
-    const nAct = m.n_experts_active || 0;
-    const nLayers = m.n_layers || 1;
-    const h = Math.max(12, Math.round(nLayers * layerScale));
+  let x = MARGIN;
+  let hasMoE = false;
 
-    // Model name (left)
-    text(labelW, curY + h / 2 + 3.5, m.name, { anchor: 'end', size: '9', font: 'var(--font-display)' });
+  specimens.forEach((s, i) => {
+    const cx = x + s.slot / 2;
+    const cy = baselineY - s.r;
+    const top = cy - s.r;
 
-    // Attention block (blue)
-    const wAttn = Math.max(1, dEmbed * px);
-    rect(barX, curY, wAttn, h,
-      'hsla(212,55%,44%,0.85)', 'hsla(212,55%,30%,0.6)',
-      `Attention\nd_embed = ${dEmbed}\n${m.n_heads} têtes` + (m.n_kv_heads && m.n_kv_heads !== m.n_heads ? ` (${m.n_kv_heads} kv)` : ''));
+    // Pin: a fine needle through the specimen, head above
+    el('line', { x1: cx, y1: top - PIN_H, x2: cx, y2: cy, stroke: 'var(--text-muted)', 'stroke-width': '0.6' });
+    el('circle', { cx, cy: top - PIN_H, r: 2, fill: 'var(--bg-plate)', stroke: 'var(--text-muted)', 'stroke-width': '0.8' });
 
-    // GQA subdivision line
-    if (m.n_kv_heads && m.n_kv_heads < m.n_heads) {
-      const kvH = h * (m.n_kv_heads / m.n_heads);
-      const line = document.createElementNS(ns, 'line');
-      line.setAttribute('x1', barX); line.setAttribute('y1', curY + kvH);
-      line.setAttribute('x2', barX + wAttn); line.setAttribute('y2', curY + kvH);
-      line.setAttribute('stroke', 'hsla(212,55%,60%,0.5)');
-      line.setAttribute('stroke-width', '0.5');
-      line.setAttribute('stroke-dasharray', '3,2');
-      svg.appendChild(line);
-    }
+    // Fig. number, naturalist-plate style
+    text(cx, top - PIN_H - 5, `Fig. ${i + 1}`, { size: '6.5', fill: 'var(--text-faint)', font: 'var(--font-mono)', italic: true });
 
-    // Feed-forward block
-    const ffX = barX + wAttn + 2;
+    // The specimen itself
+    const body = el('circle', {
+      cx, cy, r: s.r,
+      fill: 'var(--accent)', 'fill-opacity': '0.22',
+      stroke: 'var(--accent)', 'stroke-width': '1.1', 'stroke-opacity': '0.85',
+    });
+    const tip = document.createElementNS(ns, 'title');
+    tip.textContent = `${s.m.name}\n${formatNum(s.m.params_total)} paramètres\n${formatBytes(s.m.file_size || 0)} sur le disque\n${s.m.quantization || ''}`;
+    body.appendChild(tip);
 
+    // MoE: speckle the specimen like a spotted beetle — one dot per few experts
+    const nExp = s.m.n_experts || 0;
     if (nExp > 0) {
-      // MoE: show active experts as stacked stripes + total envelope
-      const wExpert = Math.max(1, dFFe * px);
-      const wActive = wExpert * nAct;
-      const wTotal = wExpert * Math.min(nExp, Math.round(maxBarW / wExpert));
-
-      // Faded envelope: total expert capacity
-      rect(ffX, curY, wTotal, h,
-        'hsla(22,65%,40%,0.08)', 'hsla(22,65%,30%,0.15)',
-        `${nExp} experts × ${dFFe}`);
-
-      // Active experts: bright stripes
-      for (let e = 0; e < nAct; e++) {
-        rect(ffX + e * wExpert, curY, wExpert, h,
-          'hsla(22,65%,40%,0.7)', 'hsla(22,65%,30%,0.5)',
-          `Expert actif ${e + 1}/${nAct}\nd_ff = ${dFFe}`);
+      hasMoE = true;
+      const nSpots = 7;
+      for (let k = 0; k < nSpots; k++) {
+        const angle = k * 2.399963; // golden angle → even, organic scatter
+        const frac = Math.sqrt((k + 0.5) / nSpots) * 0.72;
+        el('circle', {
+          cx: cx + s.r * frac * Math.cos(angle),
+          cy: cy + s.r * frac * Math.sin(angle),
+          r: Math.max(1, s.r * 0.07),
+          fill: 'var(--accent)', 'fill-opacity': '0.6',
+        });
       }
-
-      // Expert count label
-      text(ffX + wActive + 5, curY + h / 2 + 3, `× ${nExp} exp.`,
-        { size: '7', fill: 'var(--text-faint)', italic: true });
-      text(ffX + wActive + 5, curY + h / 2 + 11, `(${nAct} actifs)`,
-        { size: '6', fill: 'var(--text-faint)', italic: true });
-    } else {
-      // Dense FF
-      const wFF = Math.max(1, dFF * px);
-      rect(ffX, curY, wFF, h,
-        'hsla(22,65%,40%,0.85)', 'hsla(22,65%,30%,0.6)',
-        `Feed-Forward\nd_ff = ${dFF}`);
     }
 
-    // Params (right)
-    text(svgW - 4, curY + h / 2 + 3.5, formatNum(m.params_total),
-      { anchor: 'end', size: '7.5', fill: 'var(--text-faint)', font: 'var(--font-mono)' });
+    // Caption, like a specimen tag: name in italics, then the raw numbers
+    text(cx, baselineY + LABEL_LINE1, s.m.name, { size: '10.5', font: 'var(--font-display)', italic: true, fill: 'var(--text)' });
+    text(cx, baselineY + LABEL_LINE2, s.stats, { size: '7', font: 'var(--font-mono)', fill: 'var(--text-faint)' });
 
-    curY += h + rowGap;
-  }
-
-  // Legend at bottom
-  const legY = svgH - 2;
-  rect(barX, legY - 6, 8, 6, 'hsla(212,55%,44%,0.85)', 'hsla(212,55%,30%,0.6)');
-  text(barX + 11, legY, 'Attention (d_embed)', { size: '7', fill: 'var(--text-faint)' });
-  rect(barX + 130, legY - 6, 8, 6, 'hsla(22,65%,40%,0.85)', 'hsla(22,65%,30%,0.6)');
-  text(barX + 141, legY, 'Feed-Forward (d_ff)', { size: '7', fill: 'var(--text-faint)' });
+    x += s.slot;
+  });
 
   wrap.appendChild(svg);
+
+  if (hasMoE) {
+    const note = document.createElement('p');
+    note.className = 'comparative-caption';
+    note.style.marginTop = '0.4rem';
+    note.style.fontSize = '0.7rem';
+    note.textContent = '● mouchetures = experts routés (Mixture of Experts)';
+    wrap.appendChild(note);
+  }
 }
 
 // --- Render gallery ---
