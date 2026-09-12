@@ -1,0 +1,1250 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LLMdex — Atlas visuel des modèles LLM</title>
+<style>
+:root {
+  --bg: #ede8dd;
+  --bg-plate: #f6f2e9;
+  --bg-plate-inner: #faf7f0;
+  --border: #8b7d6b;
+  --border-light: #c4b8a5;
+  --rule: #d4c9b8;
+  --text: #2c2418;
+  --text-mid: #5a4e3f;
+  --text-muted: #8b7d6b;
+  --text-faint: #b0a595;
+  --accent: #6b3a2a;
+
+  --hue-attn: 212, 55%, 38%;
+  --hue-ff: 22, 65%, 32%;
+  --hue-norm: 270, 15%, 45%;
+  --hue-embed: 40, 75%, 38%;
+  --hue-linear: 162, 40%, 30%;
+  --hue-expert: 90, 30%, 32%;
+  --hue-vision: 135, 25%, 40%;
+  --hue-router: 150, 45%, 28%;
+
+  --font-display: Didot, 'Bodoni MT', 'Noto Serif Display', Georgia, serif;
+  --font-body: 'Palatino Linotype', Palatino, 'Book Antiqua', Georgia, serif;
+  --font-mono: 'SF Mono', 'Fira Code', 'Source Code Pro', Menlo, monospace;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #1a1714;
+    --bg-plate: #242019;
+    --bg-plate-inner: #2c2720;
+    --border: #6b5f50;
+    --border-light: #4a4035;
+    --rule: #3d3530;
+    --text: #e8e0d4;
+    --text-mid: #b8ad9e;
+    --text-muted: #8b7d6b;
+    --text-faint: #5a4e3f;
+    --accent: #c4907a;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #1a1714;
+  --bg-plate: #242019;
+  --bg-plate-inner: #2c2720;
+  --border: #6b5f50;
+  --border-light: #4a4035;
+  --rule: #3d3530;
+  --text: #e8e0d4;
+  --text-mid: #b8ad9e;
+  --text-muted: #8b7d6b;
+  --text-faint: #5a4e3f;
+  --accent: #c4907a;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: var(--font-body);
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+.atlas-header {
+  text-align: center;
+  padding: 3rem 1rem 1rem;
+}
+.atlas-header h1 {
+  font-family: var(--font-display);
+  font-size: 3rem;
+  font-weight: normal;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--text);
+  margin-bottom: 0.25rem;
+}
+.atlas-header .subtitle {
+  font-style: italic;
+  font-size: 1.1rem;
+  color: var(--text-muted);
+  letter-spacing: 0.05em;
+}
+.atlas-header .ornament {
+  margin-top: 1rem;
+  color: var(--border-light);
+  font-size: 0.9rem;
+  letter-spacing: 0.3em;
+}
+
+.gallery {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 1rem;
+}
+
+/* --- Plate --- */
+.plate {
+  background: var(--bg-plate);
+  margin: 2.5rem auto;
+  padding: 6px;
+  border: 1px solid var(--border);
+  position: relative;
+}
+.plate-inner {
+  border: 1px solid var(--border-light);
+  background: var(--bg-plate-inner);
+  padding: 2rem 2.5rem;
+}
+.plate-number {
+  position: absolute;
+  top: -0.7rem;
+  right: 1.5rem;
+  background: var(--bg-plate);
+  padding: 0 0.75rem;
+  font-size: 0.75rem;
+  font-style: italic;
+  color: var(--text-muted);
+  letter-spacing: 0.1em;
+}
+
+/* --- Zone 1: Header --- */
+.plate-title {
+  font-family: var(--font-display);
+  font-size: 2.2rem;
+  font-weight: normal;
+  text-align: center;
+  letter-spacing: 0.08em;
+  color: var(--text);
+  margin-bottom: 0.15rem;
+}
+.plate-arch {
+  text-align: center;
+  font-style: italic;
+  font-size: 1rem;
+  color: var(--text-mid);
+  margin-bottom: 0.2rem;
+  letter-spacing: 0.03em;
+}
+.plate-format {
+  text-align: center;
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: 1.2rem;
+}
+
+.plate-rule {
+  border: none;
+  border-top: 1px solid var(--rule);
+  margin: 1.2rem auto;
+  width: 60%;
+}
+.plate-rule.full { width: 100%; }
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 0.5rem 2rem;
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 0.5rem 0;
+}
+.stat {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding: 0.15rem 0;
+  border-bottom: 1px dotted var(--rule);
+}
+.stat-label {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  font-style: italic;
+}
+.stat-value {
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  color: var(--text);
+  letter-spacing: -0.02em;
+}
+
+/* --- Zone 2: Architecture summary --- */
+.arch-section {
+  margin-top: 1.5rem;
+}
+.section-title {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  color: var(--text-muted);
+  text-align: center;
+  margin-bottom: 0.75rem;
+}
+.arch-badges {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.4rem;
+}
+.badge {
+  font-size: 0.7rem;
+  padding: 0.2rem 0.6rem;
+  border: 1px solid var(--border-light);
+  color: var(--text-mid);
+  letter-spacing: 0.03em;
+}
+
+/* --- Zone 3: Spectrum --- */
+.spectrum-section {
+  margin-top: 1.5rem;
+}
+.spectrum-wrap {
+  overflow-x: auto;
+  margin: 0.5rem 0;
+}
+.spectrum-wrap svg {
+  display: block;
+  margin: 0 auto;
+}
+.spectrum-wrap svg text {
+  font-family: var(--font-mono);
+}
+.spectrum-tooltip {
+  position: fixed;
+  pointer-events: none;
+  background: var(--bg-plate-inner);
+  border: 1px solid var(--border);
+  padding: 0.4rem 0.6rem;
+  font-size: 0.72rem;
+  line-height: 1.4;
+  color: var(--text);
+  z-index: 100;
+  max-width: 280px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+  display: none;
+}
+.spectrum-tooltip .tt-comp {
+  font-weight: 600;
+  color: var(--accent);
+}
+.spectrum-tooltip .tt-stats {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  color: var(--text-mid);
+  margin-top: 0.2rem;
+}
+
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.6rem 1.2rem;
+  margin-top: 0.75rem;
+}
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-size: 0.68rem;
+  color: var(--text-muted);
+  font-style: italic;
+}
+.legend-swatch {
+  width: 10px;
+  height: 10px;
+  border: 1px solid var(--border-light);
+}
+
+.atlas-footer {
+  text-align: center;
+  padding: 2rem 1rem 3rem;
+  font-size: 0.75rem;
+  color: var(--text-faint);
+  font-style: italic;
+  letter-spacing: 0.05em;
+}
+
+/* --- Guide de lecture --- */
+.guide-btn {
+  display: inline-block;
+  margin-top: 0.75rem;
+  padding: 0.3rem 1rem;
+  font-family: var(--font-body);
+  font-size: 0.75rem;
+  font-style: italic;
+  color: var(--text-muted);
+  background: transparent;
+  border: 1px solid var(--border-light);
+  cursor: pointer;
+  letter-spacing: 0.08em;
+  transition: color 0.2s, border-color 0.2s;
+}
+.guide-btn:hover { color: var(--text); border-color: var(--border); }
+.guide-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.4);
+  z-index: 200;
+  display: none;
+  overflow-y: auto;
+  padding: 2rem 1rem;
+  justify-content: center;
+  align-items: flex-start;
+}
+.guide-overlay.open { display: flex; }
+.guide-panel {
+  background: var(--bg-plate-inner);
+  border: 1px solid var(--border);
+  max-width: 700px;
+  width: 100%;
+  padding: 2.5rem;
+  position: relative;
+  margin: 2rem 0;
+}
+.guide-panel::before {
+  content: '';
+  position: absolute;
+  inset: 5px;
+  border: 1px solid var(--border-light);
+  pointer-events: none;
+}
+.guide-close {
+  position: absolute;
+  top: 12px;
+  right: 16px;
+  background: none;
+  border: none;
+  font-size: 1.4rem;
+  color: var(--text-muted);
+  cursor: pointer;
+  font-family: var(--font-body);
+  z-index: 1;
+}
+.guide-close:hover { color: var(--text); }
+.guide-title {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  text-align: center;
+  letter-spacing: 0.1em;
+  margin-bottom: 0.5rem;
+}
+.guide-intro {
+  text-align: center;
+  font-style: italic;
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  margin-bottom: 1.2rem;
+}
+.guide-section-title {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  color: var(--text-muted);
+  margin: 1.8rem 0 0.75rem;
+  text-align: center;
+}
+.guide-section-title:first-of-type { margin-top: 0.5rem; }
+.guide-dl { list-style: none; }
+.guide-dl dt {
+  font-weight: 600;
+  font-size: 0.85rem;
+  color: var(--accent);
+  margin-top: 0.7rem;
+}
+.guide-dl dt:first-child { margin-top: 0; }
+.guide-dl dd {
+  font-size: 0.82rem;
+  color: var(--text-mid);
+  margin: 0.1rem 0 0 0;
+  padding-left: 1rem;
+  line-height: 1.55;
+}
+
+/* --- Comparative cross-section --- */
+.comparative-section {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 1rem 1.5rem;
+}
+.comparative-title {
+  text-align: center;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 0.5rem;
+}
+.comparative-wrap {
+  overflow-x: auto;
+}
+.comparative-wrap svg {
+  display: block;
+  margin: 0 auto;
+  max-width: 100%;
+  height: auto;
+}
+
+/* --- Morphologie --- */
+.morpho-section { margin-top: 1.5rem; }
+.morpho-wrap { overflow-x: auto; margin: 0.5rem 0; }
+.morpho-wrap svg { display: block; margin: 0 auto; }
+</style>
+</head>
+<body>
+
+<header class="atlas-header">
+  <h1>LLMdex</h1>
+  <p class="subtitle">Atlas visuel des modèles de langage</p>
+  <div class="ornament">— ✦ —</div>
+  <button class="guide-btn" onclick="document.getElementById('guide').classList.add('open')">Guide de lecture</button>
+</header>
+
+<div class="guide-overlay" id="guide" onclick="if(event.target===this)this.classList.remove('open')">
+  <div class="guide-panel">
+    <button class="guide-close" onclick="document.getElementById('guide').classList.remove('open')">✕</button>
+    <h2 class="guide-title">Guide de lecture</h2>
+    <p class="guide-intro">Clefs pour lire les planches de cet atlas.</p>
+
+    <div class="guide-section-title">Comment fonctionne un transformer</div>
+    <p style="font-size:0.82rem;color:var(--text-mid);line-height:1.55;margin-bottom:0.8rem;text-align:center;">
+      Un modèle de langage empile des dizaines de <em>couches</em> identiques.<br>
+      Chaque couche traite le texte en deux étapes, toujours dans le même ordre :
+    </p>
+
+    <svg viewBox="0 0 320 340" width="280" style="display:block;margin:0 auto 1rem;" xmlns="http://www.w3.org/2000/svg">
+      <style>svg text{font-family:var(--font-body)}</style>
+      <text x="160" y="16" text-anchor="middle" font-size="10" fill="var(--text-mid)" font-style="italic">Entrée (un vecteur par token)</text>
+      <line x1="160" y1="22" x2="160" y2="42" stroke="var(--text-faint)" stroke-width="1"/>
+      <polygon points="156,40 164,40 160,46" fill="var(--text-faint)"/>
+      <path d="M160,32 L55,32 L55,148" stroke="var(--text-faint)" stroke-width="1" fill="none" stroke-dasharray="4,3"/>
+      <text x="43" y="93" text-anchor="middle" font-size="7" fill="var(--text-faint)" font-style="italic" transform="rotate(-90,43,93)">résiduelle</text>
+      <rect x="92" y="48" width="136" height="28" rx="3" fill="hsla(270,15%,45%,0.12)" stroke="hsl(270,15%,45%)" stroke-width="0.8"/>
+      <text x="160" y="66" text-anchor="middle" font-size="10" fill="hsl(270,15%,45%)">Normalisation</text>
+      <line x1="160" y1="76" x2="160" y2="92" stroke="var(--text-faint)" stroke-width="1"/>
+      <polygon points="156,90 164,90 160,96" fill="var(--text-faint)"/>
+      <rect x="92" y="98" width="136" height="28" rx="3" fill="hsla(212,55%,38%,0.12)" stroke="hsl(212,55%,38%)" stroke-width="0.8"/>
+      <text x="160" y="116" text-anchor="middle" font-size="10" fill="hsl(212,55%,38%)">Attention</text>
+      <text x="265" y="110" font-size="7.5" fill="var(--text-muted)" font-style="italic">chaque mot regarde</text>
+      <text x="265" y="120" font-size="7.5" fill="var(--text-muted)" font-style="italic">les autres mots</text>
+      <line x1="160" y1="126" x2="160" y2="140" stroke="var(--text-faint)" stroke-width="1"/>
+      <circle cx="160" cy="150" r="10" fill="var(--bg-plate-inner)" stroke="var(--text-muted)" stroke-width="0.8"/>
+      <text x="160" y="154" text-anchor="middle" font-size="12" fill="var(--text-muted)">+</text>
+      <line x1="55" y1="150" x2="149" y2="150" stroke="var(--text-faint)" stroke-width="1" stroke-dasharray="4,3"/>
+      <polygon points="147,147 147,153 150,150" fill="var(--text-faint)"/>
+      <line x1="160" y1="160" x2="160" y2="174" stroke="var(--text-faint)" stroke-width="1"/>
+      <polygon points="156,172 164,172 160,178" fill="var(--text-faint)"/>
+      <path d="M160,168 L55,168 L55,280" stroke="var(--text-faint)" stroke-width="1" fill="none" stroke-dasharray="4,3"/>
+      <text x="43" y="226" text-anchor="middle" font-size="7" fill="var(--text-faint)" font-style="italic" transform="rotate(-90,43,226)">résiduelle</text>
+      <rect x="92" y="180" width="136" height="28" rx="3" fill="hsla(270,15%,45%,0.12)" stroke="hsl(270,15%,45%)" stroke-width="0.8"/>
+      <text x="160" y="198" text-anchor="middle" font-size="10" fill="hsl(270,15%,45%)">Normalisation</text>
+      <line x1="160" y1="208" x2="160" y2="222" stroke="var(--text-faint)" stroke-width="1"/>
+      <polygon points="156,220 164,220 160,226" fill="var(--text-faint)"/>
+      <rect x="92" y="228" width="136" height="28" rx="3" fill="hsla(22,65%,32%,0.12)" stroke="hsl(22,65%,32%)" stroke-width="0.8"/>
+      <text x="160" y="246" text-anchor="middle" font-size="10" fill="hsl(22,65%,32%)">Feed-Forward</text>
+      <text x="265" y="240" font-size="7.5" fill="var(--text-muted)" font-style="italic">chaque position</text>
+      <text x="265" y="250" font-size="7.5" fill="var(--text-muted)" font-style="italic">« réfléchit » seule</text>
+      <line x1="160" y1="256" x2="160" y2="272" stroke="var(--text-faint)" stroke-width="1"/>
+      <circle cx="160" cy="282" r="10" fill="var(--bg-plate-inner)" stroke="var(--text-muted)" stroke-width="0.8"/>
+      <text x="160" y="286" text-anchor="middle" font-size="12" fill="var(--text-muted)">+</text>
+      <line x1="55" y1="282" x2="149" y2="282" stroke="var(--text-faint)" stroke-width="1" stroke-dasharray="4,3"/>
+      <polygon points="147,279 147,285 150,282" fill="var(--text-faint)"/>
+      <line x1="160" y1="292" x2="160" y2="310" stroke="var(--text-faint)" stroke-width="1"/>
+      <polygon points="156,308 164,308 160,314" fill="var(--text-faint)"/>
+      <text x="160" y="330" text-anchor="middle" font-size="10" fill="var(--text-mid)" font-style="italic">Sortie → couche suivante</text>
+    </svg>
+
+    <p style="font-size:0.78rem;color:var(--text-muted);line-height:1.5;text-align:center;margin-bottom:0.5rem;">
+      Les connexions <em>résiduelles</em> (tirets) permettent au signal de contourner
+      une étape — sans elles, empiler 30+ couches ne fonctionnerait pas.
+    </p>
+
+    <div class="guide-section-title">Mesures de la fiche</div>
+    <dl class="guide-dl">
+      <dt>Paramètres</dt>
+      <dd>Nombre total de valeurs numériques (« poids ») du modèle. Plus il y en a, plus le modèle est expressif — mais aussi gourmand en mémoire et en calcul.</dd>
+      <dt>Couches</dt>
+      <dd>Nombre de blocs transformer empilés. Chaque couche traite l'information en séquence : plus il y en a, plus le modèle raisonne « en profondeur ».</dd>
+      <dt>d_embed</dt>
+      <dd>Dimension d'embedding — la taille du vecteur qui représente chaque mot dans le réseau. C'est la « largeur » du modèle : un vecteur plus grand capture plus de nuances.</dd>
+      <dt>d_ff</dt>
+      <dd>Dimension feed-forward — la largeur de la couche intermédiaire du sous-réseau feed-forward. Généralement 2× à 8× d_embed. C'est là que le réseau a le plus de « place pour réfléchir ».</dd>
+      <dt>Têtes</dt>
+      <dd>Nombre de têtes d'attention. Chaque tête apprend un type de relation différent entre les mots (syntaxe, coréférence, position…). Les têtes « kv » sont des têtes clé-valeur partagées entre plusieurs têtes de requête — une technique (GQA) qui économise la mémoire sans perdre beaucoup de qualité.</dd>
+      <dt>Contexte</dt>
+      <dd>Nombre maximum de tokens (mots/sous-mots) que le modèle peut voir d'un coup. Un contexte de 8K ≈ 12 pages ; 128K ≈ un livre entier.</dd>
+      <dt>Vocabulaire</dt>
+      <dd>Nombre de tokens distincts que le modèle connaît : mots entiers, syllabes, caractères spéciaux. Un vocabulaire plus grand reconnaît plus de mots directement, mais coûte plus de mémoire.</dd>
+      <dt>Quantification</dt>
+      <dd>Technique de compression des poids. F16 = 16 bits par poids (demi-précision). Q4_K = ~4 bits par poids. Plus c'est compressé, plus le modèle est petit et rapide — au prix d'une légère perte de précision.</dd>
+    </dl>
+
+    <div class="guide-section-title">Composants du transformer</div>
+    <dl class="guide-dl">
+      <dt>Attention</dt>
+      <dd>Le mécanisme qui permet à chaque mot de « regarder » les autres mots pour comprendre le contexte. Quatre matrices (Q, K, V, O) transforment les vecteurs pour calculer quels mots sont pertinents les uns pour les autres. C'est le cœur du transformer.</dd>
+      <dt>Feed-Forward</dt>
+      <dd>Un petit réseau de neurones appliqué à chaque position indépendamment (gate, up, down). C'est là que le modèle « digère » l'information après l'avoir lue par l'attention. Souvent 2/3 des paramètres d'une couche.</dd>
+      <dt>Normalisation</dt>
+      <dd>Stabilise les valeurs entre les couches pour que le réseau converge bien. Comme un thermostat : empêche les signaux de devenir trop grands ou trop petits en traversant les couches.</dd>
+    </dl>
+
+    <div class="guide-section-title">Spectre des poids</div>
+    <dl class="guide-dl">
+      <dt>Grille</dt>
+      <dd>Chaque cellule représente un tenseur (une matrice de poids) : les colonnes sont les couches (0 → n), les lignes sont les composants (attention, feed-forward…).</dd>
+      <dt>Couleur</dt>
+      <dd>Indique la famille du composant — bleu pour l'attention, brun pour le feed-forward, violet pour la normalisation, vert pour la tour de vision.</dd>
+      <dt>Intensité</dt>
+      <dd>Proportionnelle au RMS (root mean square — la magnitude moyenne des poids) du tenseur, en échelle logarithmique. Une cellule plus intense = des poids de plus grande amplitude. Cela révèle quelles couches « pèsent » le plus dans le calcul.</dd>
+    </dl>
+
+    <div class="guide-section-title">Traits architecturaux</div>
+    <dl class="guide-dl">
+      <dt>Traits architecturaux</dt>
+      <dd>Caractéristiques structurelles qui distinguent un modèle : attention hybride (mélange de couches linéaires rapides et de couches d'attention complètes), MoE (mixture d'experts — seuls quelques experts s'activent par token), tour de vision (encodeur d'images greffé au modèle texte), head_dim (dimension de chaque tête d'attention).</dd>
+    </dl>
+
+    <div class="guide-section-title">Morphologie d'une couche</div>
+    <dl class="guide-dl">
+      <dt>Rectangles</dt>
+      <dd>Chaque rectangle représente un tenseur (matrice de poids) d'une couche représentative. Le ratio largeur/hauteur correspond aux dimensions réelles de la matrice (une matrice carrée donne un carré). La surface est proportionnelle au nombre de paramètres — on voit d'un coup où se concentre la masse du modèle.</dd>
+    </dl>
+  </div>
+</div>
+
+<section class="comparative-section">
+  <div class="comparative-title">Coupe architecturale comparée</div>
+  <div class="comparative-wrap" id="comparative"></div>
+</section>
+
+<main class="gallery" id="gallery"></main>
+
+<div class="spectrum-tooltip" id="tooltip"></div>
+
+<footer class="atlas-footer">
+  LLMdex — Herbier numérique des modèles de langage locaux
+</footer>
+
+<script>
+const MODELS = "INJECT_DATA";
+
+const MODEL_INFO = {
+  'smollm2':        { developer: 'Hugging Face',    year: 2024 },
+  'qwen2.5':        { developer: 'Alibaba (Qwen)',  year: 2024 },
+  'gemma3':         { developer: 'Google DeepMind', year: 2025 },
+  'deepseek-r1':    { developer: 'DeepSeek',        year: 2025 },
+  'llama3.2':       { developer: 'Meta',            year: 2024 },
+  'phi4-mini':      { developer: 'Microsoft',       year: 2025 },
+  'qwen3.6-coding': { developer: 'Alibaba (Qwen)',  year: 2025 },
+};
+
+const FAMILY_CONFIG = {
+  attn:        { label: 'Attention',         hue: [212, 55, 38] },
+  ff:          { label: 'Feed-Forward',      hue: [22,  65, 32] },
+  norm:        { label: 'Normalisation',     hue: [270, 15, 45] },
+  embed:       { label: 'Plongement',        hue: [40,  75, 38] },
+  linear_attn: { label: 'Attention linéaire', hue: [162, 40, 30] },
+  vt:          { label: 'Tour de vision',    hue: [135, 25, 40] },
+};
+
+const FAMILY_ORDER = ['norm', 'attn', 'linear_attn', 'ff', 'embed', 'vt'];
+
+function getFamily(component) {
+  if (component === 'embed' || component === 'output') return 'embed';
+  if (component.startsWith('vt.')) return 'vt';
+  if (component.startsWith('linear_attn.')) return 'linear_attn';
+  if (component.startsWith('attn.')) return 'attn';
+  if (component.startsWith('ff.')) return 'ff';
+  if (component.startsWith('norm.')) return 'norm';
+  return 'ff';
+}
+
+function familyColor(family, opacity) {
+  const cfg = FAMILY_CONFIG[family];
+  if (!cfg) return `hsla(0,0%,50%,${opacity})`;
+  const [h, s, l] = cfg.hue;
+  return `hsla(${h},${s}%,${l}%,${opacity})`;
+}
+
+function familySolid(family) {
+  const cfg = FAMILY_CONFIG[family];
+  if (!cfg) return 'hsl(0,0%,50%)';
+  const [h, s, l] = cfg.hue;
+  return `hsl(${h},${s}%,${l}%)`;
+}
+
+function formatNum(n) {
+  if (n === null || n === undefined) return '—';
+  if (n >= 1e12) return (n / 1e12).toFixed(1) + 'T';
+  if (n >= 1e9) return (n / 1e9).toFixed(1) + 'B';
+  if (n >= 1e6) return (n / 1e6).toFixed(1) + 'M';
+  if (n >= 1e3) return (n / 1e3).toFixed(1) + 'K';
+  return n.toLocaleString();
+}
+
+function formatBytes(n) {
+  if (n >= 1e9) return (n / 1e9).toFixed(1) + ' GB';
+  if (n >= 1e6) return (n / 1e6).toFixed(0) + ' MB';
+  return (n / 1e3).toFixed(0) + ' KB';
+}
+
+function renderPlate(model, index) {
+  const meta = model.meta;
+  const stats = model.tensor_stats;
+
+  const plate = document.createElement('article');
+  plate.className = 'plate';
+
+  const plateNum = document.createElement('span');
+  plateNum.className = 'plate-number';
+  plateNum.textContent = `Planche n° ${index + 1}`;
+  plate.appendChild(plateNum);
+
+  const inner = document.createElement('div');
+  inner.className = 'plate-inner';
+
+  // --- Zone 1: Header ---
+  const title = document.createElement('h2');
+  title.className = 'plate-title';
+  title.textContent = meta.name;
+  inner.appendChild(title);
+
+  const arch = document.createElement('p');
+  arch.className = 'plate-arch';
+  arch.textContent = meta.architecture;
+  inner.appendChild(arch);
+
+  const info = MODEL_INFO[meta.name];
+  if (info) {
+    const dev = document.createElement('p');
+    dev.className = 'plate-format';
+    dev.style.marginBottom = '0.15rem';
+    dev.textContent = info.developer + (info.year ? ', ' + info.year : '');
+    inner.appendChild(dev);
+  }
+
+  const fmt = document.createElement('p');
+  fmt.className = 'plate-format';
+  fmt.textContent = meta.format + ' · ' + meta.quantization;
+  inner.appendChild(fmt);
+
+  inner.appendChild(createRule());
+
+  // Stats grid
+  const grid = document.createElement('div');
+  grid.className = 'stats-grid';
+
+  const statItems = [
+    ['Paramètres', formatNum(meta.params_total)],
+    ['Couches', meta.n_layers],
+    ['d_embed', formatNum(meta.d_embed)],
+    ['d_ff', formatNum(meta.d_ff || meta.d_ff_expert)],
+    ['Têtes', meta.n_heads + (meta.n_kv_heads && meta.n_kv_heads !== meta.n_heads ? ` (${meta.n_kv_heads} kv)` : '')],
+    ['Contexte', formatNum(meta.context_length)],
+    ['Vocabulaire', formatNum(meta.vocab_size)],
+    ['Taille', formatBytes(meta.file_size)],
+  ];
+
+  if (meta.params_active && meta.params_active !== meta.params_language) {
+    statItems.splice(1, 0, ['Paramètres actifs', formatNum(meta.params_active)]);
+  }
+  if (meta.n_experts) {
+    statItems.push(['Experts', `${meta.n_experts} (${meta.n_experts_active} actifs)`]);
+  }
+  if (meta.params_vision && meta.params_vision > 0) {
+    statItems.push(['Vision', formatNum(meta.params_vision) + ' params']);
+  }
+
+  for (const [label, value] of statItems) {
+    const row = document.createElement('div');
+    row.className = 'stat';
+    row.innerHTML = `<span class="stat-label">${label}</span><span class="stat-value">${value}</span>`;
+    grid.appendChild(row);
+  }
+  inner.appendChild(grid);
+
+  // --- Zone 2: Architecture badges ---
+  const archBadges = [];
+  if (meta.layer_types) {
+    const nFull = meta.layer_types.filter(t => t === 'full_attention').length;
+    const nLin = meta.layer_types.filter(t => t === 'linear_attention').length;
+    archBadges.push(`${nFull} attention complète`);
+    archBadges.push(`${nLin} attention linéaire`);
+  }
+  if (meta.n_experts) archBadges.push(`MoE ${meta.n_experts}×${meta.d_ff_expert || '?'}`);
+  if (meta.vision) archBadges.push(`Vision ${meta.vision.depth} blocs`);
+  if (meta.head_dim) archBadges.push(`head_dim ${meta.head_dim}`);
+
+  if (archBadges.length > 0) {
+    inner.appendChild(createRule());
+    const sec = document.createElement('div');
+    sec.className = 'arch-section';
+    const secTitle = document.createElement('div');
+    secTitle.className = 'section-title';
+    secTitle.textContent = 'Traits architecturaux';
+    sec.appendChild(secTitle);
+    const badges = document.createElement('div');
+    badges.className = 'arch-badges';
+    for (const b of archBadges) {
+      const span = document.createElement('span');
+      span.className = 'badge';
+      span.textContent = b;
+      badges.appendChild(span);
+    }
+    sec.appendChild(badges);
+    inner.appendChild(sec);
+  }
+
+  // --- Zone 3: Morphology ---
+  inner.appendChild(createRule('full'));
+  const morphSec = document.createElement('div');
+  morphSec.className = 'morpho-section';
+  const morphTitle = document.createElement('div');
+  morphTitle.className = 'section-title';
+  morphTitle.textContent = 'Morphologie d’une couche';
+  morphSec.appendChild(morphTitle);
+  const morphWrap = document.createElement('div');
+  morphWrap.className = 'morpho-wrap';
+  renderMorphology(stats, meta, morphWrap);
+  morphSec.appendChild(morphWrap);
+  inner.appendChild(morphSec);
+
+  // --- Zone 4: Spectrum ---
+  inner.appendChild(createRule('full'));
+  const specSec = document.createElement('div');
+  specSec.className = 'spectrum-section';
+  const specTitle = document.createElement('div');
+  specTitle.className = 'section-title';
+  specTitle.textContent = 'Spectre des poids';
+  specSec.appendChild(specTitle);
+
+  const specWrap = document.createElement('div');
+  specWrap.className = 'spectrum-wrap';
+  renderSpectrum(stats, meta, specWrap);
+  specSec.appendChild(specWrap);
+
+  // Legend
+  const legendDiv = document.createElement('div');
+  legendDiv.className = 'legend';
+  const usedFamilies = new Set();
+  for (const t of stats) {
+    if (t.layer !== null && t.kind === 'weight') usedFamilies.add(getFamily(t.component));
+  }
+  for (const fam of FAMILY_ORDER) {
+    if (!usedFamilies.has(fam)) continue;
+    const cfg = FAMILY_CONFIG[fam];
+    if (!cfg) continue;
+    const item = document.createElement('span');
+    item.className = 'legend-item';
+    item.innerHTML = `<span class="legend-swatch" style="background:${familySolid(fam)}"></span>${cfg.label}`;
+    legendDiv.appendChild(item);
+  }
+  specSec.appendChild(legendDiv);
+  inner.appendChild(specSec);
+
+  plate.appendChild(inner);
+  return plate;
+}
+
+function createRule(cls) {
+  const hr = document.createElement('hr');
+  hr.className = 'plate-rule' + (cls ? ' ' + cls : '');
+  return hr;
+}
+
+// (renderArchDiagram removed — comparative 2D section replaces it)
+
+function renderMorphology(tensorStats, meta, container) {
+  const midLayer = Math.floor((meta.n_layers || 1) / 2);
+  const layerTensors = tensorStats.filter(t =>
+    t.layer === midLayer && t.kind === 'weight' && t.domain === 'language' && t.shape && t.shape.length >= 1
+  );
+  if (layerTensors.length === 0) return;
+
+  const groups = new Map();
+  for (const fam of FAMILY_ORDER) groups.set(fam, []);
+  for (const t of layerTensors) {
+    const fam = getFamily(t.component);
+    if (!groups.has(fam)) groups.set(fam, []);
+    let rows, cols;
+    if (t.shape.length === 1) { rows = 1; cols = t.shape[0]; }
+    else if (t.shape.length === 3) { rows = t.shape[1]; cols = t.shape[2]; }
+    else { rows = t.shape[0]; cols = t.shape[1]; }
+    groups.get(fam).push({ ...t, rows, cols, area: rows * cols });
+  }
+
+  // Remove empty families
+  for (const [k, v] of groups) { if (v.length === 0) groups.delete(k); }
+  if (groups.size === 0) return;
+
+  // Scale: largest area maps to maxArea pixels, preserve aspect ratios
+  const allTensors = [...groups.values()].flat();
+  const maxArea = 3600; // max pixel area for largest tensor
+  const largestArea = Math.max(...allTensors.map(t => t.area));
+  const scaleFactor = Math.sqrt(maxArea / largestArea);
+  const minDim = 3;
+
+  // Layout: groups left to right, tensors in each group side by side
+  const ns = 'http://www.w3.org/2000/svg';
+  const groupGap = 30;
+  const tensorGap = 8;
+  const labelH = 14;
+  const groupLabelH = 16;
+  const topPad = 4;
+
+  // Pre-calculate layout
+  let totalW = 0;
+  let maxH = 0;
+  const groupLayouts = [];
+  for (const [fam, tensors] of groups) {
+    let gw = 0;
+    let gh = 0;
+    const rects = [];
+    for (const t of tensors) {
+      const w = Math.max(minDim, Math.round(t.cols * scaleFactor));
+      const h = Math.max(minDim, Math.round(t.rows * scaleFactor));
+      rects.push({ t, w, h });
+      gw += w + tensorGap;
+      gh = Math.max(gh, h);
+    }
+    gw -= tensorGap;
+    const label = FAMILY_CONFIG[fam] ? FAMILY_CONFIG[fam].label : fam;
+    groupLayouts.push({ fam, rects, gw, gh, label });
+    totalW += gw + groupGap;
+    maxH = Math.max(maxH, gh);
+  }
+  totalW -= groupGap;
+
+  const svgH = topPad + groupLabelH + maxH + labelH + 8;
+  const svgW = Math.max(totalW + 20, 200);
+
+  const svg = document.createElementNS(ns, 'svg');
+  svg.setAttribute('viewBox', `0 0 ${svgW} ${svgH}`);
+  svg.setAttribute('width', Math.min(svgW, 1000));
+  svg.style.maxWidth = '100%';
+  svg.style.height = 'auto';
+
+  let xOff = (svgW - totalW) / 2;
+  for (const gl of groupLayouts) {
+    // Group label
+    const glabel = document.createElementNS(ns, 'text');
+    glabel.setAttribute('x', xOff + gl.gw / 2);
+    glabel.setAttribute('y', topPad + groupLabelH - 4);
+    glabel.setAttribute('text-anchor', 'middle');
+    glabel.setAttribute('font-size', '7');
+    glabel.setAttribute('fill', familySolid(gl.fam));
+    glabel.setAttribute('letter-spacing', '0.08em');
+    glabel.textContent = gl.label.toUpperCase();
+    svg.appendChild(glabel);
+
+    let tx = xOff;
+    for (const r of gl.rects) {
+      const yBase = topPad + groupLabelH + (maxH - r.h);
+      const rect = document.createElementNS(ns, 'rect');
+      rect.setAttribute('x', tx);
+      rect.setAttribute('y', yBase);
+      rect.setAttribute('width', r.w);
+      rect.setAttribute('height', r.h);
+      rect.setAttribute('fill', familyColor(gl.fam, 0.5));
+      rect.setAttribute('stroke', familySolid(gl.fam));
+      rect.setAttribute('stroke-width', '0.8');
+
+      const titleEl = document.createElementNS(ns, 'title');
+      const shortComp = r.t.component.replace('linear_attn.', 'lin.').replace('ff.expert.', 'exp.').replace('ff.shared.', 'shr.');
+      titleEl.textContent = `${r.t.component}\n${r.t.shape.join('×')}\n${formatNum(r.t.n_params)} params`;
+      rect.appendChild(titleEl);
+      svg.appendChild(rect);
+
+      // Label below
+      const lbl = document.createElementNS(ns, 'text');
+      lbl.setAttribute('x', tx + r.w / 2);
+      lbl.setAttribute('y', topPad + groupLabelH + maxH + labelH - 2);
+      lbl.setAttribute('text-anchor', 'middle');
+      lbl.setAttribute('font-size', '6');
+      lbl.setAttribute('fill', 'var(--text-muted)');
+      lbl.textContent = shortComp;
+      svg.appendChild(lbl);
+
+      // Dimension annotation inside if big enough
+      if (r.w > 20 && r.h > 12) {
+        const dimTxt = document.createElementNS(ns, 'text');
+        dimTxt.setAttribute('x', tx + r.w / 2);
+        dimTxt.setAttribute('y', yBase + r.h / 2 + 2.5);
+        dimTxt.setAttribute('text-anchor', 'middle');
+        dimTxt.setAttribute('font-size', '5.5');
+        dimTxt.setAttribute('fill', familySolid(gl.fam));
+        dimTxt.setAttribute('opacity', '0.7');
+        dimTxt.textContent = r.t.shape.length === 1 ? r.t.shape[0] : r.t.shape.join('×');
+        svg.appendChild(dimTxt);
+      }
+
+      tx += r.w + tensorGap;
+    }
+
+    xOff += gl.gw + groupGap;
+  }
+
+  container.appendChild(svg);
+}
+
+function renderSpectrum(tensorStats, meta, container) {
+  const layerTensors = tensorStats.filter(t => t.layer !== null && t.kind === 'weight' && t.rms !== undefined);
+  if (layerTensors.length === 0) return;
+
+  // Determine if we should show vision separately
+  const lmTensors = layerTensors.filter(t => t.domain === 'language');
+  const vtTensors = layerTensors.filter(t => t.domain === 'vision');
+
+  renderSpectrumGrid(lmTensors, meta.n_layers, container, false);
+
+  if (vtTensors.length > 0) {
+    const vtLabel = document.createElement('div');
+    vtLabel.className = 'section-title';
+    vtLabel.style.marginTop = '1rem';
+    vtLabel.textContent = 'Tour de vision';
+    container.appendChild(vtLabel);
+    const vtDepth = meta.vision ? meta.vision.depth : Math.max(...vtTensors.map(t => t.layer)) + 1;
+    renderSpectrumGrid(vtTensors, vtDepth, container, true);
+  }
+}
+
+function renderSpectrumGrid(tensors, nLayers, container, isVision) {
+  // Collect components in order
+  const compSet = new Map();
+  for (const t of tensors) {
+    if (!compSet.has(t.component)) {
+      compSet.set(t.component, getFamily(t.component));
+    }
+  }
+
+  const components = [...compSet.keys()].sort((a, b) => {
+    const fa = FAMILY_ORDER.indexOf(getFamily(a));
+    const fb = FAMILY_ORDER.indexOf(getFamily(b));
+    if (fa !== fb) return fa - fb;
+    return a.localeCompare(b);
+  });
+
+  // Build lookup
+  const lookup = new Map();
+  for (const t of tensors) {
+    lookup.set(`${t.layer}:${t.component}`, t);
+  }
+
+  // RMS normalization (log scale)
+  const rmsValues = tensors.map(t => t.rms).filter(v => v > 0);
+  const logMin = Math.log(Math.min(...rmsValues));
+  const logMax = Math.log(Math.max(...rmsValues));
+  const logRange = logMax - logMin || 1;
+
+  function rmsToOpacity(rms) {
+    if (rms <= 0) return 0.05;
+    const norm = (Math.log(rms) - logMin) / logRange;
+    return 0.15 + norm * 0.85;
+  }
+
+  // Dimensions
+  const cellW = Math.min(14, Math.max(8, Math.floor(700 / nLayers)));
+  const cellH = 13;
+  const gap = 1;
+  const labelW = 110;
+  const headerH = 18;
+  const familySepH = 8;
+
+  // Group components by family for separators
+  const rows = [];
+  let prevFamily = null;
+  for (const comp of components) {
+    const fam = getFamily(comp);
+    if (prevFamily !== null && fam !== prevFamily) {
+      rows.push({ type: 'sep', family: fam });
+    }
+    rows.push({ type: 'comp', component: comp, family: fam });
+    prevFamily = fam;
+  }
+
+  let totalH = headerH;
+  for (const r of rows) {
+    totalH += r.type === 'sep' ? familySepH : (cellH + gap);
+  }
+
+  const totalW = labelW + nLayers * (cellW + gap) + 10;
+
+  const ns = 'http://www.w3.org/2000/svg';
+  const svg = document.createElementNS(ns, 'svg');
+  svg.setAttribute('viewBox', `0 0 ${totalW} ${totalH}`);
+  svg.setAttribute('width', Math.min(totalW, 1000));
+  svg.style.maxWidth = '100%';
+  svg.style.height = 'auto';
+
+  // Layer number headers
+  for (let l = 0; l < nLayers; l++) {
+    if (nLayers > 35 && l % 5 !== 0) continue;
+    if (nLayers > 20 && nLayers <= 35 && l % 2 !== 0) continue;
+    const txt = document.createElementNS(ns, 'text');
+    txt.setAttribute('x', labelW + l * (cellW + gap) + cellW / 2);
+    txt.setAttribute('y', headerH - 4);
+    txt.setAttribute('text-anchor', 'middle');
+    txt.setAttribute('font-size', '7');
+    txt.setAttribute('fill', 'var(--text-faint)');
+    txt.textContent = l;
+    svg.appendChild(txt);
+  }
+
+  // Render rows
+  let y = headerH;
+  for (const row of rows) {
+    if (row.type === 'sep') {
+      y += familySepH;
+      continue;
+    }
+
+    const comp = row.component;
+    const fam = row.family;
+
+    // Label
+    const shortLabel = comp.replace('linear_attn.', 'lin.').replace('ff.expert.', 'exp.').replace('ff.shared.', 'shr.');
+    const label = document.createElementNS(ns, 'text');
+    label.setAttribute('x', labelW - 6);
+    label.setAttribute('y', y + cellH - 3);
+    label.setAttribute('text-anchor', 'end');
+    label.setAttribute('font-size', '7.5');
+    label.setAttribute('fill', 'var(--text-muted)');
+    label.textContent = shortLabel;
+    svg.appendChild(label);
+
+    // Cells
+    for (let l = 0; l < nLayers; l++) {
+      const key = `${l}:${comp}`;
+      const t = lookup.get(key);
+      if (!t) continue;
+
+      const x = labelW + l * (cellW + gap);
+      const rect = document.createElementNS(ns, 'rect');
+      rect.setAttribute('x', x);
+      rect.setAttribute('y', y);
+      rect.setAttribute('width', cellW);
+      rect.setAttribute('height', cellH);
+      rect.setAttribute('fill', familyColor(fam, rmsToOpacity(t.rms)));
+      rect.setAttribute('stroke', 'var(--rule)');
+      rect.setAttribute('stroke-width', '0.3');
+      rect.dataset.tensor = JSON.stringify(t);
+      rect.addEventListener('mouseenter', showTooltip);
+      rect.addEventListener('mouseleave', hideTooltip);
+      svg.appendChild(rect);
+    }
+
+    y += cellH + gap;
+  }
+
+  container.appendChild(svg);
+}
+
+const tooltip = document.getElementById('tooltip');
+function showTooltip(e) {
+  const t = JSON.parse(e.target.dataset.tensor);
+  tooltip.innerHTML = `
+    <span class="tt-comp">${t.component}</span> · couche ${t.layer}<br>
+    <span class="tt-stats">
+      shape ${JSON.stringify(t.shape)} · ${t.dtype}<br>
+      rms ${t.rms.toFixed(6)} · std ${t.std.toFixed(6)}<br>
+      min ${t.min.toFixed(4)} · max ${t.max.toFixed(4)}<br>
+      sparsité ${(t.sparsity * 100).toFixed(2)}%
+    </span>`;
+  tooltip.style.display = 'block';
+  positionTooltip(e);
+}
+function positionTooltip(e) {
+  const x = e.clientX + 12;
+  const y = e.clientY + 12;
+  tooltip.style.left = x + 'px';
+  tooltip.style.top = y + 'px';
+}
+document.addEventListener('mousemove', (e) => {
+  if (tooltip.style.display === 'block') positionTooltip(e);
+});
+function hideTooltip() {
+  tooltip.style.display = 'none';
+}
+
+// --- Render comparative cross-sections (2D stacked) ---
+function renderComparativeSection() {
+  const wrap = document.getElementById('comparative');
+  if (!wrap || MODELS.length === 0) return;
+
+  const ns = 'http://www.w3.org/2000/svg';
+
+  // Layout constants
+  const labelW = 130;
+  const barX = labelW + 8;
+  const maxBarW = 500;
+  const rowGap = 6;
+  const layerScale = 0.55;
+  const rightPad = 80;
+
+  // Compute global scale from max dimension across all models
+  let globalMaxDim = 0;
+  for (const m of MODELS) {
+    const dE = m.meta.d_embed || 0;
+    const dFF = m.meta.d_ff || 0;
+    const dFFe = m.meta.d_ff_expert || 0;
+    const nAct = m.meta.n_experts_active || 0;
+    const effectiveFF = m.meta.n_experts ? dFFe * nAct : dFF;
+    globalMaxDim = Math.max(globalMaxDim, dE, effectiveFF, dFF);
+  }
+  if (globalMaxDim === 0) return;
+  const px = maxBarW / globalMaxDim;
+
+  // Compute total SVG height
+  let totalH = 0;
+  for (const m of MODELS) {
+    const h = Math.max(12, Math.round((m.meta.n_layers || 1) * layerScale));
+    totalH += h + rowGap;
+  }
+  totalH -= rowGap;
+  const svgW = barX + maxBarW + rightPad;
+  const svgH = totalH + 16;
+
+  const svg = document.createElementNS(ns, 'svg');
+  svg.setAttribute('viewBox', `0 0 ${svgW} ${svgH}`);
+  svg.setAttribute('width', svgW);
+
+  function rect(x, y, w, h, fill, stroke, tip) {
+    const r = document.createElementNS(ns, 'rect');
+    r.setAttribute('x', x); r.setAttribute('y', y);
+    r.setAttribute('width', Math.max(0, w)); r.setAttribute('height', h);
+    r.setAttribute('fill', fill);
+    if (stroke) { r.setAttribute('stroke', stroke); r.setAttribute('stroke-width', '0.5'); }
+    if (tip) { const t = document.createElementNS(ns, 'title'); t.textContent = tip; r.appendChild(t); }
+    svg.appendChild(r); return r;
+  }
+
+  function text(x, y, str, opts) {
+    const t = document.createElementNS(ns, 'text');
+    t.setAttribute('x', x); t.setAttribute('y', y);
+    t.setAttribute('text-anchor', opts?.anchor || 'start');
+    t.setAttribute('font-size', opts?.size || '9');
+    t.setAttribute('fill', opts?.fill || 'var(--text-mid)');
+    t.setAttribute('font-family', opts?.font || 'var(--font-body)');
+    if (opts?.italic) t.setAttribute('font-style', 'italic');
+    if (opts?.weight) t.setAttribute('font-weight', opts.weight);
+    t.textContent = str;
+    svg.appendChild(t); return t;
+  }
+
+  let curY = 4;
+
+  for (const model of MODELS) {
+    const m = model.meta;
+    const dEmbed = m.d_embed || 0;
+    const dFF = m.d_ff || 0;
+    const dFFe = m.d_ff_expert || 0;
+    const nExp = m.n_experts || 0;
+    const nAct = m.n_experts_active || 0;
+    const nLayers = m.n_layers || 1;
+    const h = Math.max(12, Math.round(nLayers * layerScale));
+
+    // Model name (left)
+    text(labelW, curY + h / 2 + 3.5, m.name, { anchor: 'end', size: '9', font: 'var(--font-display)' });
+
+    // Attention block (blue)
+    const wAttn = Math.max(1, dEmbed * px);
+    rect(barX, curY, wAttn, h,
+      'hsla(212,55%,44%,0.85)', 'hsla(212,55%,30%,0.6)',
+      `Attention\nd_embed = ${dEmbed}\n${m.n_heads} têtes` + (m.n_kv_heads && m.n_kv_heads !== m.n_heads ? ` (${m.n_kv_heads} kv)` : ''));
+
+    // GQA subdivision line
+    if (m.n_kv_heads && m.n_kv_heads < m.n_heads) {
+      const kvH = h * (m.n_kv_heads / m.n_heads);
+      const line = document.createElementNS(ns, 'line');
+      line.setAttribute('x1', barX); line.setAttribute('y1', curY + kvH);
+      line.setAttribute('x2', barX + wAttn); line.setAttribute('y2', curY + kvH);
+      line.setAttribute('stroke', 'hsla(212,55%,60%,0.5)');
+      line.setAttribute('stroke-width', '0.5');
+      line.setAttribute('stroke-dasharray', '3,2');
+      svg.appendChild(line);
+    }
+
+    // Feed-forward block
+    const ffX = barX + wAttn + 2;
+
+    if (nExp > 0) {
+      // MoE: show active experts as stacked stripes + total envelope
+      const wExpert = Math.max(1, dFFe * px);
+      const wActive = wExpert * nAct;
+      const wTotal = wExpert * Math.min(nExp, Math.round(maxBarW / wExpert));
+
+      // Faded envelope: total expert capacity
+      rect(ffX, curY, wTotal, h,
+        'hsla(22,65%,40%,0.08)', 'hsla(22,65%,30%,0.15)',
+        `${nExp} experts × ${dFFe}`);
+
+      // Active experts: bright stripes
+      for (let e = 0; e < nAct; e++) {
+        rect(ffX + e * wExpert, curY, wExpert, h,
+          'hsla(22,65%,40%,0.7)', 'hsla(22,65%,30%,0.5)',
+          `Expert actif ${e + 1}/${nAct}\nd_ff = ${dFFe}`);
+      }
+
+      // Expert count label
+      text(ffX + wActive + 5, curY + h / 2 + 3, `× ${nExp} exp.`,
+        { size: '7', fill: 'var(--text-faint)', italic: true });
+      text(ffX + wActive + 5, curY + h / 2 + 11, `(${nAct} actifs)`,
+        { size: '6', fill: 'var(--text-faint)', italic: true });
+    } else {
+      // Dense FF
+      const wFF = Math.max(1, dFF * px);
+      rect(ffX, curY, wFF, h,
+        'hsla(22,65%,40%,0.85)', 'hsla(22,65%,30%,0.6)',
+        `Feed-Forward\nd_ff = ${dFF}`);
+    }
+
+    // Params (right)
+    text(svgW - 4, curY + h / 2 + 3.5, formatNum(m.params_total),
+      { anchor: 'end', size: '7.5', fill: 'var(--text-faint)', font: 'var(--font-mono)' });
+
+    curY += h + rowGap;
+  }
+
+  // Legend at bottom
+  const legY = svgH - 2;
+  rect(barX, legY - 6, 8, 6, 'hsla(212,55%,44%,0.85)', 'hsla(212,55%,30%,0.6)');
+  text(barX + 11, legY, 'Attention (d_embed)', { size: '7', fill: 'var(--text-faint)' });
+  rect(barX + 130, legY - 6, 8, 6, 'hsla(22,65%,40%,0.85)', 'hsla(22,65%,30%,0.6)');
+  text(barX + 141, legY, 'Feed-Forward (d_ff)', { size: '7', fill: 'var(--text-faint)' });
+
+  wrap.appendChild(svg);
+}
+
+// --- Render gallery ---
+const gallery = document.getElementById('gallery');
+MODELS.sort((a, b) => a.meta.params_total - b.meta.params_total);
+renderComparativeSection();
+MODELS.forEach((model, i) => {
+  gallery.appendChild(renderPlate(model, i));
+});
+</script>
+</body>
+</html>
