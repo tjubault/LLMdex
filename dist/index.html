@@ -625,7 +625,7 @@ body {
 
 <section class="comparative-section">
   <div class="comparative-title">Planche comparative — à même échelle</div>
-  <p class="comparative-caption">Chaque spécimen est dessiné à l'échelle réelle : l'aire du cercle est proportionnelle au poids du modèle sur le disque. Les mouchetures signalent un mélange d'experts (MoE).</p>
+  <p class="comparative-caption">Chaque bloc est dessiné à l'échelle réelle : son aire est proportionnelle au poids du modèle sur le disque. Sa largeur se répartit entre attention (bleu) et feed-forward (brun) — rayé lorsque le modèle utilise un mélange d'experts (MoE).</p>
   <div class="comparative-wrap" id="comparative"></div>
 </section>
 
@@ -1186,39 +1186,52 @@ function renderComparativeSection() {
 
   const ns = 'http://www.w3.org/2000/svg';
 
-  // Specimens are drawn true-to-scale: circle area ∝ file_size (weight on disk),
-  // like animals set on a common ground line in an old comparative-anatomy plate.
+  // Blocks are drawn true-to-scale: area ∝ file_size (weight on disk), sitting
+  // on a common ground line — like specimens of very different sizes set side
+  // by side on the same plate. Width still splits into attention / feed-forward,
+  // exactly as before.
   const sorted = [...MODELS].sort((a, b) => (a.meta.file_size || 0) - (b.meta.file_size || 0));
   const maxFileSize = Math.max(...sorted.map(m => m.meta.file_size || 0));
   if (maxFileSize === 0) return;
 
-  const R_MAX = 100;
-  const R_FLOOR = 5;
-  const PIN_H = 16;
+  const SIDE_MAX = 108;
+  const SIDE_FLOOR = 6;
+  const ASPECT = 1.7; // block width = side * ASPECT, height = side
   const GUTTER = 26;
   const MARGIN = 20;
+  const FIG_GAP = 12;
   const LABEL_LINE1 = 15;
   const LABEL_LINE2 = 26;
+  const LEGEND_H = 22;
 
-  function radiusFor(fileSize) {
-    return Math.max(R_FLOOR, R_MAX * Math.sqrt((fileSize || 0) / maxFileSize));
+  function sideFor(fileSize) {
+    return Math.max(SIDE_FLOOR, SIDE_MAX * Math.sqrt((fileSize || 0) / maxFileSize));
   }
 
-  // Estimate label footprint so specimens never collide with their own caption.
+  // Estimate label footprint so blocks never collide with their own caption.
   function labelWidth(name, statsStr) {
     return Math.max(name.length * 6.2, statsStr.length * 4.6) + 6;
   }
 
   const specimens = sorted.map(model => {
     const m = model.meta;
-    const r = radiusFor(m.file_size);
+    const side = sideFor(m.file_size);
+    const width = side * ASPECT;
+    const height = side;
+    const dEmbed = m.d_embed || 0;
+    const dFF = m.d_ff || 0;
+    const dFFe = m.d_ff_expert || 0;
+    const nExp = m.n_experts || 0;
+    const nAct = m.n_experts_active || 0;
+    const effectiveFF = nExp ? dFFe * nAct : dFF;
+    const attnShare = (dEmbed + effectiveFF) > 0 ? dEmbed / (dEmbed + effectiveFF) : 0.5;
     const stats = `${formatNum(m.params_total)} · ${formatBytes(m.file_size || 0)}`;
-    const slot = Math.max(2 * r, labelWidth(m.name, stats)) + GUTTER;
-    return { model, m, r, stats, slot };
+    const slot = Math.max(width, labelWidth(m.name, stats)) + GUTTER;
+    return { m, width, height, attnShare, nExp, nAct, dFFe, stats, slot };
   });
 
-  const baselineY = 2 * R_MAX + PIN_H + 10;
-  const svgH = baselineY + LABEL_LINE2 + 10;
+  const baselineY = SIDE_MAX + FIG_GAP + 10;
+  const svgH = baselineY + LABEL_LINE2 + LEGEND_H + 6;
   const svgW = specimens.reduce((sum, s) => sum + s.slot, 0) + MARGIN * 2;
 
   const svg = document.createElementNS(ns, 'svg');
@@ -1240,13 +1253,12 @@ function renderComparativeSection() {
       fill: opts.fill || 'var(--text-mid)',
       'font-family': opts.font || 'var(--font-body)',
       'font-style': opts.italic ? 'italic' : 'normal',
-      'letter-spacing': opts.spacing || '0',
     });
     t.textContent = str;
     return t;
   }
 
-  // Ground line — the mounting rail all specimens are pinned above
+  // Ground line — every block sits on the same rail, so height alone tells the story
   el('line', {
     x1: MARGIN * 0.4, y1: baselineY, x2: svgW - MARGIN * 0.4, y2: baselineY,
     stroke: 'var(--rule)', 'stroke-width': '0.8', 'stroke-dasharray': '1,3',
@@ -1256,61 +1268,85 @@ function renderComparativeSection() {
   let hasMoE = false;
 
   specimens.forEach((s, i) => {
-    const cx = x + s.slot / 2;
-    const cy = baselineY - s.r;
-    const top = cy - s.r;
+    const bx = x + (s.slot - s.width) / 2;
+    const by = baselineY - s.height;
+    const cx = bx + s.width / 2;
+    const wAttn = Math.max(0, s.width * s.attnShare);
+    const wFF = s.width - wAttn;
 
-    // Pin: a fine needle through the specimen, head above
-    el('line', { x1: cx, y1: top - PIN_H, x2: cx, y2: cy, stroke: 'var(--text-muted)', 'stroke-width': '0.6' });
-    el('circle', { cx, cy: top - PIN_H, r: 2, fill: 'var(--bg-plate)', stroke: 'var(--text-muted)', 'stroke-width': '0.8' });
+    text(cx, by - FIG_GAP + 4, `Fig. ${i + 1}`, { size: '6.5', fill: 'var(--text-faint)', font: 'var(--font-mono)', italic: true });
 
-    // Fig. number, naturalist-plate style
-    text(cx, top - PIN_H - 5, `Fig. ${i + 1}`, { size: '6.5', fill: 'var(--text-faint)', font: 'var(--font-mono)', italic: true });
-
-    // The specimen itself
-    const body = el('circle', {
-      cx, cy, r: s.r,
-      fill: 'var(--accent)', 'fill-opacity': '0.22',
-      stroke: 'var(--accent)', 'stroke-width': '1.1', 'stroke-opacity': '0.85',
+    // Attention portion (blue)
+    const attnRect = el('rect', {
+      x: bx, y: by, width: wAttn, height: s.height,
+      fill: 'hsla(212,55%,44%,0.82)', stroke: 'hsla(212,55%,30%,0.6)', 'stroke-width': '0.6',
     });
-    const tip = document.createElementNS(ns, 'title');
-    tip.textContent = `${s.m.name}\n${formatNum(s.m.params_total)} paramètres\n${formatBytes(s.m.file_size || 0)} sur le disque\n${s.m.quantization || ''}`;
-    body.appendChild(tip);
+    const attnTip = document.createElementNS(ns, 'title');
+    attnTip.textContent = `Attention\nd_embed = ${s.m.d_embed}\n${s.m.n_heads} têtes` +
+      (s.m.n_kv_heads && s.m.n_kv_heads !== s.m.n_heads ? ` (${s.m.n_kv_heads} kv)` : '');
+    attnRect.appendChild(attnTip);
 
-    // MoE: speckle the specimen like a spotted beetle — one dot per few experts
-    const nExp = s.m.n_experts || 0;
-    if (nExp > 0) {
+    // GQA divider: kv heads share only part of the block's height
+    if (s.m.n_kv_heads && s.m.n_kv_heads < s.m.n_heads && wAttn > 3) {
+      const kvY = by + s.height * (1 - s.m.n_kv_heads / s.m.n_heads);
+      el('line', {
+        x1: bx, y1: kvY, x2: bx + wAttn, y2: kvY,
+        stroke: 'hsla(212,55%,75%,0.7)', 'stroke-width': '0.5', 'stroke-dasharray': '2,1.5',
+      });
+    }
+
+    // Feed-forward portion (brown) — striped into active experts for MoE models
+    const ffRect = el('rect', {
+      x: bx + wAttn, y: by, width: wFF, height: s.height,
+      fill: s.nExp > 0 ? 'hsla(22,65%,40%,0.18)' : 'hsla(22,65%,40%,0.82)',
+      stroke: 'hsla(22,65%,30%,0.6)', 'stroke-width': '0.6',
+    });
+    const ffTip = document.createElementNS(ns, 'title');
+    ffTip.textContent = s.nExp > 0
+      ? `Feed-Forward (MoE)\n${s.nExp} experts × ${s.dFFe}\n${s.nAct} actifs par token`
+      : `Feed-Forward\nd_ff = ${s.m.d_ff}`;
+    ffRect.appendChild(ffTip);
+
+    if (s.nExp > 0) {
       hasMoE = true;
-      const nSpots = 7;
-      for (let k = 0; k < nSpots; k++) {
-        const angle = k * 2.399963; // golden angle → even, organic scatter
-        const frac = Math.sqrt((k + 0.5) / nSpots) * 0.72;
-        el('circle', {
-          cx: cx + s.r * frac * Math.cos(angle),
-          cy: cy + s.r * frac * Math.sin(angle),
-          r: Math.max(1, s.r * 0.07),
-          fill: 'var(--accent)', 'fill-opacity': '0.6',
-        });
+      if (wFF > 16) {
+        const stripeW = wFF / s.nAct;
+        for (let k = 0; k < s.nAct; k++) {
+          el('rect', {
+            x: bx + wAttn + k * stripeW, y: by,
+            width: Math.max(0.5, stripeW - 0.6), height: s.height,
+            fill: 'hsla(22,65%,40%,0.75)',
+          });
+        }
       }
     }
 
-    // Caption, like a specimen tag: name in italics, then the raw numbers
+    // Crisp outer frame over both portions
+    el('rect', { x: bx, y: by, width: s.width, height: s.height, fill: 'none', stroke: 'var(--border)', 'stroke-width': '0.8' });
+
+    // Caption: name in italics, then the raw numbers
     text(cx, baselineY + LABEL_LINE1, s.m.name, { size: '10.5', font: 'var(--font-display)', italic: true, fill: 'var(--text)' });
     text(cx, baselineY + LABEL_LINE2, s.stats, { size: '7', font: 'var(--font-mono)', fill: 'var(--text-faint)' });
 
     x += s.slot;
   });
 
-  wrap.appendChild(svg);
-
-  if (hasMoE) {
-    const note = document.createElement('p');
-    note.className = 'comparative-caption';
-    note.style.marginTop = '0.4rem';
-    note.style.fontSize = '0.7rem';
-    note.textContent = '● mouchetures = experts routés (Mixture of Experts)';
-    wrap.appendChild(note);
+  // Legend
+  const legend = [
+    { color: 'hsla(212,55%,44%,0.82)', label: 'Attention (d_embed)' },
+    { color: 'hsla(22,65%,40%,0.82)', label: 'Feed-Forward (d_ff)' },
+  ];
+  if (hasMoE) legend.push({ color: 'hsla(22,65%,40%,0.75)', label: 'Experts actifs / token (MoE)' });
+  const legendW = legend.reduce((sum, it) => sum + 10 + 4 + it.label.length * 4.7 + 18, 0) - 18;
+  let lx = (svgW - legendW) / 2;
+  const legY = svgH - 8;
+  for (const it of legend) {
+    el('rect', { x: lx, y: legY - 6, width: 10, height: 7, fill: it.color, stroke: 'none' });
+    text(lx + 10 + 4 + (it.label.length * 4.7) / 2, legY, it.label, { size: '7', fill: 'var(--text-faint)', anchor: 'middle' });
+    lx += 10 + 4 + it.label.length * 4.7 + 18;
   }
+
+  wrap.appendChild(svg);
 }
 
 // --- Render gallery ---
