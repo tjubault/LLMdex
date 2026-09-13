@@ -1,0 +1,6205 @@
+{
+  "meta": {
+    "name": "mixtral:8x7b",
+    "format": "gguf",
+    "architecture": "llama",
+    "params_total": 46702792704,
+    "params_language": 46702792704,
+    "params_vision": 0,
+    "params_active": 12879925248,
+    "quantization": "q4_0 (f32, q6_k, q8_0 embed/norms)",
+    "file_size": 26443602030,
+    "n_layers": 32,
+    "n_heads": 32,
+    "n_kv_heads": 8,
+    "head_dim": 128,
+    "d_embed": 4096,
+    "d_ff": 14336,
+    "d_ff_expert": 14336,
+    "d_ff_shared": null,
+    "context_length": 32768,
+    "vocab_size": 32000,
+    "n_experts": 8,
+    "n_experts_active": 2,
+    "rope_theta": 1000000.0,
+    "layer_types": null,
+    "full_attn_layers": null,
+    "linear_attn": null,
+    "runtime_params": {
+      "stop": [
+        "[INST]",
+        "[/INST]"
+      ]
+    }
+  },
+  "tensor_stats": [
+    {
+      "name": "token_embd.weight",
+      "layer": null,
+      "component": "embed",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        32000,
+        4096
+      ],
+      "dtype": "Q4_0",
+      "n_params": 131072000,
+      "mean": -3.07e-06,
+      "std": 0.011167,
+      "rms": 0.011167,
+      "min": -0.137695,
+      "max": 0.111328,
+      "sparsity": 0.120296
+    },
+    {
+      "name": "blk.0.ffn_gate_exps.weight",
+      "layer": 0,
+      "component": "ff.expert.gate",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        8,
+        14336,
+        4096
+      ],
+      "dtype": "Q4_0",
+      "n_params": 469762048,
+      "mean": 6.78e-06,
+      "std": 0.011028,
+      "rms": 0.011028,
+      "min": -0.341797,
+      "max": 0.289062,
+      "sparsity": 0.118414
+    },
+    {
+      "name": "blk.0.ffn_down_exps.weight",
+      "layer": 0,
+      "component": "ff.expert.down",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        8,
+        4096,
+        14336
+      ],
+      "dtype": "Q4_0",
+      "n_params": 469762048,
+      "mean": -1.59e-06,
+      "std": 0.010963,
+      "rms": 0.010963,
+      "min": -0.351562,
+      "max": 0.3125,
+      "sparsity": 0.117687
+    },
+    {
+      "name": "blk.0.ffn_up_exps.weight",
+      "layer": 0,
+      "component": "ff.expert.up",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        8,
+        14336,
+        4096
+      ],
+      "dtype": "Q4_0",
+      "n_params": 469762048,
+      "mean": -1.41e-06,
+      "std": 0.010761,
+      "rms": 0.010761,
+      "min": -0.177734,
+      "max": 0.201172,
+      "sparsity": 0.118737
+    },
+    {
+      "name": "blk.0.ffn_gate_inp.weight",
+      "layer": 0,
+      "component": "ff.router",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        8,
+        4096
+      ],
+      "dtype": "F32",
+      "n_params": 32768,
+      "mean": 3.89e-06,
+      "std": 0.034958,
+      "rms": 0.034958,
+      "min": -0.3125,
+      "max": 0.275391,
+      "sparsity": 3.1e-05
+    },
+    {
+      "name": "blk.0.attn_norm.weight",
+      "layer": 0,
+      "component": "norm.attn",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        4096
+      ],
+      "dtype": "F32",
+      "n_params": 4096,
+      "mean": 0.03277819,
+      "std": 0.143141,
+      "rms": 0.146846,
+      "min": -0.054932,
+      "max": 3.5625,
+      "sparsity": 0.001465
+    },
+    {
+      "name": "blk.0.ffn_norm.weight",
+      "layer": 0,
+      "component": "norm.ffn",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        4096
+      ],
+      "dtype": "F32",
+      "n_params": 4096,
+      "mean": 0.18083957,
+      "std": 0.029076,
+      "rms": 0.183162,
+      "min": -0.001099,
+      "max": 0.632812,
+      "sparsity": 0.0
+    },
+    {
+      "name": "blk.0.attn_k.weight",
+      "layer": 0,
+      "component": "attn.k",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        1024,
+        4096
+      ],
+      "dtype": "Q8_0",
+      "n_params": 4194304,
+      "mean": -1.97e-06,
+      "std": 0.012769,
+      "rms": 0.012769,
+      "min": -0.433598,
+      "max": 0.53146,
+      "sparsity": 0.092817
+    },
+    {
+      "name": "blk.0.attn_output.weight",
+      "layer": 0,
+      "component": "attn.o",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        4096,
+        4096
+      ],
+      "dtype": "Q4_0",
+      "n_params": 16777216,
+      "mean": 1.1e-06,
+      "std": 0.007294,
+      "rms": 0.007294,
+      "min": -0.386719,
+      "max": 0.322266,
+      "sparsity": 0.12895
+    },
+    {
+      "name": "blk.0.attn_q.weight",
+      "layer": 0,
+      "component": "attn.q",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        4096,
+        4096
+      ],
+      "dtype": "Q4_0",
+      "n_params": 16777216,
+      "mean": -2.81e-06,
+      "std": 0.010345,
+      "rms": 0.010345,
+      "min": -0.423828,
+      "max": 0.482422,
+      "sparsity": 0.567907
+    },
+    {
+      "name": "blk.0.attn_v.weight",
+      "layer": 0,
+      "component": "attn.v",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        1024,
+        4096
+      ],
+      "dtype": "Q8_0",
+      "n_params": 4194304,
+      "mean": 7.5e-07,
+      "std": 0.006229,
+      "rms": 0.006229,
+      "min": -0.071762,
+      "max": 0.068855,
+      "sparsity": 0.015254
+    },
+    {
+      "name": "blk.1.ffn_gate_inp.weight",
+      "layer": 1,
+      "component": "ff.router",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        8,
+        4096
+      ],
+      "dtype": "F32",
+      "n_params": 32768,
+      "mean": -3.85e-06,
+      "std": 0.030639,
+      "rms": 0.030639,
+      "min": -0.213867,
+      "max": 0.238281,
+      "sparsity": 0.0
+    },
+    {
+      "name": "blk.1.attn_k.weight",
+      "layer": 1,
+      "component": "attn.k",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        1024,
+        4096
+      ],
+      "dtype": "Q8_0",
+      "n_params": 4194304,
+      "mean": -7.54e-06,
+      "std": 0.013797,
+      "rms": 0.013797,
+      "min": -0.21583,
+      "max": 0.198268,
+      "sparsity": 0.089577
+    },
+    {
+      "name": "blk.1.attn_output.weight",
+      "layer": 1,
+      "component": "attn.o",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        4096,
+        4096
+      ],
+      "dtype": "Q4_0",
+      "n_params": 16777216,
+      "mean": -1.14e-06,
+      "std": 0.008892,
+      "rms": 0.008892,
+      "min": -0.444336,
+      "max": 0.507812,
+      "sparsity": 0.119736
+    },
+    {
+      "name": "blk.1.attn_q.weight",
+      "layer": 1,
+      "component": "attn.q",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        4096,
+        4096
+      ],
+      "dtype": "Q4_0",
+      "n_params": 16777216,
+      "mean": -3.66e-06,
+      "std": 0.011077,
+      "rms": 0.011077,
+      "min": -0.236328,
+      "max": 0.363281,
+      "sparsity": 0.341507
+    },
+    {
+      "name": "blk.1.attn_v.weight",
+      "layer": 1,
+      "component": "attn.v",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        1024,
+        4096
+      ],
+      "dtype": "Q8_0",
+      "n_params": 4194304,
+      "mean": 4.48e-06,
+      "std": 0.00837,
+      "rms": 0.00837,
+      "min": -0.069824,
+      "max": 0.065403,
+      "sparsity": 0.027029
+    },
+    {
+      "name": "blk.1.ffn_gate_exps.weight",
+      "layer": 1,
+      "component": "ff.expert.gate",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        8,
+        14336,
+        4096
+      ],
+      "dtype": "Q4_0",
+      "n_params": 469762048,
+      "mean": -2.6e-07,
+      "std": 0.011074,
+      "rms": 0.011074,
+      "min": -0.550781,
+      "max": 0.439453,
+      "sparsity": 0.117927
+    },
+    {
+      "name": "blk.1.ffn_down_exps.weight",
+      "layer": 1,
+      "component": "ff.expert.down",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        8,
+        4096,
+        14336
+      ],
+      "dtype": "Q4_0",
+      "n_params": 469762048,
+      "mean": -2.5e-07,
+      "std": 0.010962,
+      "rms": 0.010962,
+      "min": -1.46875,
+      "max": 0.996094,
+      "sparsity": 0.117724
+    },
+    {
+      "name": "blk.1.ffn_up_exps.weight",
+      "layer": 1,
+      "component": "ff.expert.up",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        8,
+        14336,
+        4096
+      ],
+      "dtype": "Q4_0",
+      "n_params": 469762048,
+      "mean": 3e-08,
+      "std": 0.010821,
+      "rms": 0.010821,
+      "min": -0.1875,
+      "max": 0.204102,
+      "sparsity": 0.118413
+    },
+    {
+      "name": "blk.1.attn_norm.weight",
+      "layer": 1,
+      "component": "norm.attn",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        4096
+      ],
+      "dtype": "F32",
+      "n_params": 4096,
+      "mean": 0.1347282,
+      "std": 0.191466,
+      "rms": 0.234118,
+      "min": -0.001633,
+      "max": 1.734375,
+      "sparsity": 0.000244
+    },
+    {
+      "name": "blk.1.ffn_norm.weight",
+      "layer": 1,
+      "component": "norm.ffn",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        4096
+      ],
+      "dtype": "F32",
+      "n_params": 4096,
+      "mean": 0.37342705,
+      "std": 0.061215,
+      "rms": 0.378411,
+      "min": -0.000349,
+      "max": 0.714844,
+      "sparsity": 0.0
+    },
+    {
+      "name": "blk.2.ffn_gate_exps.weight",
+      "layer": 2,
+      "component": "ff.expert.gate",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        8,
+        14336,
+        4096
+      ],
+      "dtype": "Q4_0",
+      "n_params": 469762048,
+      "mean": -9.92e-06,
+      "std": 0.011228,
+      "rms": 0.011228,
+      "min": -0.263672,
+      "max": 0.285156,
+      "sparsity": 0.117499
+    },
+    {
+      "name": "blk.2.ffn_down_exps.weight",
+      "layer": 2,
+      "component": "ff.expert.down",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        8,
+        4096,
+        14336
+      ],
+      "dtype": "Q4_0",
+      "n_params": 469762048,
+      "mean": 1.16e-06,
+      "std": 0.010971,
+      "rms": 0.010971,
+      "min": -0.621094,
+      "max": 0.609375,
+      "sparsity": 0.117455
+    },
+    {
+      "name": "blk.2.ffn_up_exps.weight",
+      "layer": 2,
+      "component": "ff.expert.up",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        8,
+        14336,
+        4096
+      ],
+      "dtype": "Q4_0",
+      "n_params": 469762048,
+      "mean": -4.9e-07,
+      "std": 0.010915,
+      "rms": 0.010915,
+      "min": -0.230469,
+      "max": 0.171875,
+      "sparsity": 0.117711
+    },
+    {
+      "name": "blk.2.ffn_gate_inp.weight",
+      "layer": 2,
+      "component": "ff.router",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        8,
+        4096
+      ],
+      "dtype": "F32",
+      "n_params": 32768,
+      "mean": -3.377e-05,
+      "std": 0.026165,
+      "rms": 0.026165,
+      "min": -0.214844,
+      "max": 0.192383,
+      "sparsity": 0.0
+    },
+    {
+      "name": "blk.2.attn_norm.weight",
+      "layer": 2,
+      "component": "norm.attn",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        4096
+      ],
+      "dtype": "F32",
+      "n_params": 4096,
+      "mean": 0.84478444,
+      "std": 0.604672,
+      "rms": 1.038888,
+      "min": -0.208984,
+      "max": 4.4375,
+      "sparsity": 0.0
+    },
+    {
+      "name": "blk.2.ffn_norm.weight",
+      "layer": 2,
+      "component": "norm.ffn",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        4096
+      ],
+      "dtype": "F32",
+      "n_params": 4096,
+      "mean": 0.51336334,
+      "std": 0.080133,
+      "rms": 0.51958,
+      "min": -0.000587,
+      "max": 0.730469,
+      "sparsity": 0.0
+    },
+    {
+      "name": "blk.2.attn_k.weight",
+      "layer": 2,
+      "component": "attn.k",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        1024,
+        4096
+      ],
+      "dtype": "Q8_0",
+      "n_params": 4194304,
+      "mean": 1.17e-06,
+      "std": 0.014941,
+      "rms": 0.014941,
+      "min": -0.511597,
+      "max": 0.570217,
+      "sparsity": 0.008585
+    },
+    {
+      "name": "blk.2.attn_output.weight",
+      "layer": 2,
+      "component": "attn.o",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        4096,
+        4096
+      ],
+      "dtype": "Q4_0",
+      "n_params": 16777216,
+      "mean": 3.8e-07,
+      "std": 0.008216,
+      "rms": 0.008216,
+      "min": -0.553711,
+      "max": 0.632812,
+      "sparsity": 0.118517
+    },
+    {
+      "name": "blk.2.attn_q.weight",
+      "layer": 2,
+      "component": "attn.q",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        4096,
+        4096
+      ],
+      "dtype": "Q4_0",
+      "n_params": 16777216,
+      "mean": 5.67e-06,
+      "std": 0.013252,
+      "rms": 0.013252,
+      "min": -0.160156,
+      "max": 0.118164,
+      "sparsity": 0.125951
+    },
+    {
+      "name": "blk.2.attn_v.weight",
+      "layer": 2,
+      "component": "attn.v",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        1024,
+        4096
+      ],
+      "dtype": "Q8_0",
+      "n_params": 4194304,
+      "mean": -7.1e-07,
+      "std": 0.007636,
+      "rms": 0.007636,
+      "min": -0.050536,
+      "max": 0.068855,
+      "sparsity": 0.008748
+    },
+    {
+      "name": "blk.3.ffn_gate_inp.weight",
+      "layer": 3,
+      "component": "ff.router",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        8,
+        4096
+      ],
+      "dtype": "F32",
+      "n_params": 32768,
+      "mean": -1.158e-05,
+      "std": 0.023287,
+      "rms": 0.023287,
+      "min": -0.18457,
+      "max": 0.196289,
+      "sparsity": 9.2e-05
+    },
+    {
+      "name": "blk.3.attn_k.weight",
+      "layer": 3,
+      "component": "attn.k",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        1024,
+        4096
+      ],
+      "dtype": "Q8_0",
+      "n_params": 4194304,
+      "mean": -6.98e-06,
+      "std": 0.014332,
+      "rms": 0.014332,
+      "min": -0.464846,
+      "max": 0.345667,
+      "sparsity": 0.007839
+    },
+    {
+      "name": "blk.3.attn_output.weight",
+      "layer": 3,
+      "component": "attn.o",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        4096,
+        4096
+      ],
+      "dtype": "Q4_0",
+      "n_params": 16777216,
+      "mean": -9.8e-07,
+      "std": 0.00963,
+      "rms": 0.00963,
+      "min": -0.617188,
+      "max": 0.511719,
+      "sparsity": 0.117401
+    },
+    {
+      "name": "blk.3.attn_q.weight",
+      "layer": 3,
+      "component": "attn.q",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        4096,
+        4096
+      ],
+      "dtype": "Q4_0",
+      "n_params": 16777216,
+      "mean": 8e-07,
+      "std": 0.012833,
+      "rms": 0.012833,
+      "min": -0.167969,
+      "max": 0.185547,
+      "sparsity": 0.120672
+    },
+    {
+      "name": "blk.3.attn_v.weight",
+      "layer": 3,
+      "component": "attn.v",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        1024,
+        4096
+      ],
+      "dtype": "Q8_0",
+      "n_params": 4194304,
+      "mean": 6.08e-06,
+      "std": 0.00956,
+      "rms": 0.00956,
+      "min": -0.061285,
+      "max": 0.065403,
+      "sparsity": 0.007959
+    },
+    {
+      "name": "blk.3.ffn_gate_exps.weight",
+      "layer": 3,
+      "component": "ff.expert.gate",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        8,
+        14336,
+        4096
+      ],
+      "dtype": "Q4_0",
+      "n_params": 469762048,
+      "mean": 6e-08,
+      "std": 0.011277,
+      "rms": 0.011277,
+      "min": -0.314453,
+      "max": 0.292969,
+      "sparsity": 0.117271
+    },
+    {
+      "name": "blk.3.ffn_down_exps.weight",
+      "layer": 3,
+      "component": "ff.expert.down",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        8,
+        4096,
+        14336
+      ],
+      "dtype": "Q4_0",
+      "n_params": 469762048,
+      "mean": -1e-08,
+      "std": 0.010997,
+      "rms": 0.010997,
+      "min": -0.621094,
+      "max": 0.65625,
+      "sparsity": 0.117573
+    },
+    {
+      "name": "blk.3.ffn_up_exps.weight",
+      "layer": 3,
+      "component": "ff.expert.up",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        8,
+        14336,
+        4096
+      ],
+      "dtype": "Q4_0",
+      "n_params": 469762048,
+      "mean": -1.7e-07,
+      "std": 0.010948,
+      "rms": 0.010948,
+      "min": -0.233398,
+      "max": 0.269531,
+      "sparsity": 0.117671
+    },
+    {
+      "name": "blk.3.attn_norm.weight",
+      "layer": 3,
+      "component": "norm.attn",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        4096
+      ],
+      "dtype": "F32",
+      "n_params": 4096,
+      "mean": 0.69484442,
+      "std": 0.296403,
+      "rms": 0.755423,
+      "min": -0.002258,
+      "max": 4.0,
+      "sparsity": 0.0
+    },
+    {
+      "name": "blk.3.ffn_norm.weight",
+      "layer": 3,
+      "component": "norm.ffn",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        4096
+      ],
+      "dtype": "F32",
+      "n_params": 4096,
+      "mean": 0.65575999,
+      "std": 0.094867,
+      "rms": 0.662587,
+      "min": -5.9e-05,
+      "max": 1.023438,
+      "sparsity": 0.0
+    },
+    {
+      "name": "blk.4.ffn_gate_exps.weight",
+      "layer": 4,
+      "component": "ff.expert.gate",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        8,
+        14336,
+        4096
+      ],
+      "dtype": "Q4_0",
+      "n_params": 469762048,
+      "mean": -8.1e-06,
+      "std": 0.011328,
+      "rms": 0.011328,
+      "min": -0.34375,
+      "max": 0.322266,
+      "sparsity": 0.117681
+    },
+    {
+      "name": "blk.4.ffn_down_exps.weight",
+      "layer": 4,
+      "component": "ff.expert.down",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        8,
+        4096,
+        14336
+      ],
+      "dtype": "Q4_0",
+      "n_params": 469762048,
+      "mean": -1.25e-06,
+      "std": 0.010936,
+      "rms": 0.010936,
+      "min": -0.695312,
+      "max": 0.691406,
+      "sparsity": 0.118311
+    },
+    {
+      "name": "blk.4.ffn_up_exps.weight",
+      "layer": 4,
+      "component": "ff.expert.up",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        8,
+        14336,
+        4096
+      ],
+      "dtype": "Q4_0",
+      "n_params": 469762048,
+      "mean": -1.77e-06,
+      "std": 0.010884,
+      "rms": 0.010884,
+      "min": -0.314453,
+      "max": 0.267578,
+      "sparsity": 0.118113
+    },
+    {
+      "name": "blk.4.ffn_gate_inp.weight",
+      "layer": 4,
+      "component": "ff.router",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        8,
+        4096
+      ],
+      "dtype": "F32",
+      "n_params": 32768,
+      "mean": -3.07e-06,
+      "std": 0.01832,
+      "rms": 0.01832,
+      "min": -0.178711,
+      "max": 0.168945,
+      "sparsity": 0.000122
+    },
+    {
+      "name": "blk.4.attn_norm.weight",
+      "layer": 4,
+      "component": "norm.attn",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        4096
+      ],
+      "dtype": "F32",
+      "n_params": 4096,
+      "mean": 0.98725605,
+      "std": 0.365676,
+      "rms": 1.052803,
+      "min": 0.063477,
+      "max": 4.375,
+      "sparsity": 0.0
+    },
+    {
+      "name": "blk.4.ffn_norm.weight",
+      "layer": 4,
+      "component": "norm.ffn",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        4096
+      ],
+      "dtype": "F32",
+      "n_params": 4096,
+      "mean": 0.8315544,
+      "std": 0.113602,
+      "rms": 0.839278,
+      "min": -5.6e-05,
+      "max": 1.445312,
+      "sparsity": 0.0
+    },
+    {
+      "name": "blk.4.attn_k.weight",
+      "layer": 4,
+      "component": "attn.k",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        1024,
+        4096
+      ],
+      "dtype": "Q8_0",
+      "n_params": 4194304,
+      "mean": 2.63e-06,
+      "std": 0.013154,
+      "rms": 0.013154,
+      "min": -0.4491,
+      "max": 0.462908,
+      "sparsity": 0.007745
+    },
+    {
+      "name": "blk.4.attn_output.weight",
+      "layer": 4,
+      "component": "attn.o",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        4096,
+        4096
+      ],
+      "dtype": "Q4_0",
+      "n_params": 16777216,
+      "mean": 8e-08,
+      "std": 0.009338,
+      "rms": 0.009338,
+      "min": -0.710938,
+      "max": 0.53125,
+      "sparsity": 0.117467
+    },
+    {
+      "name": "blk.4.attn_q.weight",
+      "layer": 4,
+      "component": "attn.q",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        4096,
+        4096
+      ],
+      "dtype": "Q4_0",
+      "n_params": 16777216,
+      "mean": -1.27e-06,
+      "std": 0.012135,
+      "rms": 0.012135,
+      "min": -0.217773,
+      "max": 0.192383,
+      "sparsity": 0.120032
+    },
+    {
+      "name": "blk.4.attn_v.weight",
+      "layer": 4,
+      "component": "attn.v",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        1024,
+        4096
+      ],
+      "dtype": "Q8_0",
+      "n_params": 4194304,
+      "mean": 6.97e-06,
+      "std": 0.009162,
+      "rms": 0.009162,
+      "min": -0.075213,
+      "max": 0.097681,
+      "sparsity": 0.007952
+    },
+    {
+      "name": "blk.5.ffn_gate_inp.weight",
+      "layer": 5,
+      "component": "ff.router",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        8,
+        4096
+      ],
+      "dtype": "F32",
+      "n_params": 32768,
+      "mean": 1.622e-05,
+      "std": 0.015907,
+      "rms": 0.015907,
+      "min": -0.15625,
+      "max": 0.202148,
+      "sparsity": 0.000122
+    },
+    {
+      "name": "blk.5.attn_k.weight",
+      "layer": 5,
+      "component": "attn.k",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        1024,
+        4096
+      ],
+      "dtype": "Q8_0",
+      "n_params": 4194304,
+      "mean": -3.38e-06,
+      "std": 0.013493,
+      "rms": 0.013493,
+      "min": -0.429722,
+      "max": 0.417852,
+      "sparsity": 0.007694
+    },
+    {
+      "name": "blk.5.attn_output.weight",
+      "layer": 5,
+      "component": "attn.o",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        4096,
+        4096
+      ],
+      "dtype": "Q4_0",
+      "n_params": 16777216,
+      "mean": -8.6e-07,
+      "std": 0.009386,
+      "rms": 0.009386,
+      "min": -0.933594,
+      "max": 0.4375,
+      "sparsity": 0.117247
+    },
+    {
+      "name": "blk.5.attn_q.weight",
+      "layer": 5,
+      "component": "attn.q",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        4096,
+        4096
+      ],
+      "dtype": "Q4_0",
+      "n_params": 16777216,
+      "mean": 5.06e-06,
+      "std": 0.012477,
+      "rms": 0.012477,
+      "min": -0.181641,
+      "max": 0.200195,
+      "sparsity": 0.12
+    },
+    {
+      "name": "blk.5.attn_v.weight",
+      "layer": 5,
+      "component": "attn.v",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        1024,
+        4096
+      ],
+      "dtype": "Q8_0",
+      "n_params": 4194304,
+      "mean": 2.02e-06,
+      "std": 0.008756,
+      "rms": 0.008756,
+      "min": -0.054926,
+      "max": 0.051505,
+      "sparsity": 0.008039
+    },
+    {
+      "name": "blk.5.ffn_gate_exps.weight",
+      "layer": 5,
+      "component": "ff.expert.gate",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        8,
+        14336,
+        4096
+      ],
+      "dtype": "Q4_0",
+      "n_params": 469762048,
+      "mean": 3.5e-06,
+      "std": 0.011421,
+      "rms": 0.011421,
+      "min": -0.294922,
+      "max": 0.269531,
+      "sparsity": 0.117681
+    },
+    {
+      "name": "blk.5.ffn_down_exps.weight",
+      "layer": 5,
+      "component": "ff.expert.down",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        8,
+        4096,
+        14336
+      ],
+      "dtype": "Q4_0",
+      "n_params": 469762048,
+      "mean": 4.6e-07,
+      "std": 0.010869,
+      "rms": 0.010869,
+      "min": -0.625,
+      "max": 0.703125,
+      "sparsity": 0.118585
+    },
+    {
+      "name": "blk.5.ffn_up_exps.weight",
+      "layer": 5,
+      "component": "ff.expert.up",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        8,
+        14336,
+        4096
+      ],
+      "dtype": "Q4_0",
+      "n_params": 469762048,
+      "mean": -3.6e-07,
+      "std": 0.010803,
+      "rms": 0.010803,
+      "min": -0.211914,
+      "max": 0.255859,
+      "sparsity": 0.118115
+    },
+    {
+      "name": "blk.5.attn_norm.weight",
+      "layer": 5,
+      "component": "norm.attn",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        4096
+      ],
+      "dtype": "F32",
+      "n_params": 4096,
+      "mean": 1.18843317,
+      "std": 0.305655,
+      "rms": 1.22711,
+      "min": 0.236328,
+      "max": 4.375,
+      "sparsity": 0.0
+    },
+    {
+      "name": "blk.5.ffn_norm.weight",
+      "layer": 5,
+      "component": "norm.ffn",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        4096
+      ],
+      "dtype": "F32",
+      "n_params": 4096,
+      "mean": 0.97958606,
+      "std": 0.148872,
+      "rms": 0.990834,
+      "min": 0.000211,
+      "max": 1.5625,
+      "sparsity": 0.0
+    },
+    {
+      "name": "blk.6.ffn_gate_inp.weight",
+      "layer": 6,
+      "component": "ff.router",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        8,
+        4096
+      ],
+      "dtype": "F32",
+      "n_params": 32768,
+      "mean": -4.6e-06,
+      "std": 0.01466,
+      "rms": 0.01466,
+      "min": -0.138672,
+      "max": 0.138672,
+      "sparsity": 3.1e-05
+    },
+    {
+      "name": "blk.6.attn_k.weight",
+      "layer": 6,
+      "component": "attn.k",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        1024,
+        4096
+      ],
+      "dtype": "Q8_0",
+      "n_params": 4194304,
+      "mean": -3.06e-06,
+      "std": 0.013446,
+      "rms": 0.013446,
+      "min": -0.288984,
+      "max": 0.341791,
+      "sparsity": 0.007681
+    },
+    {
+      "name": "blk.6.attn_output.weight",
+      "layer": 6,
+      "component": "attn.o",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        4096,
+        4096
+      ],
+      "dtype": "Q4_0",
+      "n_params": 16777216,
+      "mean": -9.1e-07,
+      "std": 0.009562,
+      "rms": 0.009562,
+      "min": -0.287109,
+      "max": 0.90625,
+      "sparsity": 0.117552
+    },
+    {
+      "name": "blk.6.attn_q.weight",
+      "layer": 6,
+      "component": "attn.q",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        4096,
+        4096
+      ],
+      "dtype": "Q4_0",
+      "n_params": 16777216,
+      "mean": -2.23e-06,
+      "std": 0.012222,
+      "rms": 0.012222,
+      "min": -0.145508,
+      "max": 0.164062,
+      "sparsity": 0.120629
+    },
+    {
+      "name": "blk.6.attn_v.weight",
+      "layer": 6,
+      "component": "attn.v",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        1024,
+        4096
+      ],
+      "dtype": "Q8_0",
+      "n_params": 4194304,
+      "mean": -2.1e-06,
+      "std": 0.009134,
+      "rms": 0.009134,
+      "min": -0.062496,
+      "max": 0.056652,
+      "sparsity": 0.008034
+    },
+    {
+      "name": "blk.6.ffn_gate_exps.weight",
+      "layer": 6,
+      "component": "ff.expert.gate",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        8,
+        14336,
+        4096
+      ],
+      "dtype": "Q4_0",
+      "n_params": 469762048,
+      "mean": 4.75e-06,
+      "std": 0.01145,
+      "rms": 0.01145,
+      "min": -0.304688,
+      "max": 0.318359,
+      "sparsity": 0.118251
+    },
+    {
+      "name": "blk.6.ffn_down_exps.weight",
+      "layer": 6,
+      "component": "ff.expert.down",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        8,
+        4096,
+        14336
+      ],
+      "dtype": "Q4_0",
+      "n_params": 469762048,
+      "mean": -8.8e-07,
+      "std": 0.010895,
+      "rms": 0.010895,
+      "min": -0.761719,
+      "max": 0.679688,
+      "sparsity": 0.119496
+    },
+    {
+      "name": "blk.6.ffn_up_exps.weight",
+      "layer": 6,
+      "component": "ff.expert.up",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        8,
+        14336,
+        4096
+      ],
+      "dtype": "Q4_0",
+      "n_params": 469762048,
+      "mean": -1.39e-06,
+      "std": 0.010871,
+      "rms": 0.010871,
+      "min": -0.227539,
+      "max": 0.242188,
+      "sparsity": 0.119057
+    },
+    {
+      "name": "blk.6.attn_norm.weight",
+      "layer": 6,
+      "component": "norm.attn",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        4096
+      ],
+      "dtype": "F32",
+      "n_params": 4096,
+      "mean": 1.13826513,
+      "std": 0.336403,
+      "rms": 1.186935,
+      "min": 0.291016,
+      "max": 4.59375,
+      "sparsity": 0.0
+    },
+    {
+      "name": "blk.6.ffn_norm.weight",
+      "layer": 6,
+      "component": "norm.ffn",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        4096
+      ],
+      "dtype": "F32",
+      "n_params": 4096,
+      "mean": 1.07374382,
+      "std": 0.167417,
+      "rms": 1.086717,
+      "min": -8e-06,
+      "max": 1.695312,
+      "sparsity": 0.0
+    },
+    {
+      "name": "blk.7.ffn_gate_exps.weight",
+      "layer": 7,
+      "component": "ff.expert.gate",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        8,
+        14336,
+        4096
+      ],
+      "dtype": "Q4_0",
+      "n_params": 469762048,
+      "mean": 2.46e-06,
+      "std": 0.011497,
+      "rms": 0.011497,
+      "min": -0.271484,
+      "max": 0.28125,
+      "sparsity": 0.118049
+    },
+    {
+      "name": "blk.7.ffn_down_exps.weight",
+      "layer": 7,
+      "component": "ff.expert.down",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        8,
+        4096,
+        14336
+      ],
+      "dtype": "Q4_0",
+      "n_params": 469762048,
+      "mean": -1.9e-07,
+      "std": 0.010898,
+      "rms": 0.010898,
+      "min": -0.6875,
+      "max": 0.648438,
+      "sparsity": 0.119439
+    },
+    {
+      "name": "blk.7.ffn_up_exps.weight",
+      "layer": 7,
+      "component": "ff.expert.up",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        8,
+        14336,
+        4096
+      ],
+      "dtype": "Q4_0",
+      "n_params": 469762048,
+      "mean": 7.9e-07,
+      "std": 0.010868,
+      "rms": 0.010868,
+      "min": -0.306641,
+      "max": 0.271484,
+      "sparsity": 0.118873
+    },
+    {
+      "name": "blk.7.ffn_gate_inp.weight",
+      "layer": 7,
+      "component": "ff.router",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        8,
+        4096
+      ],
+      "dtype": "F32",
+      "n_params": 32768,
+      "mean": -7.33e-06,
+      "std": 0.014236,
+      "rms": 0.014236,
+      "min": -0.114258,
+      "max": 0.138672,
+      "sparsity": 9.2e-05
+    },
+    {
+      "name": "blk.7.attn_norm.weight",
+      "layer": 7,
+      "component": "norm.attn",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        4096
+      ],
+      "dtype": "F32",
+      "n_params": 4096,
+      "mean": 1.31819677,
+      "std": 0.37721,
+      "rms": 1.371105,
+      "min": 0.357422,
+      "max": 5.0,
+      "sparsity": 0.0
+    },
+    {
+      "name": "blk.7.ffn_norm.weight",
+      "layer": 7,
+      "component": "norm.ffn",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        4096
+      ],
+      "dtype": "F32",
+      "n_params": 4096,
+      "mean": 1.22880632,
+      "std": 0.230855,
+      "rms": 1.250304,
+      "min": 0.001251,
+      "max": 2.015625,
+      "sparsity": 0.0
+    },
+    {
+      "name": "blk.7.attn_k.weight",
+      "layer": 7,
+      "component": "attn.k",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        1024,
+        4096
+      ],
+      "dtype": "Q8_0",
+      "n_params": 4194304,
+      "mean": 9e-08,
+      "std": 0.012709,
+      "rms": 0.012709,
+      "min": -0.39266,
+      "max": 0.201175,
+      "sparsity": 0.007775
+    },
+    {
+      "name": "blk.7.attn_output.weight",
+      "layer": 7,
+      "component": "attn.o",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        4096,
+        4096
+      ],
+      "dtype": "Q4_0",
+      "n_params": 16777216,
+      "mean": 1.5e-07,
+      "std": 0.009792,
+      "rms": 0.009792,
+      "min": -0.835938,
+      "max": 0.53125,
+      "sparsity": 0.117964
+    },
+    {
+      "name": "blk.7.attn_q.weight",
+      "layer": 7,
+      "component": "attn.q",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        4096,
+        4096
+      ],
+      "dtype": "Q4_0",
+      "n_params": 16777216,
+      "mean": -2.95e-06,
+      "std": 0.011922,
+      "rms": 0.011922,
+      "min": -0.132812,
+      "max": 0.138672,
+      "sparsity": 0.122165
+    },
+    {
+      "name": "blk.7.attn_v.weight",
+      "layer": 7,
+      "component": "attn.v",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        1024,
+        4096
+      ],
+      "dtype": "Q8_0",
+      "n_params": 4194304,
+      "mean": 6.33e-06,
+      "std": 0.009597,
+      "rms": 0.009597,
+      "min": -0.067886,
+      "max": 0.08351,
+      "sparsity": 0.008529
+    },
+    {
+      "name": "blk.8.ffn_gate_inp.weight",
+      "layer": 8,
+      "component": "ff.router",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        8,
+        4096
+      ],
+      "dtype": "F32",
+      "n_params": 32768,
+      "mean": -2.552e-05,
+      "std": 0.013976,
+      "rms": 0.013976,
+      "min": -0.174805,
+      "max": 0.151367,
+      "sparsity": 9.2e-05
+    },
+    {
+      "name": "blk.8.attn_k.weight",
+      "layer": 8,
+      "component": "attn.k",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        1024,
+        4096
+      ],
+      "dtype": "Q8_0",
+      "n_params": 4194304,
+      "mean": -2.49e-06,
+      "std": 0.012295,
+      "rms": 0.012295,
+      "min": -0.251923,
+      "max": 0.241264,
+      "sparsity": 0.007701
+    },
+    {
+      "name": "blk.8.attn_output.weight",
+      "layer": 8,
+      "component": "attn.o",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        4096,
+        4096
+      ],
+      "dtype": "Q4_0",
+      "n_params": 16777216,
+      "mean": -1.68e-06,
+      "std": 0.010104,
+      "rms": 0.010104,
+      "min": -0.388672,
+      "max": 0.527344,
+      "sparsity": 0.117194
+    },
+    {
+      "name": "blk.8.attn_q.weight",
+      "layer": 8,
+      "component": "attn.q",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        4096,
+        4096
+      ],
+      "dtype": "Q4_0",
+      "n_params": 16777216,
+      "mean": 2.42e-06,
+      "std": 0.011718,
+      "rms": 0.011718,
+      "min": -0.130859,
+      "max": 0.125977,
+      "sparsity": 0.120715
+    },
+    {
+      "name": "blk.8.attn_v.weight",
+      "layer": 8,
+      "component": "attn.v",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        1024,
+        4096
+      ],
+      "dtype": "Q8_0",
+      "n_params": 4194304,
+      "mean": -4.63e-06,
+      "std": 0.010029,
+      "rms": 0.010029,
+      "min": -0.075698,
+      "max": 0.084963,
+      "sparsity": 0.008152
+    },
+    {
+      "name": "blk.10.ffn_gate_inp.weight",
+      "layer": 10,
+      "component": "ff.router",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        8,
+        4096
+      ],
+      "dtype": "F32",
+      "n_params": 32768,
+      "mean": 3.69e-06,
+      "std": 0.009765,
+      "rms": 0.009765,
+      "min": -0.120117,
+      "max": 0.12793,
+      "sparsity": 0.000153
+    },
+    {
+      "name": "blk.10.attn_k.weight",
+      "layer": 10,
+      "component": "attn.k",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        1024,
+        4096
+      ],
+      "dtype": "Q8_0",
+      "n_params": 4194304,
+      "mean": -5.66e-06,
+      "std": 0.01288,
+      "rms": 0.01288,
+      "min": -0.203113,
+      "max": 0.18652,
+      "sparsity": 0.007832
+    },
+    {
+      "name": "blk.10.attn_output.weight",
+      "layer": 10,
+      "component": "attn.o",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        4096,
+        4096
+      ],
+      "dtype": "Q4_0",
+      "n_params": 16777216,
+      "mean": -1.36e-06,
+      "std": 0.010027,
+      "rms": 0.010027,
+      "min": -0.435547,
+      "max": 0.539062,
+      "sparsity": 0.11722
+    },
+    {
+      "name": "blk.10.attn_q.weight",
+      "layer": 10,
+      "component": "attn.q",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        4096,
+        4096
+      ],
+      "dtype": "Q4_0",
+      "n_params": 16777216,
+      "mean": 2.97e-06,
+      "std": 0.011824,
+      "rms": 0.011824,
+      "min": -0.117188,
+      "max": 0.124512,
+      "sparsity": 0.122397
+    },
+    {
+      "name": "blk.10.attn_v.weight",
+      "layer": 10,
+      "component": "attn.v",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        1024,
+        4096
+      ],
+      "dtype": "Q8_0",
+      "n_params": 4194304,
+      "mean": 8.05e-06,
+      "std": 0.009541,
+      "rms": 0.009541,
+      "min": -0.081572,
+      "max": 0.090353,
+      "sparsity": 0.008142
+    },
+    {
+      "name": "blk.8.ffn_gate_exps.weight",
+      "layer": 8,
+      "component": "ff.expert.gate",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        8,
+        14336,
+        4096
+      ],
+      "dtype": "Q4_0",
+      "n_params": 469762048,
+      "mean": 1.434e-05,
+      "std": 0.011454,
+      "rms": 0.011454,
+      "min": -0.357422,
+      "max": 0.302734,
+      "sparsity": 0.118555
+    },
+    {
+      "name": "blk.8.ffn_down_exps.weight",
+      "layer": 8,
+      "component": "ff.expert.down",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        8,
+        4096,
+        14336
+      ],
+      "dtype": "Q4_0",
+      "n_params": 469762048,
+      "mean": 2.5e-07,
+      "std": 0.010965,
+      "rms": 0.010965,
+      "min": -0.652344,
+      "max": 0.800781,
+      "sparsity": 0.119177
+    },
+    {
+      "name": "blk.8.ffn_up_exps.weight",
+      "layer": 8,
+      "component": "ff.expert.up",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        8,
+        14336,
+        4096
+      ],
+      "dtype": "Q4_0",
+      "n_params": 469762048,
+      "mean": -1.71e-06,
+      "std": 0.010955,
+      "rms": 0.010955,
+      "min": -0.279297,
+      "max": 0.245117,
+      "sparsity": 0.119182
+    },
+    {
+      "name": "blk.8.attn_norm.weight",
+      "layer": 8,
+      "component": "norm.attn",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        4096
+      ],
+      "dtype": "F32",
+      "n_params": 4096,
+      "mean": 1.39047098,
+      "std": 0.370628,
+      "rms": 1.439019,
+      "min": 0.386719,
+      "max": 4.65625,
+      "sparsity": 0.0
+    },
+    {
+      "name": "blk.8.ffn_norm.weight",
+      "layer": 8,
+      "component": "norm.ffn",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        4096
+      ],
+      "dtype": "F32",
+      "n_params": 4096,
+      "mean": 1.29358327,
+      "std": 0.272533,
+      "rms": 1.32198,
+      "min": 0.089355,
+      "max": 2.015625,
+      "sparsity": 0.0
+    },
+    {
+      "name": "blk.9.ffn_gate_exps.weight",
+      "layer": 9,
+      "component": "ff.expert.gate",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        8,
+        14336,
+        4096
+      ],
+      "dtype": "Q4_0",
+      "n_params": 469762048,
+      "mean": 2.81e-06,
+      "std": 0.011392,
+      "rms": 0.011392,
+      "min": -0.380859,
+      "max": 0.349609,
+      "sparsity": 0.118483
+    },
+    {
+      "name": "blk.9.ffn_down_exps.weight",
+      "layer": 9,
+      "component": "ff.expert.down",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        8,
+        4096,
+        14336
+      ],
+      "dtype": "Q4_0",
+      "n_params": 469762048,
+      "mean": 6.4e-07,
+      "std": 0.011076,
+      "rms": 0.011076,
+      "min": -0.570312,
+      "max": 0.914062,
+      "sparsity": 0.119201
+    },
+    {
+      "name": "blk.9.ffn_up_exps.weight",
+      "layer": 9,
+      "component": "ff.expert.up",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        8,
+        14336,
+        4096
+      ],
+      "dtype": "Q4_0",
+      "n_params": 469762048,
+      "mean": 1.2e-06,
+      "std": 0.011099,
+      "rms": 0.011099,
+      "min": -0.306641,
+      "max": 0.244141,
+      "sparsity": 0.118938
+    },
+    {
+      "name": "blk.9.ffn_gate_inp.weight",
+      "layer": 9,
+      "component": "ff.router",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        8,
+        4096
+      ],
+      "dtype": "F32",
+      "n_params": 32768,
+      "mean": -4.85e-06,
+      "std": 0.012911,
+      "rms": 0.012911,
+      "min": -0.147461,
+      "max": 0.117188,
+      "sparsity": 3.1e-05
+    },
+    {
+      "name": "blk.9.attn_norm.weight",
+      "layer": 9,
+      "component": "norm.attn",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        4096
+      ],
+      "dtype": "F32",
+      "n_params": 4096,
+      "mean": 1.70039558,
+      "std": 0.443085,
+      "rms": 1.757177,
+      "min": 0.414062,
+      "max": 4.9375,
+      "sparsity": 0.0
+    },
+    {
+      "name": "blk.9.ffn_norm.weight",
+      "layer": 9,
+      "component": "norm.ffn",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        4096
+      ],
+      "dtype": "F32",
+      "n_params": 4096,
+      "mean": 1.36219764,
+      "std": 0.306664,
+      "rms": 1.39629,
+      "min": 0.141602,
+      "max": 2.609375,
+      "sparsity": 0.0
+    },
+    {
+      "name": "blk.9.attn_k.weight",
+      "layer": 9,
+      "component": "attn.k",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        1024,
+        4096
+      ],
+      "dtype": "Q8_0",
+      "n_params": 4194304,
+      "mean": 1.08e-06,
+      "std": 0.012064,
+      "rms": 0.012064,
+      "min": -0.214861,
+      "max": 0.345667,
+      "sparsity": 0.007662
+    },
+    {
+      "name": "blk.9.attn_output.weight",
+      "layer": 9,
+      "component": "attn.o",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        4096,
+        4096
+      ],
+      "dtype": "Q4_0",
+      "n_params": 16777216,
+      "mean": -6.1e-07,
+      "std": 0.009928,
+      "rms": 0.009928,
+      "min": -1.0,
+      "max": 0.470703,
+      "sparsity": 0.117158
+    },
+    {
+      "name": "blk.9.attn_q.weight",
+      "layer": 9,
+      "component": "attn.q",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        4096,
+        4096
+      ],
+      "dtype": "Q4_0",
+      "n_params": 16777216,
+      "mean": -6.9e-07,
+      "std": 0.011394,
+      "rms": 0.011394,
+      "min": -0.246094,
+      "max": 0.166016,
+      "sparsity": 0.120967
+    },
+    {
+      "name": "blk.9.attn_v.weight",
+      "layer": 9,
+      "component": "attn.v",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        1024,
+        4096
+      ],
+      "dtype": "Q8_0",
+      "n_params": 4194304,
+      "mean": -4.94e-06,
+      "std": 0.009238,
+      "rms": 0.009238,
+      "min": -0.05859,
+      "max": 0.0542,
+      "sparsity": 0.008255
+    },
+    {
+      "name": "blk.10.ffn_gate_exps.weight",
+      "layer": 10,
+      "component": "ff.expert.gate",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        8,
+        14336,
+        4096
+      ],
+      "dtype": "Q4_0",
+      "n_params": 469762048,
+      "mean": 1.99e-06,
+      "std": 0.011311,
+      "rms": 0.011311,
+      "min": -0.328125,
+      "max": 0.322266,
+      "sparsity": 0.119423
+    },
+    {
+      "name": "blk.10.ffn_down_exps.weight",
+      "layer": 10,
+      "component": "ff.expert.down",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        8,
+        4096,
+        14336
+      ],
+      "dtype": "Q4_0",
+      "n_params": 469762048,
+      "mean": 1.26e-06,
+      "std": 0.011188,
+      "rms": 0.011188,
+      "min": -0.710938,
+      "max": 0.863281,
+      "sparsity": 0.120597
+    },
+    {
+      "name": "blk.10.ffn_up_exps.weight",
+      "layer": 10,
+      "component": "ff.expert.up",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        8,
+        14336,
+        4096
+      ],
+      "dtype": "Q4_0",
+      "n_params": 469762048,
+      "mean": -1.2e-06,
+      "std": 0.011242,
+      "rms": 0.011242,
+      "min": -0.277344,
+      "max": 0.263672,
+      "sparsity": 0.119882
+    },
+    {
+      "name": "blk.10.attn_norm.weight",
+      "layer": 10,
+      "component": "norm.attn",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        4096
+      ],
+      "dtype": "F32",
+      "n_params": 4096,
+      "mean": 1.56395388,
+      "std": 0.49166,
+      "rms": 1.639415,
+      "min": 0.378906,
+      "max": 5.21875,
+      "sparsity": 0.0
+    },
+    {
+      "name": "blk.10.ffn_norm.weight",
+      "layer": 10,
+      "component": "norm.ffn",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        4096
+      ],
+      "dtype": "F32",
+      "n_params": 4096,
+      "mean": 1.42521334,
+      "std": 0.320994,
+      "rms": 1.460914,
+      "min": 0.128906,
+      "max": 2.515625,
+      "sparsity": 0.0
+    },
+    {
+      "name": "blk.11.ffn_gate_inp.weight",
+      "layer": 11,
+      "component": "ff.router",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        8,
+        4096
+      ],
+      "dtype": "F32",
+      "n_params": 32768,
+      "mean": 8.4e-07,
+      "std": 0.010062,
+      "rms": 0.010062,
+      "min": -0.131836,
+      "max": 0.123535,
+      "sparsity": 0.000275
+    },
+    {
+      "name": "blk.11.attn_k.weight",
+      "layer": 11,
+      "component": "attn.k",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        1024,
+        4096
+      ],
+      "dtype": "Q8_0",
+      "n_params": 4194304,
+      "mean": -1.175e-05,
+      "std": 0.011803,
+      "rms": 0.011803,
+      "min": -0.374977,
+      "max": 0.24514,
+      "sparsity": 0.007825
+    },
+    {
+      "name": "blk.11.attn_output.weight",
+      "layer": 11,
+      "component": "attn.o",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        4096,
+        4096
+      ],
+      "dtype": "Q4_0",
+      "n_params": 16777216,
+      "mean": -2.6e-06,
+      "std": 0.010477,
+      "rms": 0.010477,
+      "min": -0.462891,
+      "max": 0.914062,
+      "sparsity": 0.118372
+    },
+    {
+      "name": "blk.11.attn_q.weight",
+      "layer": 11,
+      "component": "attn.q",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        4096,
+        4096
+      ],
+      "dtype": "Q4_0",
+      "n_params": 16777216,
+      "mean": -7.7e-07,
+      "std": 0.011296,
+      "rms": 0.011296,
+      "min": -0.142578,
+      "max": 0.146484,
+      "sparsity": 0.12142
+    },
+    {
+      "name": "blk.11.attn_v.weight",
+      "layer": 11,
+      "component": "attn.v",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        1024,
+        4096
+      ],
+      "dtype": "Q8_0",
+      "n_params": 4194304,
+      "mean": 3.8e-06,
+      "std": 0.010387,
+      "rms": 0.010387,
+      "min": -0.100587,
+      "max": 0.105008,
+      "sparsity": 0.008132
+    },
+    {
+      "name": "blk.11.ffn_gate_exps.weight",
+      "layer": 11,
+      "component": "ff.expert.gate",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        8,
+        14336,
+        4096
+      ],
+      "dtype": "Q4_0",
+      "n_params": 469762048,
+      "mean": 1.04e-06,
+      "std": 0.011285,
+      "rms": 0.011285,
+      "min": -0.382812,
+      "max": 0.328125,
+      "sparsity": 0.119829
+    },
+    {
+      "name": "blk.11.ffn_down_exps.weight",
+      "layer": 11,
+      "component": "ff.expert.down",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        8,
+        4096,
+        14336
+      ],
+      "dtype": "Q4_0",
+      "n_params": 469762048,
+      "mean": 7.6e-07,
+      "std": 0.011288,
+      "rms": 0.011288,
+      "min": -0.980469,
+      "max": 0.757812,
+      "sparsity": 0.120894
+    },
+    {
+      "name": "blk.11.ffn_up_exps.weight",
+      "layer": 11,
+      "component": "ff.expert.up",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        8,
+        14336,
+        4096
+      ],
+      "dtype": "Q4_0",
+      "n_params": 469762048,
+      "mean": -2.4e-07,
+      "std": 0.011376,
+      "rms": 0.011376,
+      "min": -0.275391,
+      "max": 0.294922,
+      "sparsity": 0.120114
+    },
+    {
+      "name": "blk.11.attn_norm.weight",
+      "layer": 11,
+      "component": "norm.attn",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        4096
+      ],
+      "dtype": "F32",
+      "n_params": 4096,
+      "mean": 1.79620743,
+      "std": 0.602048,
+      "rms": 1.894419,
+      "min": 0.353516,
+      "max": 5.03125,
+      "sparsity": 0.0
+    },
+    {
+      "name": "blk.11.ffn_norm.weight",
+      "layer": 11,
+      "component": "norm.ffn",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        4096
+      ],
+      "dtype": "F32",
+      "n_params": 4096,
+      "mean": 1.4846828,
+      "std": 0.340903,
+      "rms": 1.523318,
+      "min": 0.12793,
+      "max": 2.984375,
+      "sparsity": 0.0
+    },
+    {
+      "name": "blk.12.ffn_gate_exps.weight",
+      "layer": 12,
+      "component": "ff.expert.gate",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        8,
+        14336,
+        4096
+      ],
+      "dtype": "Q4_0",
+      "n_params": 469762048,
+      "mean": 1.11e-06,
+      "std": 0.011212,
+      "rms": 0.011212,
+      "min": -0.326172,
+      "max": 0.439453,
+      "sparsity": 0.119227
+    },
+    {
+      "name": "blk.12.ffn_down_exps.weight",
+      "layer": 12,
+      "component": "ff.expert.down",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        8,
+        4096,
+        14336
+      ],
+      "dtype": "Q4_0",
+      "n_params": 469762048,
+      "mean": 8.5e-07,
+      "std": 0.011352,
+      "rms": 0.011352,
+      "min": -0.941406,
+      "max": 0.9375,
+      "sparsity": 0.120255
+    },
+    {
+      "name": "blk.12.ffn_up_exps.weight",
+      "layer": 12,
+      "component": "ff.expert.up",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        8,
+        14336,
+        4096
+      ],
+      "dtype": "Q4_0",
+      "n_params": 469762048,
+      "mean": 1.38e-06,
+      "std": 0.011457,
+      "rms": 0.011457,
+      "min": -0.300781,
+      "max": 0.294922,
+      "sparsity": 0.119486
+    },
+    {
+      "name": "blk.12.ffn_gate_inp.weight",
+      "layer": 12,
+      "component": "ff.router",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        8,
+        4096
+      ],
+      "dtype": "F32",
+      "n_params": 32768,
+      "mean": 5.28e-06,
+      "std": 0.010688,
+      "rms": 0.010688,
+      "min": -0.158203,
+      "max": 0.101074,
+      "sparsity": 9.2e-05
+    },
+    {
+      "name": "blk.12.attn_norm.weight",
+      "layer": 12,
+      "component": "norm.attn",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        4096
+      ],
+      "dtype": "F32",
+      "n_params": 4096,
+      "mean": 1.95462036,
+      "std": 0.640702,
+      "rms": 2.056949,
+      "min": 0.421875,
+      "max": 5.3125,
+      "sparsity": 0.0
+    },
+    {
+      "name": "blk.12.ffn_norm.weight",
+      "layer": 12,
+      "component": "norm.ffn",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        4096
+      ],
+      "dtype": "F32",
+      "n_params": 4096,
+      "mean": 1.61522031,
+      "std": 0.427785,
+      "rms": 1.670909,
+      "min": 0.176758,
+      "max": 3.578125,
+      "sparsity": 0.0
+    },
+    {
+      "name": "blk.12.attn_k.weight",
+      "layer": 12,
+      "component": "attn.k",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        1024,
+        4096
+      ],
+      "dtype": "Q8_0",
+      "n_params": 4194304,
+      "mean": -2.91e-06,
+      "std": 0.011753,
+      "rms": 0.011753,
+      "min": -0.288984,
+      "max": 0.247078,
+      "sparsity": 0.007937
+    },
+    {
+      "name": "blk.12.attn_output.weight",
+      "layer": 12,
+      "component": "attn.o",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        4096,
+        4096
+      ],
+      "dtype": "Q4_0",
+      "n_params": 16777216,
+      "mean": -1e-07,
+      "std": 0.010056,
+      "rms": 0.010056,
+      "min": -0.8125,
+      "max": 0.609375,
+      "sparsity": 0.117723
+    },
+    {
+      "name": "blk.12.attn_q.weight",
+      "layer": 12,
+      "component": "attn.q",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        4096,
+        4096
+      ],
+      "dtype": "Q4_0",
+      "n_params": 16777216,
+      "mean": -1.89e-06,
+      "std": 0.011181,
+      "rms": 0.011181,
+      "min": -0.241211,
+      "max": 0.22168,
+      "sparsity": 0.124038
+    },
+    {
+      "name": "blk.12.attn_v.weight",
+      "layer": 12,
+      "component": "attn.v",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        1024,
+        4096
+      ],
+      "dtype": "Q8_0",
+      "n_params": 4194304,
+      "mean": -6.5e-06,
+      "std": 0.009824,
+      "rms": 0.009824,
+      "min": -0.076667,
+      "max": 0.105008,
+      "sparsity": 0.008413
+    },
+    {
+      "name": "blk.13.ffn_gate_inp.weight",
+      "layer": 13,
+      "component": "ff.router",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        8,
+        4096
+      ],
+      "dtype": "F32",
+      "n_params": 32768,
+      "mean": -1.726e-05,
+      "std": 0.008174,
+      "rms": 0.008174,
+      "min": -0.108887,
+      "max": 0.098145,
+      "sparsity": 0.000275
+    },
+    {
+      "name": "blk.13.attn_k.weight",
+      "layer": 13,
+      "component": "attn.k",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        1024,
+        4096
+      ],
+      "dtype": "Q8_0",
+      "n_params": 4194304,
+      "mean": -1.6e-07,
+      "std": 0.011734,
+      "rms": 0.011734,
+      "min": -0.180706,
+      "max": 0.203113,
+      "sparsity": 0.00785
+    },
+    {
+      "name": "blk.13.attn_output.weight",
+      "layer": 13,
+      "component": "attn.o",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        4096,
+        4096
+      ],
+      "dtype": "Q4_0",
+      "n_params": 16777216,
+      "mean": 3.7e-07,
+      "std": 0.010664,
+      "rms": 0.010664,
+      "min": -0.47168,
+      "max": 0.578125,
+      "sparsity": 0.116625
+    },
+    {
+      "name": "blk.13.attn_q.weight",
+      "layer": 13,
+      "component": "attn.q",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        4096,
+        4096
+      ],
+      "dtype": "Q4_0",
+      "n_params": 16777216,
+      "mean": 9.2e-07,
+      "std": 0.011455,
+      "rms": 0.011455,
+      "min": -0.124512,
+      "max": 0.123535,
+      "sparsity": 0.120957
+    },
+    {
+      "name": "blk.13.attn_v.weight",
+      "layer": 13,
+      "component": "attn.v",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        1024,
+        4096
+      ],
+      "dtype": "Q8_0",
+      "n_params": 4194304,
+      "mean": -4.35e-06,
+      "std": 0.010952,
+      "rms": 0.010952,
+      "min": -0.071762,
+      "max": 0.085932,
+      "sparsity": 0.008077
+    },
+    {
+      "name": "blk.13.ffn_gate_exps.weight",
+      "layer": 13,
+      "component": "ff.expert.gate",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        8,
+        14336,
+        4096
+      ],
+      "dtype": "Q4_0",
+      "n_params": 469762048,
+      "mean": 7.63e-06,
+      "std": 0.011054,
+      "rms": 0.011054,
+      "min": -0.34375,
+      "max": 0.310547,
+      "sparsity": 0.119965
+    },
+    {
+      "name": "blk.13.ffn_down_exps.weight",
+      "layer": 13,
+      "component": "ff.expert.down",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        8,
+        4096,
+        14336
+      ],
+      "dtype": "Q4_0",
+      "n_params": 469762048,
+      "mean": -1.5e-07,
+      "std": 0.011392,
+      "rms": 0.011392,
+      "min": -0.820312,
+      "max": 0.369141,
+      "sparsity": 0.121337
+    },
+    {
+      "name": "blk.13.ffn_up_exps.weight",
+      "layer": 13,
+      "component": "ff.expert.up",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        8,
+        14336,
+        4096
+      ],
+      "dtype": "Q4_0",
+      "n_params": 469762048,
+      "mean": -1.12e-06,
+      "std": 0.011521,
+      "rms": 0.011521,
+      "min": -0.345703,
+      "max": 0.292969,
+      "sparsity": 0.120035
+    },
+    {
+      "name": "blk.13.attn_norm.weight",
+      "layer": 13,
+      "component": "norm.attn",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        4096
+      ],
+      "dtype": "F32",
+      "n_params": 4096,
+      "mean": 1.93467951,
+      "std": 0.652147,
+      "rms": 2.041637,
+      "min": 0.400391,
+      "max": 4.90625,
+      "sparsity": 0.0
+    },
+    {
+      "name": "blk.13.ffn_norm.weight",
+      "layer": 13,
+      "component": "norm.ffn",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        4096
+      ],
+      "dtype": "F32",
+      "n_params": 4096,
+      "mean": 1.70320463,
+      "std": 0.419005,
+      "rms": 1.753987,
+      "min": 0.15625,
+      "max": 4.34375,
+      "sparsity": 0.0
+    },
+    {
+      "name": "blk.14.ffn_gate_exps.weight",
+      "layer": 14,
+      "component": "ff.expert.gate",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        8,
+        14336,
+        4096
+      ],
+      "dtype": "Q4_0",
+      "n_params": 469762048,
+      "mean": 2.6e-06,
+      "std": 0.010964,
+      "rms": 0.010964,
+      "min": -0.337891,
+      "max": 0.324219,
+      "sparsity": 0.120314
+    },
+    {
+      "name": "blk.14.ffn_down_exps.weight",
+      "layer": 14,
+      "component": "ff.expert.down",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        8,
+        4096,
+        14336
+      ],
+      "dtype": "Q4_0",
+      "n_params": 469762048,
+      "mean": 1.03e-06,
+      "std": 0.011516,
+      "rms": 0.011516,
+      "min": -1.140625,
+      "max": 0.792969,
+      "sparsity": 0.12158
+    },
+    {
+      "name": "blk.14.ffn_up_exps.weight",
+      "layer": 14,
+      "component": "ff.expert.up",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        8,
+        14336,
+        4096
+      ],
+      "dtype": "Q4_0",
+      "n_params": 469762048,
+      "mean": 9.6e-07,
+      "std": 0.011659,
+      "rms": 0.011659,
+      "min": -0.306641,
+      "max": 0.271484,
+      "sparsity": 0.120319
+    },
+    {
+      "name": "blk.14.ffn_gate_inp.weight",
+      "layer": 14,
+      "component": "ff.router",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        8,
+        4096
+      ],
+      "dtype": "F32",
+      "n_params": 32768,
+      "mean": -4.07e-06,
+      "std": 0.007844,
+      "rms": 0.007844,
+      "min": -0.117676,
+      "max": 0.116211,
+      "sparsity": 6.1e-05
+    },
+    {
+      "name": "blk.14.attn_norm.weight",
+      "layer": 14,
+      "component": "norm.attn",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        4096
+      ],
+      "dtype": "F32",
+      "n_params": 4096,
+      "mean": 2.06829548,
+      "std": 0.606837,
+      "rms": 2.155481,
+      "min": 0.566406,
+      "max": 4.90625,
+      "sparsity": 0.0
+    },
+    {
+      "name": "blk.14.ffn_norm.weight",
+      "layer": 14,
+      "component": "norm.ffn",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        4096
+      ],
+      "dtype": "F32",
+      "n_params": 4096,
+      "mean": 1.76951826,
+      "std": 0.414225,
+      "rms": 1.817354,
+      "min": 0.122559,
+      "max": 5.15625,
+      "sparsity": 0.0
+    },
+    {
+      "name": "blk.14.attn_k.weight",
+      "layer": 14,
+      "component": "attn.k",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        1024,
+        4096
+      ],
+      "dtype": "Q8_0",
+      "n_params": 4194304,
+      "mean": -3.7e-07,
+      "std": 0.00963,
+      "rms": 0.00963,
+      "min": -0.168958,
+      "max": 0.20505,
+      "sparsity": 0.007845
+    },
+    {
+      "name": "blk.14.attn_output.weight",
+      "layer": 14,
+      "component": "attn.o",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        4096,
+        4096
+      ],
+      "dtype": "Q4_0",
+      "n_params": 16777216,
+      "mean": -1.8e-06,
+      "std": 0.011325,
+      "rms": 0.011325,
+      "min": -0.707031,
+      "max": 0.425781,
+      "sparsity": 0.117222
+    },
+    {
+      "name": "blk.14.attn_q.weight",
+      "layer": 14,
+      "component": "attn.q",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        4096,
+        4096
+      ],
+      "dtype": "Q4_0",
+      "n_params": 16777216,
+      "mean": 1.03e-06,
+      "std": 0.01031,
+      "rms": 0.01031,
+      "min": -0.146484,
+      "max": 0.174805,
+      "sparsity": 0.121507
+    },
+    {
+      "name": "blk.14.attn_v.weight",
+      "layer": 14,
+      "component": "attn.v",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        1024,
+        4096
+      ],
+      "dtype": "Q8_0",
+      "n_params": 4194304,
+      "mean": 9.7e-07,
+      "std": 0.012365,
+      "rms": 0.012365,
+      "min": -0.11282,
+      "max": 0.114758,
+      "sparsity": 0.008391
+    },
+    {
+      "name": "blk.15.ffn_gate_inp.weight",
+      "layer": 15,
+      "component": "ff.router",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        8,
+        4096
+      ],
+      "dtype": "F32",
+      "n_params": 32768,
+      "mean": 1.49e-06,
+      "std": 0.008782,
+      "rms": 0.008782,
+      "min": -0.100098,
+      "max": 0.106445,
+      "sparsity": 0.000153
+    },
+    {
+      "name": "blk.15.attn_k.weight",
+      "layer": 15,
+      "component": "attn.k",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        1024,
+        4096
+      ],
+      "dtype": "Q8_0",
+      "n_params": 4194304,
+      "mean": -6.99e-06,
+      "std": 0.009123,
+      "rms": 0.009123,
+      "min": -0.216799,
+      "max": 0.247078,
+      "sparsity": 0.007926
+    },
+    {
+      "name": "blk.15.attn_output.weight",
+      "layer": 15,
+      "component": "attn.o",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        4096,
+        4096
+      ],
+      "dtype": "Q4_0",
+      "n_params": 16777216,
+      "mean": -5.2e-07,
+      "std": 0.011136,
+      "rms": 0.011136,
+      "min": -0.601562,
+      "max": 0.59375,
+      "sparsity": 0.117434
+    },
+    {
+      "name": "blk.15.attn_q.weight",
+      "layer": 15,
+      "component": "attn.q",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        4096,
+        4096
+      ],
+      "dtype": "Q4_0",
+      "n_params": 16777216,
+      "mean": -1.03e-06,
+      "std": 0.010188,
+      "rms": 0.010188,
+      "min": -0.207031,
+      "max": 0.207031,
+      "sparsity": 0.12332
+    },
+    {
+      "name": "blk.15.attn_v.weight",
+      "layer": 15,
+      "component": "attn.v",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        1024,
+        4096
+      ],
+      "dtype": "Q8_0",
+      "n_params": 4194304,
+      "mean": -5.75e-06,
+      "std": 0.012033,
+      "rms": 0.012033,
+      "min": -0.102525,
+      "max": 0.086901,
+      "sparsity": 0.00836
+    },
+    {
+      "name": "blk.15.ffn_gate_exps.weight",
+      "layer": 15,
+      "component": "ff.expert.gate",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        8,
+        14336,
+        4096
+      ],
+      "dtype": "Q4_0",
+      "n_params": 469762048,
+      "mean": 7.47e-06,
+      "std": 0.011029,
+      "rms": 0.011029,
+      "min": -0.376953,
+      "max": 0.306641,
+      "sparsity": 0.119299
+    },
+    {
+      "name": "blk.15.ffn_down_exps.weight",
+      "layer": 15,
+      "component": "ff.expert.down",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        8,
+        4096,
+        14336
+      ],
+      "dtype": "Q4_0",
+      "n_params": 469762048,
+      "mean": -1.89e-06,
+      "std": 0.011462,
+      "rms": 0.011462,
+      "min": -0.503906,
+      "max": 0.847656,
+      "sparsity": 0.120112
+    },
+    {
+      "name": "blk.15.ffn_up_exps.weight",
+      "layer": 15,
+      "component": "ff.expert.up",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        8,
+        14336,
+        4096
+      ],
+      "dtype": "Q4_0",
+      "n_params": 469762048,
+      "mean": -8.3e-07,
+      "std": 0.011614,
+      "rms": 0.011614,
+      "min": -0.236328,
+      "max": 0.244141,
+      "sparsity": 0.119402
+    },
+    {
+      "name": "blk.15.attn_norm.weight",
+      "layer": 15,
+      "component": "norm.attn",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        4096
+      ],
+      "dtype": "F32",
+      "n_params": 4096,
+      "mean": 2.34368992,
+      "std": 0.531366,
+      "rms": 2.403171,
+      "min": 0.664062,
+      "max": 4.96875,
+      "sparsity": 0.0
+    },
+    {
+      "name": "blk.15.ffn_norm.weight",
+      "layer": 15,
+      "component": "norm.ffn",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        4096
+      ],
+      "dtype": "F32",
+      "n_params": 4096,
+      "mean": 1.91349745,
+      "std": 0.407327,
+      "rms": 1.956371,
+      "min": 0.095703,
+      "max": 5.125,
+      "sparsity": 0.0
+    },
+    {
+      "name": "blk.16.ffn_gate_inp.weight",
+      "layer": 16,
+      "component": "ff.router",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        8,
+        4096
+      ],
+      "dtype": "F32",
+      "n_params": 32768,
+      "mean": 3.2e-06,
+      "std": 0.007869,
+      "rms": 0.007869,
+      "min": -0.088867,
+      "max": 0.074219,
+      "sparsity": 0.000122
+    },
+    {
+      "name": "blk.16.attn_k.weight",
+      "layer": 16,
+      "component": "attn.k",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        1024,
+        4096
+      ],
+      "dtype": "Q8_0",
+      "n_params": 4194304,
+      "mean": -3.8e-06,
+      "std": 0.00953,
+      "rms": 0.00953,
+      "min": -0.188457,
+      "max": 0.211954,
+      "sparsity": 0.007776
+    },
+    {
+      "name": "blk.16.attn_output.weight",
+      "layer": 16,
+      "component": "attn.o",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        4096,
+        4096
+      ],
+      "dtype": "Q4_0",
+      "n_params": 16777216,
+      "mean": 3.29e-06,
+      "std": 0.011298,
+      "rms": 0.011298,
+      "min": -0.671875,
+      "max": 0.554688,
+      "sparsity": 0.117287
+    },
+    {
+      "name": "blk.16.attn_q.weight",
+      "layer": 16,
+      "component": "attn.q",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        4096,
+        4096
+      ],
+      "dtype": "Q4_0",
+      "n_params": 16777216,
+      "mean": -2.69e-06,
+      "std": 0.010373,
+      "rms": 0.010373,
+      "min": -0.15918,
+      "max": 0.193359,
+      "sparsity": 0.120648
+    },
+    {
+      "name": "blk.16.attn_v.weight",
+      "layer": 16,
+      "component": "attn.v",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        1024,
+        4096
+      ],
+      "dtype": "Q8_0",
+      "n_params": 4194304,
+      "mean": 8.68e-06,
+      "std": 0.012127,
+      "rms": 0.012127,
+      "min": -0.08351,
+      "max": 0.099134,
+      "sparsity": 0.00844
+    },
+    {
+      "name": "blk.16.ffn_gate_exps.weight",
+      "layer": 16,
+      "component": "ff.expert.gate",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        8,
+        14336,
+        4096
+      ],
+      "dtype": "Q4_0",
+      "n_params": 469762048,
+      "mean": -5.26e-06,
+      "std": 0.011028,
+      "rms": 0.011028,
+      "min": -0.361328,
+      "max": 0.339844,
+      "sparsity": 0.119617
+    },
+    {
+      "name": "blk.16.ffn_down_exps.weight",
+      "layer": 16,
+      "component": "ff.expert.down",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        8,
+        4096,
+        14336
+      ],
+      "dtype": "Q4_0",
+      "n_params": 469762048,
+      "mean": 3.8e-07,
+      "std": 0.011463,
+      "rms": 0.011463,
+      "min": -0.808594,
+      "max": 0.451172,
+      "sparsity": 0.120084
+    },
+    {
+      "name": "blk.16.ffn_up_exps.weight",
+      "layer": 16,
+      "component": "ff.expert.up",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        8,
+        14336,
+        4096
+      ],
+      "dtype": "Q4_0",
+      "n_params": 469762048,
+      "mean": 1.2e-07,
+      "std": 0.01161,
+      "rms": 0.01161,
+      "min": -0.292969,
+      "max": 0.310547,
+      "sparsity": 0.119833
+    },
+    {
+      "name": "blk.16.attn_norm.weight",
+      "layer": 16,
+      "component": "norm.attn",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        4096
+      ],
+      "dtype": "F32",
+      "n_params": 4096,
+      "mean": 2.27852345,
+      "std": 0.503751,
+      "rms": 2.333545,
+      "min": 0.664062,
+      "max": 4.90625,
+      "sparsity": 0.0
+    },
+    {
+      "name": "blk.16.ffn_norm.weight",
+      "layer": 16,
+      "component": "norm.ffn",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        4096
+      ],
+      "dtype": "F32",
+      "n_params": 4096,
+      "mean": 2.10769649,
+      "std": 0.421825,
+      "rms": 2.149493,
+      "min": 0.011536,
+      "max": 6.0625,
+      "sparsity": 0.0
+    },
+    {
+      "name": "blk.17.ffn_gate_exps.weight",
+      "layer": 17,
+      "component": "ff.expert.gate",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        8,
+        14336,
+        4096
+      ],
+      "dtype": "Q4_0",
+      "n_params": 469762048,
+      "mean": 4.64e-06,
+      "std": 0.010993,
+      "rms": 0.010993,
+      "min": -0.402344,
+      "max": 0.351562,
+      "sparsity": 0.11948
+    },
+    {
+      "name": "blk.17.ffn_down_exps.weight",
+      "layer": 17,
+      "component": "ff.expert.down",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        8,
+        4096,
+        14336
+      ],
+      "dtype": "Q4_0",
+      "n_params": 469762048,
+      "mean": -1.02e-06,
+      "std": 0.011594,
+      "rms": 0.011594,
+      "min": -0.527344,
+      "max": 0.777344,
+      "sparsity": 0.120379
+    },
+    {
+      "name": "blk.17.ffn_up_exps.weight",
+      "layer": 17,
+      "component": "ff.expert.up",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        8,
+        14336,
+        4096
+      ],
+      "dtype": "Q4_0",
+      "n_params": 469762048,
+      "mean": -2.6e-07,
+      "std": 0.01175,
+      "rms": 0.01175,
+      "min": -0.539062,
+      "max": 0.373047,
+      "sparsity": 0.11964
+    },
+    {
+      "name": "blk.17.ffn_gate_inp.weight",
+      "layer": 17,
+      "component": "ff.router",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        8,
+        4096
+      ],
+      "dtype": "F32",
+      "n_params": 32768,
+      "mean": -1.2e-07,
+      "std": 0.007218,
+      "rms": 0.007218,
+      "min": -0.080566,
+      "max": 0.083496,
+      "sparsity": 0.000244
+    },
+    {
+      "name": "blk.17.attn_norm.weight",
+      "layer": 17,
+      "component": "norm.attn",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        4096
+      ],
+      "dtype": "F32",
+      "n_params": 4096,
+      "mean": 2.06982899,
+      "std": 0.366176,
+      "rms": 2.10197,
+      "min": 0.667969,
+      "max": 5.15625,
+      "sparsity": 0.0
+    },
+    {
+      "name": "blk.17.ffn_norm.weight",
+      "layer": 17,
+      "component": "norm.ffn",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        4096
+      ],
+      "dtype": "F32",
+      "n_params": 4096,
+      "mean": 2.2926438,
+      "std": 0.431485,
+      "rms": 2.332894,
+      "min": 0.001053,
+      "max": 5.84375,
+      "sparsity": 0.0
+    },
+    {
+      "name": "blk.17.attn_k.weight",
+      "layer": 17,
+      "component": "attn.k",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        1024,
+        4096
+      ],
+      "dtype": "Q8_0",
+      "n_params": 4194304,
+      "mean": 6.75e-06,
+      "std": 0.009407,
+      "rms": 0.009407,
+      "min": -0.171865,
+      "max": 0.16702,
+      "sparsity": 0.007884
+    },
+    {
+      "name": "blk.17.attn_output.weight",
+      "layer": 17,
+      "component": "attn.o",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        4096,
+        4096
+      ],
+      "dtype": "Q4_0",
+      "n_params": 16777216,
+      "mean": 1.95e-06,
+      "std": 0.011641,
+      "rms": 0.011641,
+      "min": -0.527344,
+      "max": 0.546875,
+      "sparsity": 0.117266
+    },
+    {
+      "name": "blk.17.attn_q.weight",
+      "layer": 17,
+      "component": "attn.q",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        4096,
+        4096
+      ],
+      "dtype": "Q4_0",
+      "n_params": 16777216,
+      "mean": -4.63e-06,
+      "std": 0.010483,
+      "rms": 0.010483,
+      "min": -0.124512,
+      "max": 0.115723,
+      "sparsity": 0.122187
+    },
+    {
+      "name": "blk.17.attn_v.weight",
+      "layer": 17,
+      "component": "attn.v",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        1024,
+        4096
+      ],
+      "dtype": "Q8_0",
+      "n_params": 4194304,
+      "mean": -5.3e-07,
+      "std": 0.012635,
+      "rms": 0.012635,
+      "min": -0.104463,
+      "max": 0.105977,
+      "sparsity": 0.008326
+    },
+    {
+      "name": "blk.18.ffn_gate_inp.weight",
+      "layer": 18,
+      "component": "ff.router",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        8,
+        4096
+      ],
+      "dtype": "F32",
+      "n_params": 32768,
+      "mean": 4.28e-06,
+      "std": 0.006982,
+      "rms": 0.006982,
+      "min": -0.056885,
+      "max": 0.079102,
+      "sparsity": 9.2e-05
+    },
+    {
+      "name": "blk.18.attn_k.weight",
+      "layer": 18,
+      "component": "attn.k",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        1024,
+        4096
+      ],
+      "dtype": "Q8_0",
+      "n_params": 4194304,
+      "mean": 7.9e-07,
+      "std": 0.008918,
+      "rms": 0.008918,
+      "min": -0.124992,
+      "max": 0.160116,
+      "sparsity": 0.007683
+    },
+    {
+      "name": "blk.18.attn_output.weight",
+      "layer": 18,
+      "component": "attn.o",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        4096,
+        4096
+      ],
+      "dtype": "Q4_0",
+      "n_params": 16777216,
+      "mean": -4.68e-06,
+      "std": 0.011344,
+      "rms": 0.011344,
+      "min": -0.542969,
+      "max": 0.730469,
+      "sparsity": 0.117405
+    },
+    {
+      "name": "blk.18.attn_q.weight",
+      "layer": 18,
+      "component": "attn.q",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        4096,
+        4096
+      ],
+      "dtype": "Q4_0",
+      "n_params": 16777216,
+      "mean": -2.07e-06,
+      "std": 0.010142,
+      "rms": 0.010142,
+      "min": -0.148438,
+      "max": 0.171875,
+      "sparsity": 0.121949
+    },
+    {
+      "name": "blk.18.attn_v.weight",
+      "layer": 18,
+      "component": "attn.v",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        1024,
+        4096
+      ],
+      "dtype": "Q8_0",
+      "n_params": 4194304,
+      "mean": -7.69e-06,
+      "std": 0.012449,
+      "rms": 0.012449,
+      "min": -0.143523,
+      "max": 0.124023,
+      "sparsity": 0.008345
+    },
+    {
+      "name": "blk.18.ffn_gate_exps.weight",
+      "layer": 18,
+      "component": "ff.expert.gate",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        8,
+        14336,
+        4096
+      ],
+      "dtype": "Q4_0",
+      "n_params": 469762048,
+      "mean": -3.71e-06,
+      "std": 0.01092,
+      "rms": 0.01092,
+      "min": -0.341797,
+      "max": 0.326172,
+      "sparsity": 0.118896
+    },
+    {
+      "name": "blk.18.ffn_down_exps.weight",
+      "layer": 18,
+      "component": "ff.expert.down",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        8,
+        4096,
+        14336
+      ],
+      "dtype": "Q4_0",
+      "n_params": 469762048,
+      "mean": -6.2e-07,
+      "std": 0.011628,
+      "rms": 0.011628,
+      "min": -0.785156,
+      "max": 0.414062,
+      "sparsity": 0.120409
+    },
+    {
+      "name": "blk.18.ffn_up_exps.weight",
+      "layer": 18,
+      "component": "ff.expert.up",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        8,
+        14336,
+        4096
+      ],
+      "dtype": "Q4_0",
+      "n_params": 469762048,
+      "mean": 1.7e-07,
+      "std": 0.01183,
+      "rms": 0.01183,
+      "min": -0.267578,
+      "max": 0.357422,
+      "sparsity": 0.119072
+    },
+    {
+      "name": "blk.18.attn_norm.weight",
+      "layer": 18,
+      "component": "norm.attn",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        4096
+      ],
+      "dtype": "F32",
+      "n_params": 4096,
+      "mean": 2.33355808,
+      "std": 0.333879,
+      "rms": 2.357322,
+      "min": 0.773438,
+      "max": 5.6875,
+      "sparsity": 0.0
+    },
+    {
+      "name": "blk.18.ffn_norm.weight",
+      "layer": 18,
+      "component": "norm.ffn",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        4096
+      ],
+      "dtype": "F32",
+      "n_params": 4096,
+      "mean": 2.44657267,
+      "std": 0.421039,
+      "rms": 2.482537,
+      "min": 0.00148,
+      "max": 7.65625,
+      "sparsity": 0.0
+    },
+    {
+      "name": "blk.19.ffn_gate_exps.weight",
+      "layer": 19,
+      "component": "ff.expert.gate",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        8,
+        14336,
+        4096
+      ],
+      "dtype": "Q4_0",
+      "n_params": 469762048,
+      "mean": 2.18e-06,
+      "std": 0.010965,
+      "rms": 0.010965,
+      "min": -0.25,
+      "max": 0.296875,
+      "sparsity": 0.118189
+    },
+    {
+      "name": "blk.19.ffn_down_exps.weight",
+      "layer": 19,
+      "component": "ff.expert.down",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        8,
+        4096,
+        14336
+      ],
+      "dtype": "Q4_0",
+      "n_params": 469762048,
+      "mean": 8.8e-07,
+      "std": 0.011577,
+      "rms": 0.011577,
+      "min": -0.839844,
+      "max": 0.601562,
+      "sparsity": 0.119955
+    },
+    {
+      "name": "blk.19.ffn_up_exps.weight",
+      "layer": 19,
+      "component": "ff.expert.up",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        8,
+        14336,
+        4096
+      ],
+      "dtype": "Q4_0",
+      "n_params": 469762048,
+      "mean": 6.5e-07,
+      "std": 0.011759,
+      "rms": 0.011759,
+      "min": -0.279297,
+      "max": 0.384766,
+      "sparsity": 0.11851
+    },
+    {
+      "name": "blk.19.ffn_gate_inp.weight",
+      "layer": 19,
+      "component": "ff.router",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        8,
+        4096
+      ],
+      "dtype": "F32",
+      "n_params": 32768,
+      "mean": 4.96e-06,
+      "std": 0.008086,
+      "rms": 0.008086,
+      "min": -0.07373,
+      "max": 0.104004,
+      "sparsity": 0.000153
+    },
+    {
+      "name": "blk.19.attn_norm.weight",
+      "layer": 19,
+      "component": "norm.attn",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        4096
+      ],
+      "dtype": "F32",
+      "n_params": 4096,
+      "mean": 2.41872787,
+      "std": 0.312935,
+      "rms": 2.438888,
+      "min": 0.667969,
+      "max": 5.6875,
+      "sparsity": 0.0
+    },
+    {
+      "name": "blk.19.ffn_norm.weight",
+      "layer": 19,
+      "component": "norm.ffn",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        4096
+      ],
+      "dtype": "F32",
+      "n_params": 4096,
+      "mean": 2.60962951,
+      "std": 0.426374,
+      "rms": 2.644232,
+      "min": 0.056641,
+      "max": 6.15625,
+      "sparsity": 0.0
+    },
+    {
+      "name": "blk.19.attn_k.weight",
+      "layer": 19,
+      "component": "attn.k",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        1024,
+        4096
+      ],
+      "dtype": "Q8_0",
+      "n_params": 4194304,
+      "mean": -3.36e-06,
+      "std": 0.00823,
+      "rms": 0.00823,
+      "min": -0.129837,
+      "max": 0.152365,
+      "sparsity": 0.007836
+    },
+    {
+      "name": "blk.19.attn_output.weight",
+      "layer": 19,
+      "component": "attn.o",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        4096,
+        4096
+      ],
+      "dtype": "Q4_0",
+      "n_params": 16777216,
+      "mean": 4.6e-07,
+      "std": 0.011812,
+      "rms": 0.011812,
+      "min": -0.808594,
+      "max": 0.5625,
+      "sparsity": 0.117058
+    },
+    {
+      "name": "blk.19.attn_q.weight",
+      "layer": 19,
+      "component": "attn.q",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        4096,
+        4096
+      ],
+      "dtype": "Q4_0",
+      "n_params": 16777216,
+      "mean": 1.27e-06,
+      "std": 0.009666,
+      "rms": 0.009666,
+      "min": -0.131836,
+      "max": 0.166016,
+      "sparsity": 0.120994
+    },
+    {
+      "name": "blk.19.attn_v.weight",
+      "layer": 19,
+      "component": "attn.v",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        1024,
+        4096
+      ],
+      "dtype": "Q8_0",
+      "n_params": 4194304,
+      "mean": -5.51e-06,
+      "std": 0.013719,
+      "rms": 0.013719,
+      "min": -0.140616,
+      "max": 0.114274,
+      "sparsity": 0.008345
+    },
+    {
+      "name": "blk.20.ffn_gate_inp.weight",
+      "layer": 20,
+      "component": "ff.router",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        8,
+        4096
+      ],
+      "dtype": "F32",
+      "n_params": 32768,
+      "mean": 1.134e-05,
+      "std": 0.009258,
+      "rms": 0.009258,
+      "min": -0.069824,
+      "max": 0.063965,
+      "sparsity": 6.1e-05
+    },
+    {
+      "name": "blk.20.attn_k.weight",
+      "layer": 20,
+      "component": "attn.k",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        1024,
+        4096
+      ],
+      "dtype": "Q8_0",
+      "n_params": 4194304,
+      "mean": 6.77e-06,
+      "std": 0.007942,
+      "rms": 0.007942,
+      "min": -0.142554,
+      "max": 0.11282,
+      "sparsity": 0.007786
+    },
+    {
+      "name": "blk.20.attn_output.weight",
+      "layer": 20,
+      "component": "attn.o",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        4096,
+        4096
+      ],
+      "dtype": "Q4_0",
+      "n_params": 16777216,
+      "mean": -2.3e-07,
+      "std": 0.012047,
+      "rms": 0.012047,
+      "min": -0.53125,
+      "max": 0.914062,
+      "sparsity": 0.116928
+    },
+    {
+      "name": "blk.20.attn_q.weight",
+      "layer": 20,
+      "component": "attn.q",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        4096,
+        4096
+      ],
+      "dtype": "Q4_0",
+      "n_params": 16777216,
+      "mean": -7.4e-07,
+      "std": 0.009488,
+      "rms": 0.009488,
+      "min": -0.182617,
+      "max": 0.150391,
+      "sparsity": 0.121478
+    },
+    {
+      "name": "blk.20.attn_v.weight",
+      "layer": 20,
+      "component": "attn.v",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        1024,
+        4096
+      ],
+      "dtype": "Q8_0",
+      "n_params": 4194304,
+      "mean": -8.6e-06,
+      "std": 0.014115,
+      "rms": 0.014115,
+      "min": -0.102525,
+      "max": 0.094713,
+      "sparsity": 0.008242
+    },
+    {
+      "name": "blk.20.ffn_gate_exps.weight",
+      "layer": 20,
+      "component": "ff.expert.gate",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        8,
+        14336,
+        4096
+      ],
+      "dtype": "Q4_0",
+      "n_params": 469762048,
+      "mean": -4.98e-06,
+      "std": 0.011014,
+      "rms": 0.011014,
+      "min": -0.204102,
+      "max": 0.206055,
+      "sparsity": 0.117329
+    },
+    {
+      "name": "blk.20.ffn_down_exps.weight",
+      "layer": 20,
+      "component": "ff.expert.down",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        8,
+        4096,
+        14336
+      ],
+      "dtype": "Q4_0",
+      "n_params": 469762048,
+      "mean": 2.3e-07,
+      "std": 0.011503,
+      "rms": 0.011503,
+      "min": -0.839844,
+      "max": 0.296875,
+      "sparsity": 0.118664
+    },
+    {
+      "name": "blk.20.ffn_up_exps.weight",
+      "layer": 20,
+      "component": "ff.expert.up",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        8,
+        14336,
+        4096
+      ],
+      "dtype": "Q4_0",
+      "n_params": 469762048,
+      "mean": -5.7e-07,
+      "std": 0.011611,
+      "rms": 0.011611,
+      "min": -0.181641,
+      "max": 0.209961,
+      "sparsity": 0.117828
+    },
+    {
+      "name": "blk.20.attn_norm.weight",
+      "layer": 20,
+      "component": "norm.attn",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        4096
+      ],
+      "dtype": "F32",
+      "n_params": 4096,
+      "mean": 2.43249035,
+      "std": 0.316214,
+      "rms": 2.452957,
+      "min": 0.464844,
+      "max": 5.375,
+      "sparsity": 0.0
+    },
+    {
+      "name": "blk.20.ffn_norm.weight",
+      "layer": 20,
+      "component": "norm.ffn",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        4096
+      ],
+      "dtype": "F32",
+      "n_params": 4096,
+      "mean": 2.79948932,
+      "std": 0.480044,
+      "rms": 2.840349,
+      "min": 0.003555,
+      "max": 6.71875,
+      "sparsity": 0.0
+    },
+    {
+      "name": "blk.21.ffn_gate_exps.weight",
+      "layer": 21,
+      "component": "ff.expert.gate",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        8,
+        14336,
+        4096
+      ],
+      "dtype": "Q4_0",
+      "n_params": 469762048,
+      "mean": 2.01e-06,
+      "std": 0.011093,
+      "rms": 0.011093,
+      "min": -0.222656,
+      "max": 0.308594,
+      "sparsity": 0.116823
+    },
+    {
+      "name": "blk.21.ffn_down_exps.weight",
+      "layer": 21,
+      "component": "ff.expert.down",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        8,
+        4096,
+        14336
+      ],
+      "dtype": "Q4_0",
+      "n_params": 469762048,
+      "mean": -1.13e-06,
+      "std": 0.011426,
+      "rms": 0.011426,
+      "min": -0.503906,
+      "max": 0.785156,
+      "sparsity": 0.117727
+    },
+    {
+      "name": "blk.21.ffn_up_exps.weight",
+      "layer": 21,
+      "component": "ff.expert.up",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        8,
+        14336,
+        4096
+      ],
+      "dtype": "Q4_0",
+      "n_params": 469762048,
+      "mean": 4.4e-07,
+      "std": 0.011482,
+      "rms": 0.011482,
+      "min": -0.231445,
+      "max": 0.28125,
+      "sparsity": 0.11739
+    },
+    {
+      "name": "blk.21.ffn_gate_inp.weight",
+      "layer": 21,
+      "component": "ff.router",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        8,
+        4096
+      ],
+      "dtype": "F32",
+      "n_params": 32768,
+      "mean": 1.003e-05,
+      "std": 0.00958,
+      "rms": 0.00958,
+      "min": -0.07373,
+      "max": 0.095215,
+      "sparsity": 0.000122
+    },
+    {
+      "name": "blk.21.attn_norm.weight",
+      "layer": 21,
+      "component": "norm.attn",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        4096
+      ],
+      "dtype": "F32",
+      "n_params": 4096,
+      "mean": 2.38527679,
+      "std": 0.341927,
+      "rms": 2.40966,
+      "min": 0.546875,
+      "max": 5.40625,
+      "sparsity": 0.0
+    },
+    {
+      "name": "blk.21.ffn_norm.weight",
+      "layer": 21,
+      "component": "norm.ffn",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        4096
+      ],
+      "dtype": "F32",
+      "n_params": 4096,
+      "mean": 2.97662306,
+      "std": 0.494539,
+      "rms": 3.017425,
+      "min": 0.018066,
+      "max": 5.5,
+      "sparsity": 0.0
+    },
+    {
+      "name": "blk.21.attn_k.weight",
+      "layer": 21,
+      "component": "attn.k",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        1024,
+        4096
+      ],
+      "dtype": "Q8_0",
+      "n_params": 4194304,
+      "mean": -2.36e-06,
+      "std": 0.007992,
+      "rms": 0.007992,
+      "min": -0.111791,
+      "max": 0.110822,
+      "sparsity": 0.007694
+    },
+    {
+      "name": "blk.21.attn_output.weight",
+      "layer": 21,
+      "component": "attn.o",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        4096,
+        4096
+      ],
+      "dtype": "Q4_0",
+      "n_params": 16777216,
+      "mean": -4.22e-06,
+      "std": 0.011928,
+      "rms": 0.011928,
+      "min": -0.714844,
+      "max": 0.734375,
+      "sparsity": 0.116641
+    },
+    {
+      "name": "blk.21.attn_q.weight",
+      "layer": 21,
+      "component": "attn.q",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        4096,
+        4096
+      ],
+      "dtype": "Q4_0",
+      "n_params": 16777216,
+      "mean": 1.42e-06,
+      "std": 0.009505,
+      "rms": 0.009505,
+      "min": -0.198242,
+      "max": 0.194336,
+      "sparsity": 0.121329
+    },
+    {
+      "name": "blk.21.attn_v.weight",
+      "layer": 21,
+      "component": "attn.v",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        1024,
+        4096
+      ],
+      "dtype": "Q8_0",
+      "n_params": 4194304,
+      "mean": 3.09e-06,
+      "std": 0.014017,
+      "rms": 0.014017,
+      "min": -0.119118,
+      "max": 0.108884,
+      "sparsity": 0.008363
+    },
+    {
+      "name": "blk.22.ffn_gate_inp.weight",
+      "layer": 22,
+      "component": "ff.router",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        8,
+        4096
+      ],
+      "dtype": "F32",
+      "n_params": 32768,
+      "mean": -5.84e-06,
+      "std": 0.009281,
+      "rms": 0.009281,
+      "min": -0.083496,
+      "max": 0.069336,
+      "sparsity": 0.0
+    },
+    {
+      "name": "blk.22.attn_k.weight",
+      "layer": 22,
+      "component": "attn.k",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        1024,
+        4096
+      ],
+      "dtype": "Q8_0",
+      "n_params": 4194304,
+      "mean": 1.76e-06,
+      "std": 0.007619,
+      "rms": 0.007619,
+      "min": -0.125961,
+      "max": 0.105008,
+      "sparsity": 0.007761
+    },
+    {
+      "name": "blk.22.attn_output.weight",
+      "layer": 22,
+      "component": "attn.o",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        4096,
+        4096
+      ],
+      "dtype": "Q4_0",
+      "n_params": 16777216,
+      "mean": 1.48e-06,
+      "std": 0.012045,
+      "rms": 0.012045,
+      "min": -0.984375,
+      "max": 0.4375,
+      "sparsity": 0.116532
+    },
+    {
+      "name": "blk.22.attn_q.weight",
+      "layer": 22,
+      "component": "attn.q",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        4096,
+        4096
+      ],
+      "dtype": "Q4_0",
+      "n_params": 16777216,
+      "mean": -1.31e-06,
+      "std": 0.009191,
+      "rms": 0.009191,
+      "min": -0.174805,
+      "max": 0.197266,
+      "sparsity": 0.120872
+    },
+    {
+      "name": "blk.22.attn_v.weight",
+      "layer": 22,
+      "component": "attn.v",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        1024,
+        4096
+      ],
+      "dtype": "Q8_0",
+      "n_params": 4194304,
+      "mean": -1.032e-05,
+      "std": 0.014206,
+      "rms": 0.014206,
+      "min": -0.085448,
+      "max": 0.092775,
+      "sparsity": 0.007926
+    },
+    {
+      "name": "blk.22.ffn_gate_exps.weight",
+      "layer": 22,
+      "component": "ff.expert.gate",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        8,
+        14336,
+        4096
+      ],
+      "dtype": "Q4_0",
+      "n_params": 469762048,
+      "mean": 6.75e-06,
+      "std": 0.01111,
+      "rms": 0.01111,
+      "min": -0.199219,
+      "max": 0.200195,
+      "sparsity": 0.116744
+    },
+    {
+      "name": "blk.22.ffn_down_exps.weight",
+      "layer": 22,
+      "component": "ff.expert.down",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        8,
+        4096,
+        14336
+      ],
+      "dtype": "Q4_0",
+      "n_params": 469762048,
+      "mean": -5.5e-07,
+      "std": 0.011427,
+      "rms": 0.011427,
+      "min": -0.365234,
+      "max": 0.78125,
+      "sparsity": 0.117517
+    },
+    {
+      "name": "blk.22.ffn_up_exps.weight",
+      "layer": 22,
+      "component": "ff.expert.up",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        8,
+        14336,
+        4096
+      ],
+      "dtype": "Q4_0",
+      "n_params": 469762048,
+      "mean": 7.3e-07,
+      "std": 0.011462,
+      "rms": 0.011462,
+      "min": -0.195312,
+      "max": 0.207031,
+      "sparsity": 0.117312
+    },
+    {
+      "name": "blk.22.attn_norm.weight",
+      "layer": 22,
+      "component": "norm.attn",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        4096
+      ],
+      "dtype": "F32",
+      "n_params": 4096,
+      "mean": 2.37170362,
+      "std": 0.442431,
+      "rms": 2.412617,
+      "min": 0.353516,
+      "max": 5.5,
+      "sparsity": 0.0
+    },
+    {
+      "name": "blk.22.ffn_norm.weight",
+      "layer": 22,
+      "component": "norm.ffn",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        4096
+      ],
+      "dtype": "F32",
+      "n_params": 4096,
+      "mean": 3.06183344,
+      "std": 0.483456,
+      "rms": 3.099767,
+      "min": 0.026123,
+      "max": 4.78125,
+      "sparsity": 0.0
+    },
+    {
+      "name": "blk.23.ffn_gate_inp.weight",
+      "layer": 23,
+      "component": "ff.router",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        8,
+        4096
+      ],
+      "dtype": "F32",
+      "n_params": 32768,
+      "mean": 2.2e-06,
+      "std": 0.009991,
+      "rms": 0.009991,
+      "min": -0.078613,
+      "max": 0.078125,
+      "sparsity": 0.000122
+    },
+    {
+      "name": "blk.23.attn_k.weight",
+      "layer": 23,
+      "component": "attn.k",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        1024,
+        4096
+      ],
+      "dtype": "Q8_0",
+      "n_params": 4194304,
+      "mean": -4.23e-06,
+      "std": 0.007649,
+      "rms": 0.007649,
+      "min": -0.097196,
+      "max": 0.142554,
+      "sparsity": 0.007747
+    },
+    {
+      "name": "blk.23.attn_output.weight",
+      "layer": 23,
+      "component": "attn.o",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        4096,
+        4096
+      ],
+      "dtype": "Q4_0",
+      "n_params": 16777216,
+      "mean": -2.92e-06,
+      "std": 0.012107,
+      "rms": 0.012107,
+      "min": -0.832031,
+      "max": 0.449219,
+      "sparsity": 0.116787
+    },
+    {
+      "name": "blk.23.attn_q.weight",
+      "layer": 23,
+      "component": "attn.q",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        4096,
+        4096
+      ],
+      "dtype": "Q4_0",
+      "n_params": 16777216,
+      "mean": 2.69e-06,
+      "std": 0.009266,
+      "rms": 0.009266,
+      "min": -0.166016,
+      "max": 0.18457,
+      "sparsity": 0.120659
+    },
+    {
+      "name": "blk.23.attn_v.weight",
+      "layer": 23,
+      "component": "attn.v",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        1024,
+        4096
+      ],
+      "dtype": "Q8_0",
+      "n_params": 4194304,
+      "mean": 2.64e-06,
+      "std": 0.014235,
+      "rms": 0.014235,
+      "min": -0.101072,
+      "max": 0.119603,
+      "sparsity": 0.007954
+    },
+    {
+      "name": "blk.23.ffn_gate_exps.weight",
+      "layer": 23,
+      "component": "ff.expert.gate",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        8,
+        14336,
+        4096
+      ],
+      "dtype": "Q4_0",
+      "n_params": 469762048,
+      "mean": 8.18e-06,
+      "std": 0.011073,
+      "rms": 0.011073,
+      "min": -0.28125,
+      "max": 0.205078,
+      "sparsity": 0.116574
+    },
+    {
+      "name": "blk.23.ffn_down_exps.weight",
+      "layer": 23,
+      "component": "ff.expert.down",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        8,
+        4096,
+        14336
+      ],
+      "dtype": "Q4_0",
+      "n_params": 469762048,
+      "mean": -1.41e-06,
+      "std": 0.011466,
+      "rms": 0.011466,
+      "min": -0.777344,
+      "max": 0.314453,
+      "sparsity": 0.117406
+    },
+    {
+      "name": "blk.23.ffn_up_exps.weight",
+      "layer": 23,
+      "component": "ff.expert.up",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        8,
+        14336,
+        4096
+      ],
+      "dtype": "Q4_0",
+      "n_params": 469762048,
+      "mean": -4.6e-07,
+      "std": 0.011465,
+      "rms": 0.011465,
+      "min": -0.240234,
+      "max": 0.179688,
+      "sparsity": 0.117224
+    },
+    {
+      "name": "blk.23.attn_norm.weight",
+      "layer": 23,
+      "component": "norm.attn",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        4096
+      ],
+      "dtype": "F32",
+      "n_params": 4096,
+      "mean": 2.41688919,
+      "std": 0.339455,
+      "rms": 2.440611,
+      "min": 0.636719,
+      "max": 5.65625,
+      "sparsity": 0.0
+    },
+    {
+      "name": "blk.23.ffn_norm.weight",
+      "layer": 23,
+      "component": "norm.ffn",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        4096
+      ],
+      "dtype": "F32",
+      "n_params": 4096,
+      "mean": 3.19952887,
+      "std": 0.474183,
+      "rms": 3.234476,
+      "min": 0.059326,
+      "max": 4.5625,
+      "sparsity": 0.0
+    },
+    {
+      "name": "blk.24.ffn_gate_exps.weight",
+      "layer": 24,
+      "component": "ff.expert.gate",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        8,
+        14336,
+        4096
+      ],
+      "dtype": "Q4_0",
+      "n_params": 469762048,
+      "mean": 5.1e-06,
+      "std": 0.011065,
+      "rms": 0.011065,
+      "min": -0.226562,
+      "max": 0.273438,
+      "sparsity": 0.11656
+    },
+    {
+      "name": "blk.24.ffn_down_exps.weight",
+      "layer": 24,
+      "component": "ff.expert.down",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        8,
+        4096,
+        14336
+      ],
+      "dtype": "Q4_0",
+      "n_params": 469762048,
+      "mean": -2.8e-07,
+      "std": 0.011472,
+      "rms": 0.011472,
+      "min": -0.605469,
+      "max": 0.707031,
+      "sparsity": 0.117355
+    },
+    {
+      "name": "blk.24.ffn_up_exps.weight",
+      "layer": 24,
+      "component": "ff.expert.up",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        8,
+        14336,
+        4096
+      ],
+      "dtype": "Q4_0",
+      "n_params": 469762048,
+      "mean": 4.7e-07,
+      "std": 0.011444,
+      "rms": 0.011444,
+      "min": -0.19043,
+      "max": 0.292969,
+      "sparsity": 0.11718
+    },
+    {
+      "name": "blk.24.ffn_gate_inp.weight",
+      "layer": 24,
+      "component": "ff.router",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        8,
+        4096
+      ],
+      "dtype": "F32",
+      "n_params": 32768,
+      "mean": 1.136e-05,
+      "std": 0.009324,
+      "rms": 0.009324,
+      "min": -0.081543,
+      "max": 0.084473,
+      "sparsity": 3.1e-05
+    },
+    {
+      "name": "blk.24.attn_norm.weight",
+      "layer": 24,
+      "component": "norm.attn",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        4096
+      ],
+      "dtype": "F32",
+      "n_params": 4096,
+      "mean": 2.6936655,
+      "std": 0.366436,
+      "rms": 2.718476,
+      "min": 0.316406,
+      "max": 6.125,
+      "sparsity": 0.0
+    },
+    {
+      "name": "blk.24.ffn_norm.weight",
+      "layer": 24,
+      "component": "norm.ffn",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        4096
+      ],
+      "dtype": "F32",
+      "n_params": 4096,
+      "mean": 3.32092381,
+      "std": 0.468698,
+      "rms": 3.353835,
+      "min": 0.125977,
+      "max": 5.0,
+      "sparsity": 0.0
+    },
+    {
+      "name": "blk.24.attn_k.weight",
+      "layer": 24,
+      "component": "attn.k",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        1024,
+        4096
+      ],
+      "dtype": "Q8_0",
+      "n_params": 4194304,
+      "mean": 1.9e-06,
+      "std": 0.007384,
+      "rms": 0.007384,
+      "min": -0.118634,
+      "max": 0.109853,
+      "sparsity": 0.007897
+    },
+    {
+      "name": "blk.24.attn_output.weight",
+      "layer": 24,
+      "component": "attn.o",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        4096,
+        4096
+      ],
+      "dtype": "Q4_0",
+      "n_params": 16777216,
+      "mean": 5.2e-07,
+      "std": 0.012277,
+      "rms": 0.012277,
+      "min": -0.412109,
+      "max": 1.007812,
+      "sparsity": 0.116636
+    },
+    {
+      "name": "blk.24.attn_q.weight",
+      "layer": 24,
+      "component": "attn.q",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        4096,
+        4096
+      ],
+      "dtype": "Q4_0",
+      "n_params": 16777216,
+      "mean": -4.21e-06,
+      "std": 0.00903,
+      "rms": 0.00903,
+      "min": -0.19043,
+      "max": 0.1875,
+      "sparsity": 0.119789
+    },
+    {
+      "name": "blk.24.attn_v.weight",
+      "layer": 24,
+      "component": "attn.v",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        1024,
+        4096
+      ],
+      "dtype": "Q8_0",
+      "n_params": 4194304,
+      "mean": -6.13e-06,
+      "std": 0.014471,
+      "rms": 0.014471,
+      "min": -0.129837,
+      "max": 0.132865,
+      "sparsity": 0.008128
+    },
+    {
+      "name": "blk.25.ffn_gate_inp.weight",
+      "layer": 25,
+      "component": "ff.router",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        8,
+        4096
+      ],
+      "dtype": "F32",
+      "n_params": 32768,
+      "mean": -4.19e-06,
+      "std": 0.008556,
+      "rms": 0.008556,
+      "min": -0.087891,
+      "max": 0.086426,
+      "sparsity": 9.2e-05
+    },
+    {
+      "name": "blk.25.attn_k.weight",
+      "layer": 25,
+      "component": "attn.k",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        1024,
+        4096
+      ],
+      "dtype": "Q8_0",
+      "n_params": 4194304,
+      "mean": -1.76e-06,
+      "std": 0.007083,
+      "rms": 0.007083,
+      "min": -0.11282,
+      "max": 0.110337,
+      "sparsity": 0.007802
+    },
+    {
+      "name": "blk.25.attn_output.weight",
+      "layer": 25,
+      "component": "attn.o",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        4096,
+        4096
+      ],
+      "dtype": "Q4_0",
+      "n_params": 16777216,
+      "mean": -6.2e-07,
+      "std": 0.012633,
+      "rms": 0.012633,
+      "min": -0.640625,
+      "max": 0.832031,
+      "sparsity": 0.116529
+    },
+    {
+      "name": "blk.25.attn_q.weight",
+      "layer": 25,
+      "component": "attn.q",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        4096,
+        4096
+      ],
+      "dtype": "Q4_0",
+      "n_params": 16777216,
+      "mean": -3.96e-06,
+      "std": 0.008899,
+      "rms": 0.008899,
+      "min": -0.152344,
+      "max": 0.194336,
+      "sparsity": 0.120313
+    },
+    {
+      "name": "blk.25.attn_v.weight",
+      "layer": 25,
+      "component": "attn.v",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        1024,
+        4096
+      ],
+      "dtype": "Q8_0",
+      "n_params": 4194304,
+      "mean": 2e-06,
+      "std": 0.014724,
+      "rms": 0.014724,
+      "min": -0.123055,
+      "max": 0.12693,
+      "sparsity": 0.008232
+    },
+    {
+      "name": "blk.25.ffn_gate_exps.weight",
+      "layer": 25,
+      "component": "ff.expert.gate",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        8,
+        14336,
+        4096
+      ],
+      "dtype": "Q4_0",
+      "n_params": 469762048,
+      "mean": 5.48e-06,
+      "std": 0.011007,
+      "rms": 0.011007,
+      "min": -0.359375,
+      "max": 0.304688,
+      "sparsity": 0.116712
+    },
+    {
+      "name": "blk.25.ffn_down_exps.weight",
+      "layer": 25,
+      "component": "ff.expert.down",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        8,
+        4096,
+        14336
+      ],
+      "dtype": "Q4_0",
+      "n_params": 469762048,
+      "mean": -4.2e-07,
+      "std": 0.01154,
+      "rms": 0.01154,
+      "min": -0.753906,
+      "max": 0.558594,
+      "sparsity": 0.117599
+    },
+    {
+      "name": "blk.25.ffn_up_exps.weight",
+      "layer": 25,
+      "component": "ff.expert.up",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        8,
+        14336,
+        4096
+      ],
+      "dtype": "Q4_0",
+      "n_params": 469762048,
+      "mean": -1.49e-06,
+      "std": 0.011477,
+      "rms": 0.011477,
+      "min": -0.222656,
+      "max": 0.199219,
+      "sparsity": 0.117206
+    },
+    {
+      "name": "blk.25.attn_norm.weight",
+      "layer": 25,
+      "component": "norm.attn",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        4096
+      ],
+      "dtype": "F32",
+      "n_params": 4096,
+      "mean": 2.73382092,
+      "std": 0.414367,
+      "rms": 2.765046,
+      "min": 0.433594,
+      "max": 6.84375,
+      "sparsity": 0.0
+    },
+    {
+      "name": "blk.25.ffn_norm.weight",
+      "layer": 25,
+      "component": "norm.ffn",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        4096
+      ],
+      "dtype": "F32",
+      "n_params": 4096,
+      "mean": 3.42612362,
+      "std": 0.450654,
+      "rms": 3.455635,
+      "min": 0.099609,
+      "max": 4.96875,
+      "sparsity": 0.0
+    },
+    {
+      "name": "blk.26.ffn_gate_exps.weight",
+      "layer": 26,
+      "component": "ff.expert.gate",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        8,
+        14336,
+        4096
+      ],
+      "dtype": "Q4_0",
+      "n_params": 469762048,
+      "mean": 1.4e-07,
+      "std": 0.010959,
+      "rms": 0.010959,
+      "min": -0.183594,
+      "max": 0.289062,
+      "sparsity": 0.11682
+    },
+    {
+      "name": "blk.26.ffn_down_exps.weight",
+      "layer": 26,
+      "component": "ff.expert.down",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        8,
+        4096,
+        14336
+      ],
+      "dtype": "Q4_0",
+      "n_params": 469762048,
+      "mean": 1e-07,
+      "std": 0.01162,
+      "rms": 0.01162,
+      "min": -0.675781,
+      "max": 0.46875,
+      "sparsity": 0.117762
+    },
+    {
+      "name": "blk.26.ffn_up_exps.weight",
+      "layer": 26,
+      "component": "ff.expert.up",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        8,
+        14336,
+        4096
+      ],
+      "dtype": "Q4_0",
+      "n_params": 469762048,
+      "mean": 5e-08,
+      "std": 0.011531,
+      "rms": 0.011531,
+      "min": -0.287109,
+      "max": 0.199219,
+      "sparsity": 0.117252
+    },
+    {
+      "name": "blk.26.ffn_gate_inp.weight",
+      "layer": 26,
+      "component": "ff.router",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        8,
+        4096
+      ],
+      "dtype": "F32",
+      "n_params": 32768,
+      "mean": 1.733e-05,
+      "std": 0.007947,
+      "rms": 0.007947,
+      "min": -0.060547,
+      "max": 0.06543,
+      "sparsity": 0.000275
+    },
+    {
+      "name": "blk.26.attn_norm.weight",
+      "layer": 26,
+      "component": "norm.attn",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        4096
+      ],
+      "dtype": "F32",
+      "n_params": 4096,
+      "mean": 2.63886774,
+      "std": 0.518408,
+      "rms": 2.689307,
+      "min": 0.005371,
+      "max": 7.03125,
+      "sparsity": 0.0
+    },
+    {
+      "name": "blk.26.ffn_norm.weight",
+      "layer": 26,
+      "component": "norm.ffn",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        4096
+      ],
+      "dtype": "F32",
+      "n_params": 4096,
+      "mean": 3.49641088,
+      "std": 0.429122,
+      "rms": 3.522646,
+      "min": 0.015747,
+      "max": 4.59375,
+      "sparsity": 0.0
+    },
+    {
+      "name": "blk.26.attn_k.weight",
+      "layer": 26,
+      "component": "attn.k",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        1024,
+        4096
+      ],
+      "dtype": "Q8_0",
+      "n_params": 4194304,
+      "mean": -8.4e-07,
+      "std": 0.006896,
+      "rms": 0.006896,
+      "min": -0.105977,
+      "max": 0.114758,
+      "sparsity": 0.007838
+    },
+    {
+      "name": "blk.26.attn_output.weight",
+      "layer": 26,
+      "component": "attn.o",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        4096,
+        4096
+      ],
+      "dtype": "Q4_0",
+      "n_params": 16777216,
+      "mean": -2.05e-06,
+      "std": 0.012753,
+      "rms": 0.012753,
+      "min": -0.535156,
+      "max": 0.535156,
+      "sparsity": 0.116469
+    },
+    {
+      "name": "blk.26.attn_q.weight",
+      "layer": 26,
+      "component": "attn.q",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        4096,
+        4096
+      ],
+      "dtype": "Q4_0",
+      "n_params": 16777216,
+      "mean": -1.47e-06,
+      "std": 0.008828,
+      "rms": 0.008828,
+      "min": -0.166016,
+      "max": 0.15625,
+      "sparsity": 0.120025
+    },
+    {
+      "name": "blk.26.attn_v.weight",
+      "layer": 26,
+      "component": "attn.v",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        1024,
+        4096
+      ],
+      "dtype": "Q8_0",
+      "n_params": 4194304,
+      "mean": -1.75e-06,
+      "std": 0.015486,
+      "rms": 0.015486,
+      "min": -0.121601,
+      "max": 0.129837,
+      "sparsity": 0.008098
+    },
+    {
+      "name": "blk.27.ffn_gate_inp.weight",
+      "layer": 27,
+      "component": "ff.router",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        8,
+        4096
+      ],
+      "dtype": "F32",
+      "n_params": 32768,
+      "mean": 1.009e-05,
+      "std": 0.007225,
+      "rms": 0.007225,
+      "min": -0.074707,
+      "max": 0.0625,
+      "sparsity": 0.000153
+    },
+    {
+      "name": "blk.27.attn_k.weight",
+      "layer": 27,
+      "component": "attn.k",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        1024,
+        4096
+      ],
+      "dtype": "Q8_0",
+      "n_params": 4194304,
+      "mean": 9.29e-06,
+      "std": 0.007699,
+      "rms": 0.007699,
+      "min": -0.09865,
+      "max": 0.115242,
+      "sparsity": 0.007807
+    },
+    {
+      "name": "blk.27.attn_output.weight",
+      "layer": 27,
+      "component": "attn.o",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        4096,
+        4096
+      ],
+      "dtype": "Q4_0",
+      "n_params": 16777216,
+      "mean": 3.55e-06,
+      "std": 0.012565,
+      "rms": 0.012565,
+      "min": -0.769531,
+      "max": 0.628906,
+      "sparsity": 0.117207
+    },
+    {
+      "name": "blk.27.attn_q.weight",
+      "layer": 27,
+      "component": "attn.q",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        4096,
+        4096
+      ],
+      "dtype": "Q4_0",
+      "n_params": 16777216,
+      "mean": 3.19e-06,
+      "std": 0.008938,
+      "rms": 0.008938,
+      "min": -0.161133,
+      "max": 0.138672,
+      "sparsity": 0.122258
+    },
+    {
+      "name": "blk.27.attn_v.weight",
+      "layer": 27,
+      "component": "attn.v",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        1024,
+        4096
+      ],
+      "dtype": "Q8_0",
+      "n_params": 4194304,
+      "mean": 1.082e-05,
+      "std": 0.015378,
+      "rms": 0.015378,
+      "min": -0.119118,
+      "max": 0.105493,
+      "sparsity": 0.007737
+    },
+    {
+      "name": "blk.27.ffn_gate_exps.weight",
+      "layer": 27,
+      "component": "ff.expert.gate",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        8,
+        14336,
+        4096
+      ],
+      "dtype": "Q4_0",
+      "n_params": 469762048,
+      "mean": -9.82e-06,
+      "std": 0.010912,
+      "rms": 0.010912,
+      "min": -0.217773,
+      "max": 0.213867,
+      "sparsity": 0.117119
+    },
+    {
+      "name": "blk.27.ffn_down_exps.weight",
+      "layer": 27,
+      "component": "ff.expert.down",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        8,
+        4096,
+        14336
+      ],
+      "dtype": "Q4_0",
+      "n_params": 469762048,
+      "mean": -9.5e-07,
+      "std": 0.01166,
+      "rms": 0.01166,
+      "min": -0.570312,
+      "max": 0.867188,
+      "sparsity": 0.118272
+    },
+    {
+      "name": "blk.27.ffn_up_exps.weight",
+      "layer": 27,
+      "component": "ff.expert.up",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        8,
+        14336,
+        4096
+      ],
+      "dtype": "Q4_0",
+      "n_params": 469762048,
+      "mean": 5.1e-07,
+      "std": 0.011567,
+      "rms": 0.011567,
+      "min": -0.196289,
+      "max": 0.224609,
+      "sparsity": 0.117416
+    },
+    {
+      "name": "blk.27.attn_norm.weight",
+      "layer": 27,
+      "component": "norm.attn",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        4096
+      ],
+      "dtype": "F32",
+      "n_params": 4096,
+      "mean": 2.58593559,
+      "std": 0.412572,
+      "rms": 2.618641,
+      "min": 0.796875,
+      "max": 7.59375,
+      "sparsity": 0.0
+    },
+    {
+      "name": "blk.27.ffn_norm.weight",
+      "layer": 27,
+      "component": "norm.ffn",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        4096
+      ],
+      "dtype": "F32",
+      "n_params": 4096,
+      "mean": 3.59757948,
+      "std": 0.382199,
+      "rms": 3.617824,
+      "min": 0.373047,
+      "max": 4.71875,
+      "sparsity": 0.0
+    },
+    {
+      "name": "blk.28.ffn_gate_inp.weight",
+      "layer": 28,
+      "component": "ff.router",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        8,
+        4096
+      ],
+      "dtype": "F32",
+      "n_params": 32768,
+      "mean": 2.509e-05,
+      "std": 0.006195,
+      "rms": 0.006195,
+      "min": -0.064453,
+      "max": 0.07959,
+      "sparsity": 0.000244
+    },
+    {
+      "name": "blk.28.attn_k.weight",
+      "layer": 28,
+      "component": "attn.k",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        1024,
+        4096
+      ],
+      "dtype": "Q8_0",
+      "n_params": 4194304,
+      "mean": 2.6e-07,
+      "std": 0.005763,
+      "rms": 0.005763,
+      "min": -0.123539,
+      "max": 0.120632,
+      "sparsity": 0.008169
+    },
+    {
+      "name": "blk.28.attn_output.weight",
+      "layer": 28,
+      "component": "attn.o",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        4096,
+        4096
+      ],
+      "dtype": "Q4_0",
+      "n_params": 16777216,
+      "mean": 2.7e-07,
+      "std": 0.01379,
+      "rms": 0.01379,
+      "min": -0.589844,
+      "max": 0.804688,
+      "sparsity": 0.117084
+    },
+    {
+      "name": "blk.28.attn_q.weight",
+      "layer": 28,
+      "component": "attn.q",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        4096,
+        4096
+      ],
+      "dtype": "Q4_0",
+      "n_params": 16777216,
+      "mean": -4.9e-07,
+      "std": 0.008094,
+      "rms": 0.008094,
+      "min": -0.158203,
+      "max": 0.133789,
+      "sparsity": 0.121094
+    },
+    {
+      "name": "blk.28.attn_v.weight",
+      "layer": 28,
+      "component": "attn.v",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        1024,
+        4096
+      ],
+      "dtype": "Q8_0",
+      "n_params": 4194304,
+      "mean": -6.46e-06,
+      "std": 0.018139,
+      "rms": 0.018139,
+      "min": -0.166051,
+      "max": 0.141585,
+      "sparsity": 0.008318
+    },
+    {
+      "name": "blk.28.ffn_gate_exps.weight",
+      "layer": 28,
+      "component": "ff.expert.gate",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        8,
+        14336,
+        4096
+      ],
+      "dtype": "Q4_0",
+      "n_params": 469762048,
+      "mean": -1.868e-05,
+      "std": 0.010842,
+      "rms": 0.010842,
+      "min": -0.24707,
+      "max": 0.263672,
+      "sparsity": 0.117302
+    },
+    {
+      "name": "blk.28.ffn_down_exps.weight",
+      "layer": 28,
+      "component": "ff.expert.down",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        8,
+        4096,
+        14336
+      ],
+      "dtype": "Q4_0",
+      "n_params": 469762048,
+      "mean": 1.86e-06,
+      "std": 0.011722,
+      "rms": 0.011722,
+      "min": -1.015625,
+      "max": 0.703125,
+      "sparsity": 0.118545
+    },
+    {
+      "name": "blk.28.ffn_up_exps.weight",
+      "layer": 28,
+      "component": "ff.expert.up",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        8,
+        14336,
+        4096
+      ],
+      "dtype": "Q4_0",
+      "n_params": 469762048,
+      "mean": -5.6e-07,
+      "std": 0.011651,
+      "rms": 0.011651,
+      "min": -0.294922,
+      "max": 0.219727,
+      "sparsity": 0.117494
+    },
+    {
+      "name": "blk.28.attn_norm.weight",
+      "layer": 28,
+      "component": "norm.attn",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        4096
+      ],
+      "dtype": "F32",
+      "n_params": 4096,
+      "mean": 2.63155746,
+      "std": 0.638926,
+      "rms": 2.70801,
+      "min": 0.546875,
+      "max": 8.0,
+      "sparsity": 0.0
+    },
+    {
+      "name": "blk.28.ffn_norm.weight",
+      "layer": 28,
+      "component": "norm.ffn",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        4096
+      ],
+      "dtype": "F32",
+      "n_params": 4096,
+      "mean": 3.67999125,
+      "std": 0.327245,
+      "rms": 3.694513,
+      "min": 0.494141,
+      "max": 4.84375,
+      "sparsity": 0.0
+    },
+    {
+      "name": "blk.29.ffn_gate_exps.weight",
+      "layer": 29,
+      "component": "ff.expert.gate",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        8,
+        14336,
+        4096
+      ],
+      "dtype": "Q4_0",
+      "n_params": 469762048,
+      "mean": -1.4e-07,
+      "std": 0.010944,
+      "rms": 0.010944,
+      "min": -0.287109,
+      "max": 0.216797,
+      "sparsity": 0.117431
+    },
+    {
+      "name": "blk.29.ffn_down_exps.weight",
+      "layer": 29,
+      "component": "ff.expert.down",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        8,
+        4096,
+        14336
+      ],
+      "dtype": "Q4_0",
+      "n_params": 469762048,
+      "mean": 1.82e-06,
+      "std": 0.011725,
+      "rms": 0.011725,
+      "min": -1.195312,
+      "max": 0.882812,
+      "sparsity": 0.118451
+    },
+    {
+      "name": "blk.29.ffn_up_exps.weight",
+      "layer": 29,
+      "component": "ff.expert.up",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        8,
+        14336,
+        4096
+      ],
+      "dtype": "Q4_0",
+      "n_params": 469762048,
+      "mean": -1.75e-06,
+      "std": 0.01182,
+      "rms": 0.01182,
+      "min": -0.257812,
+      "max": 0.326172,
+      "sparsity": 0.117513
+    },
+    {
+      "name": "blk.29.ffn_gate_inp.weight",
+      "layer": 29,
+      "component": "ff.router",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        8,
+        4096
+      ],
+      "dtype": "F32",
+      "n_params": 32768,
+      "mean": 1.968e-05,
+      "std": 0.005257,
+      "rms": 0.005257,
+      "min": -0.070312,
+      "max": 0.084961,
+      "sparsity": 0.000153
+    },
+    {
+      "name": "blk.29.attn_norm.weight",
+      "layer": 29,
+      "component": "norm.attn",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        4096
+      ],
+      "dtype": "F32",
+      "n_params": 4096,
+      "mean": 2.99402809,
+      "std": 0.554191,
+      "rms": 3.044886,
+      "min": 0.757812,
+      "max": 9.1875,
+      "sparsity": 0.0
+    },
+    {
+      "name": "blk.29.ffn_norm.weight",
+      "layer": 29,
+      "component": "norm.ffn",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        4096
+      ],
+      "dtype": "F32",
+      "n_params": 4096,
+      "mean": 3.685009,
+      "std": 0.253452,
+      "rms": 3.693715,
+      "min": 0.882812,
+      "max": 4.65625,
+      "sparsity": 0.0
+    },
+    {
+      "name": "blk.29.attn_k.weight",
+      "layer": 29,
+      "component": "attn.k",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        1024,
+        4096
+      ],
+      "dtype": "Q8_0",
+      "n_params": 4194304,
+      "mean": 4e-07,
+      "std": 0.005218,
+      "rms": 0.005218,
+      "min": -0.09865,
+      "max": 0.08787,
+      "sparsity": 0.00855
+    },
+    {
+      "name": "blk.29.attn_output.weight",
+      "layer": 29,
+      "component": "attn.o",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        4096,
+        4096
+      ],
+      "dtype": "Q4_0",
+      "n_params": 16777216,
+      "mean": -3.19e-06,
+      "std": 0.014468,
+      "rms": 0.014468,
+      "min": -0.496094,
+      "max": 0.847656,
+      "sparsity": 0.11732
+    },
+    {
+      "name": "blk.29.attn_q.weight",
+      "layer": 29,
+      "component": "attn.q",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        4096,
+        4096
+      ],
+      "dtype": "Q4_0",
+      "n_params": 16777216,
+      "mean": 2.14e-06,
+      "std": 0.007386,
+      "rms": 0.007386,
+      "min": -0.164062,
+      "max": 0.121094,
+      "sparsity": 0.125379
+    },
+    {
+      "name": "blk.29.attn_v.weight",
+      "layer": 29,
+      "component": "attn.v",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        1024,
+        4096
+      ],
+      "dtype": "Q8_0",
+      "n_params": 4194304,
+      "mean": 5.66e-06,
+      "std": 0.020434,
+      "rms": 0.020434,
+      "min": -0.159147,
+      "max": 0.163144,
+      "sparsity": 0.008696
+    },
+    {
+      "name": "blk.30.ffn_gate_inp.weight",
+      "layer": 30,
+      "component": "ff.router",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        8,
+        4096
+      ],
+      "dtype": "F32",
+      "n_params": 32768,
+      "mean": -9e-08,
+      "std": 0.005185,
+      "rms": 0.005185,
+      "min": -0.053955,
+      "max": 0.068359,
+      "sparsity": 0.000183
+    },
+    {
+      "name": "blk.30.attn_k.weight",
+      "layer": 30,
+      "component": "attn.k",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        1024,
+        4096
+      ],
+      "dtype": "Q8_0",
+      "n_params": 4194304,
+      "mean": -1.85e-06,
+      "std": 0.004853,
+      "rms": 0.004853,
+      "min": -0.119603,
+      "max": 0.092291,
+      "sparsity": 0.008173
+    },
+    {
+      "name": "blk.30.attn_output.weight",
+      "layer": 30,
+      "component": "attn.o",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        4096,
+        4096
+      ],
+      "dtype": "Q4_0",
+      "n_params": 16777216,
+      "mean": 1.67e-06,
+      "std": 0.014741,
+      "rms": 0.014741,
+      "min": -0.78125,
+      "max": 0.730469,
+      "sparsity": 0.11757
+    },
+    {
+      "name": "blk.30.attn_q.weight",
+      "layer": 30,
+      "component": "attn.q",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        4096,
+        4096
+      ],
+      "dtype": "Q4_0",
+      "n_params": 16777216,
+      "mean": -1.49e-06,
+      "std": 0.007372,
+      "rms": 0.007372,
+      "min": -0.141602,
+      "max": 0.123047,
+      "sparsity": 0.121876
+    },
+    {
+      "name": "blk.30.attn_v.weight",
+      "layer": 30,
+      "component": "attn.v",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        1024,
+        4096
+      ],
+      "dtype": "Q8_0",
+      "n_params": 4194304,
+      "mean": -1.14e-06,
+      "std": 0.02076,
+      "rms": 0.02076,
+      "min": -0.199237,
+      "max": 0.191364,
+      "sparsity": 0.008846
+    },
+    {
+      "name": "output.weight",
+      "layer": null,
+      "component": "output",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        32000,
+        4096
+      ],
+      "dtype": "Q6_K",
+      "n_params": 131072000,
+      "mean": 4.09e-06,
+      "std": 0.009427,
+      "rms": 0.009427,
+      "min": -0.318344,
+      "max": 0.361389,
+      "sparsity": 0.026753
+    },
+    {
+      "name": "blk.30.ffn_gate_exps.weight",
+      "layer": 30,
+      "component": "ff.expert.gate",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        8,
+        14336,
+        4096
+      ],
+      "dtype": "Q4_0",
+      "n_params": 469762048,
+      "mean": -9.87e-06,
+      "std": 0.011134,
+      "rms": 0.011134,
+      "min": -0.245117,
+      "max": 0.249023,
+      "sparsity": 0.11757
+    },
+    {
+      "name": "blk.30.ffn_down_exps.weight",
+      "layer": 30,
+      "component": "ff.expert.down",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        8,
+        4096,
+        14336
+      ],
+      "dtype": "Q4_0",
+      "n_params": 469762048,
+      "mean": 5e-08,
+      "std": 0.0117,
+      "rms": 0.0117,
+      "min": -1.140625,
+      "max": 1.328125,
+      "sparsity": 0.119603
+    },
+    {
+      "name": "blk.30.ffn_up_exps.weight",
+      "layer": 30,
+      "component": "ff.expert.up",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        8,
+        14336,
+        4096
+      ],
+      "dtype": "Q4_0",
+      "n_params": 469762048,
+      "mean": 1.2e-07,
+      "std": 0.011972,
+      "rms": 0.011972,
+      "min": -0.296875,
+      "max": 0.244141,
+      "sparsity": 0.117498
+    },
+    {
+      "name": "blk.30.attn_norm.weight",
+      "layer": 30,
+      "component": "norm.attn",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        4096
+      ],
+      "dtype": "F32",
+      "n_params": 4096,
+      "mean": 2.8649807,
+      "std": 0.879131,
+      "rms": 2.996829,
+      "min": 0.875,
+      "max": 9.0,
+      "sparsity": 0.0
+    },
+    {
+      "name": "blk.30.ffn_norm.weight",
+      "layer": 30,
+      "component": "norm.ffn",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        4096
+      ],
+      "dtype": "F32",
+      "n_params": 4096,
+      "mean": 3.67418671,
+      "std": 0.23896,
+      "rms": 3.681949,
+      "min": 1.132812,
+      "max": 5.625,
+      "sparsity": 0.0
+    },
+    {
+      "name": "blk.31.ffn_gate_exps.weight",
+      "layer": 31,
+      "component": "ff.expert.gate",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        8,
+        14336,
+        4096
+      ],
+      "dtype": "Q4_0",
+      "n_params": 469762048,
+      "mean": 2.42e-06,
+      "std": 0.011594,
+      "rms": 0.011594,
+      "min": -0.206055,
+      "max": 0.169922,
+      "sparsity": 0.1179
+    },
+    {
+      "name": "blk.31.ffn_down_exps.weight",
+      "layer": 31,
+      "component": "ff.expert.down",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        8,
+        4096,
+        14336
+      ],
+      "dtype": "Q4_0",
+      "n_params": 469762048,
+      "mean": 8.2e-07,
+      "std": 0.011423,
+      "rms": 0.011423,
+      "min": -1.539062,
+      "max": 1.304688,
+      "sparsity": 0.12227
+    },
+    {
+      "name": "blk.31.ffn_up_exps.weight",
+      "layer": 31,
+      "component": "ff.expert.up",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        8,
+        14336,
+        4096
+      ],
+      "dtype": "Q4_0",
+      "n_params": 469762048,
+      "mean": 1.5e-07,
+      "std": 0.012206,
+      "rms": 0.012206,
+      "min": -0.359375,
+      "max": 0.269531,
+      "sparsity": 0.11771
+    },
+    {
+      "name": "blk.31.ffn_gate_inp.weight",
+      "layer": 31,
+      "component": "ff.router",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        8,
+        4096
+      ],
+      "dtype": "F32",
+      "n_params": 32768,
+      "mean": -1.729e-05,
+      "std": 0.006223,
+      "rms": 0.006223,
+      "min": -0.068848,
+      "max": 0.070312,
+      "sparsity": 9.2e-05
+    },
+    {
+      "name": "blk.31.attn_norm.weight",
+      "layer": 31,
+      "component": "norm.attn",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        4096
+      ],
+      "dtype": "F32",
+      "n_params": 4096,
+      "mean": 2.95996761,
+      "std": 0.934691,
+      "rms": 3.104038,
+      "min": 0.902344,
+      "max": 8.6875,
+      "sparsity": 0.0
+    },
+    {
+      "name": "blk.31.ffn_norm.weight",
+      "layer": 31,
+      "component": "norm.ffn",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        4096
+      ],
+      "dtype": "F32",
+      "n_params": 4096,
+      "mean": 3.71251392,
+      "std": 0.327275,
+      "rms": 3.726911,
+      "min": 0.847656,
+      "max": 6.96875,
+      "sparsity": 0.0
+    },
+    {
+      "name": "blk.31.attn_k.weight",
+      "layer": 31,
+      "component": "attn.k",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        1024,
+        4096
+      ],
+      "dtype": "Q8_0",
+      "n_params": 4194304,
+      "mean": 1.25e-06,
+      "std": 0.004961,
+      "rms": 0.004961,
+      "min": -0.100587,
+      "max": 0.113305,
+      "sparsity": 0.008054
+    },
+    {
+      "name": "blk.31.attn_output.weight",
+      "layer": 31,
+      "component": "attn.o",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        4096,
+        4096
+      ],
+      "dtype": "Q4_0",
+      "n_params": 16777216,
+      "mean": -5.85e-06,
+      "std": 0.014485,
+      "rms": 0.014485,
+      "min": -0.832031,
+      "max": 0.828125,
+      "sparsity": 0.119125
+    },
+    {
+      "name": "blk.31.attn_q.weight",
+      "layer": 31,
+      "component": "attn.q",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        4096,
+        4096
+      ],
+      "dtype": "Q4_0",
+      "n_params": 16777216,
+      "mean": -4.54e-06,
+      "std": 0.007367,
+      "rms": 0.007367,
+      "min": -0.104492,
+      "max": 0.114258,
+      "sparsity": 0.121211
+    },
+    {
+      "name": "blk.31.attn_v.weight",
+      "layer": 31,
+      "component": "attn.v",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        1024,
+        4096
+      ],
+      "dtype": "Q8_0",
+      "n_params": 4194304,
+      "mean": -1.527e-05,
+      "std": 0.020555,
+      "rms": 0.020555,
+      "min": -0.202144,
+      "max": 0.162054,
+      "sparsity": 0.008501
+    },
+    {
+      "name": "output_norm.weight",
+      "layer": null,
+      "component": "norm.final",
+      "domain": "language",
+      "kind": "weight",
+      "shape": [
+        4096
+      ],
+      "dtype": "F32",
+      "n_params": 4096,
+      "mean": 4.98411001,
+      "std": 0.762389,
+      "rms": 5.042082,
+      "min": -0.011169,
+      "max": 14.625,
+      "sparsity": 0.0
+    }
+  ]
+}

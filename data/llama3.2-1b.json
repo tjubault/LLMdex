@@ -1,6 +1,6 @@
 {
   "meta": {
-    "name": "llama3.2",
+    "name": "llama3.2:1b",
     "format": "gguf",
     "architecture": "llama",
     "params_total": 1235814400,

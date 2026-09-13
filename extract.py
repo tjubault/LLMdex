@@ -586,6 +586,16 @@ def build_gguf_meta(name: str, tensors: list, gguf_meta: dict, manifest: dict) -
     expert_params = sum(
         t["n_params"] for t in tensors if t["component"].startswith("ff.expert.")
     )
+
+    # GGUF doesn't expose a reliable "expert feed-forward length" metadata key across
+    # architectures — read it straight off the gate/up expert tensor's own shape instead
+    # (row-major [n_experts, d_ff_expert, d_embed] for the stacked gguf layout).
+    d_ff_expert = None
+    if n_experts:
+        for t in tensors:
+            if t["component"] in ("ff.expert.gate", "ff.expert.up") and len(t["shape"]) == 3:
+                d_ff_expert = t["shape"][1]
+                break
     if n_experts and n_experts_active and expert_params > 0:
         params_active = params_total - expert_params + (
             expert_params * n_experts_active // n_experts
@@ -614,7 +624,7 @@ def build_gguf_meta(name: str, tensors: list, gguf_meta: dict, manifest: dict) -
         "head_dim": head_dim,
         "d_embed": d_embed,
         "d_ff": get("feed_forward_length"),
-        "d_ff_expert": None,
+        "d_ff_expert": d_ff_expert,
         "d_ff_shared": None,
         "context_length": get("context_length"),
         "vocab_size": get("vocab_size"),
@@ -639,13 +649,22 @@ def extract_model(name: str, tag: str = "latest") -> dict:
     manifest = resolve_ollama_manifest(name, tag)
     fmt = detect_format(manifest)
 
+    # Tag-qualify the display name so two sizes of the same family (e.g. qwen2.5:0.5b
+    # and qwen2.5:7b) don't collide under one identical plate name. Drop the registry
+    # namespace (community uploads like "Hudson/falcon-mamba-instruct") and any
+    # quantization suffix tacked onto the tag ("7b-q4_0" -> "7b") — both are noise
+    # on a plate that already shows quantization separately.
+    short_name = name.rsplit("/", 1)[-1]
+    short_tag = tag.split("-", 1)[0] if re.match(r"^\d", tag) else tag
+    display_name = short_name if tag == "latest" else f"{short_name}:{short_tag}"
+
     if fmt == "safetensors":
         config = load_st_config(manifest)
         tensors = extract_safetensors(manifest)
-        meta = build_st_meta(name, config, tensors, manifest)
+        meta = build_st_meta(display_name, config, tensors, manifest)
     elif fmt == "gguf":
         tensors, gguf_meta = extract_gguf(manifest)
-        meta = build_gguf_meta(name, tensors, gguf_meta, manifest)
+        meta = build_gguf_meta(display_name, tensors, gguf_meta, manifest)
     else:
         sys.exit(f"Unknown model format for {name}")
 
@@ -741,7 +760,8 @@ def main():
         print(f"  Tensors: {len(tensors)}")
         print(f"  File size: {meta['file_size'] / 1e9:.1f} GB")
 
-        safe_name = name.replace("/", "_").replace(":", "_")
+        tagged_name = name if tag == "latest" else f"{name}-{tag}"
+        safe_name = tagged_name.replace("/", "_").replace(":", "-")
         out_path = output_dir / f"{safe_name}.json"
         with open(out_path, "w") as f:
             json.dump(result, f, indent=2)

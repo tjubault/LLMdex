@@ -1,6 +1,6 @@
 {
   "meta": {
-    "name": "deepseek-r1",
+    "name": "deepseek-r1:1.5b",
     "format": "gguf",
     "architecture": "qwen2",
     "params_total": 1777088000,

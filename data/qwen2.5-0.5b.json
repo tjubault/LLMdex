@@ -1,6 +1,6 @@
 {
   "meta": {
-    "name": "qwen2.5",
+    "name": "qwen2.5:0.5b",
     "format": "gguf",
     "architecture": "qwen2",
     "params_total": 494032768,
