@@ -10,6 +10,7 @@ def main():
     data_dir = Path("data")
     template_path = Path("template.html")
     dist_dir = Path("dist")
+    docs_dir = Path("docs")  # mirrored for GitHub Pages
 
     if not template_path.exists():
         sys.exit("template.html not found")
@@ -30,6 +31,11 @@ def main():
     out_path = dist_dir / "index.html"
     out_path.write_text(output)
     print(f"\n→ {out_path} ({len(models)} model(s), {out_path.stat().st_size / 1024:.0f} KB)")
+
+    docs_dir.mkdir(exist_ok=True)
+    docs_path = docs_dir / "index.html"
+    docs_path.write_text(output)
+    print(f"→ {docs_path} (mirrored for GitHub Pages)")
 
 
 if __name__ == "__main__":
