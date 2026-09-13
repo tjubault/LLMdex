@@ -215,6 +215,9 @@ body {
   justify-content: center;
   gap: 0.4rem;
 }
+.mini-specimen-wrap {
+  margin-bottom: 0.9rem;
+}
 .badge {
   font-size: 0.82rem;
   padding: 0.2rem 0.6rem;
@@ -470,46 +473,46 @@ body {
       Chaque couche traite le texte en deux étapes, toujours dans le même ordre :
     </p>
 
-    <svg viewBox="0 0 320 340" width="280" style="display:block;margin:0 auto 1rem;" xmlns="http://www.w3.org/2000/svg">
+    <svg viewBox="0 0 370 340" width="330" style="display:block;margin:0 auto 1rem;" xmlns="http://www.w3.org/2000/svg">
       <style>svg text{font-family:var(--font-body)}</style>
-      <text x="160" y="16" text-anchor="middle" font-size="10" fill="var(--text-mid)" font-style="italic">Entrée (un vecteur par token)</text>
-      <line x1="160" y1="22" x2="160" y2="42" stroke="var(--text-faint)" stroke-width="1"/>
-      <polygon points="156,40 164,40 160,46" fill="var(--text-faint)"/>
-      <path d="M160,32 L55,32 L55,148" stroke="var(--text-faint)" stroke-width="1" fill="none" stroke-dasharray="4,3"/>
-      <text x="43" y="93" text-anchor="middle" font-size="7" fill="var(--text-faint)" font-style="italic" transform="rotate(-90,43,93)">résiduelle</text>
-      <rect x="92" y="48" width="136" height="28" rx="3" fill="hsla(270,15%,45%,0.12)" stroke="hsl(270,15%,45%)" stroke-width="0.8"/>
-      <text x="160" y="66" text-anchor="middle" font-size="10" fill="hsl(270,15%,45%)">Normalisation</text>
-      <line x1="160" y1="76" x2="160" y2="92" stroke="var(--text-faint)" stroke-width="1"/>
-      <polygon points="156,90 164,90 160,96" fill="var(--text-faint)"/>
-      <rect x="92" y="98" width="136" height="28" rx="3" fill="hsla(212,55%,38%,0.12)" stroke="hsl(212,55%,38%)" stroke-width="0.8"/>
-      <text x="160" y="116" text-anchor="middle" font-size="10" fill="hsl(212,55%,38%)">Attention</text>
-      <text x="265" y="110" font-size="7.5" fill="var(--text-muted)" font-style="italic">chaque mot regarde</text>
-      <text x="265" y="120" font-size="7.5" fill="var(--text-muted)" font-style="italic">les autres mots</text>
-      <line x1="160" y1="126" x2="160" y2="140" stroke="var(--text-faint)" stroke-width="1"/>
-      <circle cx="160" cy="150" r="10" fill="var(--bg-plate-inner)" stroke="var(--text-muted)" stroke-width="0.8"/>
-      <text x="160" y="154" text-anchor="middle" font-size="12" fill="var(--text-muted)">+</text>
-      <line x1="55" y1="150" x2="149" y2="150" stroke="var(--text-faint)" stroke-width="1" stroke-dasharray="4,3"/>
-      <polygon points="147,147 147,153 150,150" fill="var(--text-faint)"/>
-      <line x1="160" y1="160" x2="160" y2="174" stroke="var(--text-faint)" stroke-width="1"/>
-      <polygon points="156,172 164,172 160,178" fill="var(--text-faint)"/>
-      <path d="M160,168 L55,168 L55,280" stroke="var(--text-faint)" stroke-width="1" fill="none" stroke-dasharray="4,3"/>
-      <text x="43" y="226" text-anchor="middle" font-size="7" fill="var(--text-faint)" font-style="italic" transform="rotate(-90,43,226)">résiduelle</text>
-      <rect x="92" y="180" width="136" height="28" rx="3" fill="hsla(270,15%,45%,0.12)" stroke="hsl(270,15%,45%)" stroke-width="0.8"/>
-      <text x="160" y="198" text-anchor="middle" font-size="10" fill="hsl(270,15%,45%)">Normalisation</text>
-      <line x1="160" y1="208" x2="160" y2="222" stroke="var(--text-faint)" stroke-width="1"/>
-      <polygon points="156,220 164,220 160,226" fill="var(--text-faint)"/>
-      <rect x="92" y="228" width="136" height="28" rx="3" fill="hsla(22,65%,32%,0.12)" stroke="hsl(22,65%,32%)" stroke-width="0.8"/>
-      <text x="160" y="246" text-anchor="middle" font-size="10" fill="hsl(22,65%,32%)">Feed-Forward</text>
-      <text x="265" y="240" font-size="7.5" fill="var(--text-muted)" font-style="italic">chaque position</text>
-      <text x="265" y="250" font-size="7.5" fill="var(--text-muted)" font-style="italic">« réfléchit » seule</text>
-      <line x1="160" y1="256" x2="160" y2="272" stroke="var(--text-faint)" stroke-width="1"/>
-      <circle cx="160" cy="282" r="10" fill="var(--bg-plate-inner)" stroke="var(--text-muted)" stroke-width="0.8"/>
-      <text x="160" y="286" text-anchor="middle" font-size="12" fill="var(--text-muted)">+</text>
-      <line x1="55" y1="282" x2="149" y2="282" stroke="var(--text-faint)" stroke-width="1" stroke-dasharray="4,3"/>
-      <polygon points="147,279 147,285 150,282" fill="var(--text-faint)"/>
-      <line x1="160" y1="292" x2="160" y2="310" stroke="var(--text-faint)" stroke-width="1"/>
-      <polygon points="156,308 164,308 160,314" fill="var(--text-faint)"/>
-      <text x="160" y="330" text-anchor="middle" font-size="10" fill="var(--text-mid)" font-style="italic">Sortie → couche suivante</text>
+      <text x="175" y="16" text-anchor="middle" font-size="11" fill="var(--text-mid)" font-style="italic">Entrée (un vecteur par token)</text>
+      <line x1="175" y1="22" x2="175" y2="42" stroke="var(--text-faint)" stroke-width="1"/>
+      <polygon points="171,40 179,40 175,46" fill="var(--text-faint)"/>
+      <path d="M175,32 L70,32 L70,148" stroke="var(--text-faint)" stroke-width="1" fill="none" stroke-dasharray="4,3"/>
+      <text x="55" y="93" text-anchor="middle" font-size="8.5" fill="var(--text-faint)" font-style="italic" transform="rotate(-90,55,93)">résiduelle</text>
+      <rect x="107" y="48" width="136" height="28" rx="3" fill="hsla(270,15%,45%,0.12)" stroke="hsl(270,15%,45%)" stroke-width="0.8"/>
+      <text x="175" y="66" text-anchor="middle" font-size="11" fill="hsl(270,15%,45%)">Normalisation</text>
+      <line x1="175" y1="76" x2="175" y2="92" stroke="var(--text-faint)" stroke-width="1"/>
+      <polygon points="171,90 179,90 175,96" fill="var(--text-faint)"/>
+      <rect x="107" y="98" width="136" height="28" rx="3" fill="hsla(212,55%,38%,0.12)" stroke="hsl(212,55%,38%)" stroke-width="0.8"/>
+      <text x="175" y="116" text-anchor="middle" font-size="11" fill="hsl(212,55%,38%)">Attention</text>
+      <text x="255" y="110" font-size="9" fill="var(--text-muted)" font-style="italic">chaque mot regarde</text>
+      <text x="255" y="121" font-size="9" fill="var(--text-muted)" font-style="italic">les autres mots</text>
+      <line x1="175" y1="126" x2="175" y2="140" stroke="var(--text-faint)" stroke-width="1"/>
+      <circle cx="175" cy="150" r="10" fill="var(--bg-plate-inner)" stroke="var(--text-muted)" stroke-width="0.8"/>
+      <text x="175" y="154" text-anchor="middle" font-size="13" fill="var(--text-muted)">+</text>
+      <line x1="70" y1="150" x2="164" y2="150" stroke="var(--text-faint)" stroke-width="1" stroke-dasharray="4,3"/>
+      <polygon points="162,147 162,153 165,150" fill="var(--text-faint)"/>
+      <line x1="175" y1="160" x2="175" y2="174" stroke="var(--text-faint)" stroke-width="1"/>
+      <polygon points="171,172 179,172 175,178" fill="var(--text-faint)"/>
+      <path d="M175,168 L70,168 L70,280" stroke="var(--text-faint)" stroke-width="1" fill="none" stroke-dasharray="4,3"/>
+      <text x="55" y="226" text-anchor="middle" font-size="8.5" fill="var(--text-faint)" font-style="italic" transform="rotate(-90,55,226)">résiduelle</text>
+      <rect x="107" y="180" width="136" height="28" rx="3" fill="hsla(270,15%,45%,0.12)" stroke="hsl(270,15%,45%)" stroke-width="0.8"/>
+      <text x="175" y="198" text-anchor="middle" font-size="11" fill="hsl(270,15%,45%)">Normalisation</text>
+      <line x1="175" y1="208" x2="175" y2="222" stroke="var(--text-faint)" stroke-width="1"/>
+      <polygon points="171,220 179,220 175,226" fill="var(--text-faint)"/>
+      <rect x="107" y="228" width="136" height="28" rx="3" fill="hsla(22,65%,32%,0.12)" stroke="hsl(22,65%,32%)" stroke-width="0.8"/>
+      <text x="175" y="246" text-anchor="middle" font-size="11" fill="hsl(22,65%,32%)">Feed-Forward</text>
+      <text x="255" y="240" font-size="9" fill="var(--text-muted)" font-style="italic">chaque position</text>
+      <text x="255" y="251" font-size="9" fill="var(--text-muted)" font-style="italic">« réfléchit » seule</text>
+      <line x1="175" y1="256" x2="175" y2="272" stroke="var(--text-faint)" stroke-width="1"/>
+      <circle cx="175" cy="282" r="10" fill="var(--bg-plate-inner)" stroke="var(--text-muted)" stroke-width="0.8"/>
+      <text x="175" y="286" text-anchor="middle" font-size="13" fill="var(--text-muted)">+</text>
+      <line x1="70" y1="282" x2="164" y2="282" stroke="var(--text-faint)" stroke-width="1" stroke-dasharray="4,3"/>
+      <polygon points="162,279 162,285 165,282" fill="var(--text-faint)"/>
+      <line x1="175" y1="292" x2="175" y2="310" stroke="var(--text-faint)" stroke-width="1"/>
+      <polygon points="171,308 179,308 175,314" fill="var(--text-faint)"/>
+      <text x="175" y="330" text-anchor="middle" font-size="11" fill="var(--text-mid)" font-style="italic">Sortie → couche suivante</text>
     </svg>
 
     <p style="font-size:0.88rem;color:var(--text-muted);line-height:1.5;text-align:center;margin-bottom:0.5rem;">
@@ -618,8 +621,10 @@ body {
 
     <div class="guide-section-title">Traits architecturaux</div>
     <dl class="guide-dl">
-      <dt>Traits architecturaux</dt>
-      <dd>Caractéristiques structurelles qui distinguent un modèle : attention hybride (mélange de couches linéaires rapides et de couches d'attention complètes), MoE (mixture d'experts — seuls quelques experts s'activent par token), tour de vision (encodeur d'images greffé au modèle texte), head_dim (dimension de chaque tête d'attention).</dd>
+      <dt>Le spécimen miniature</dt>
+      <dd>Le même dessin que la planche comparative, mais pour ce modèle seul : la portion bleue est l'attention, la brune le feed-forward (rayée si MoE). La ligne pointillée dans le bleu marque la frontière GQA — la part des têtes qui partagent leurs clés/valeurs. Le petit carré vert, quand il y en a un, est la tour de vision, dessinée à sa taille réelle par rapport au reste du modèle.</dd>
+      <dt>Traits en texte</dt>
+      <dd>Attention hybride (mélange de couches linéaires rapides et de couches d'attention complètes), MoE (mixture d'experts — seuls quelques experts s'activent par token), nombre de blocs de la tour de vision.</dd>
     </dl>
 
     <div class="guide-section-title">Morphologie d'une couche</div>
@@ -800,9 +805,8 @@ function renderPlate(model, index) {
   }
   if (meta.n_experts) archBadges.push(`MoE ${meta.n_experts}×${meta.d_ff_expert || '?'}`);
   if (meta.vision) archBadges.push(`Vision ${meta.vision.depth} blocs`);
-  if (meta.head_dim) archBadges.push(`head_dim ${meta.head_dim}`);
 
-  if (archBadges.length > 0) {
+  if (archBadges.length > 0 || meta.n_heads) {
     inner.appendChild(createRule());
     const sec = document.createElement('div');
     sec.className = 'arch-section';
@@ -810,15 +814,25 @@ function renderPlate(model, index) {
     secTitle.className = 'section-title';
     secTitle.textContent = 'Traits architecturaux';
     sec.appendChild(secTitle);
-    const badges = document.createElement('div');
-    badges.className = 'arch-badges';
-    for (const b of archBadges) {
-      const span = document.createElement('span');
-      span.className = 'badge';
-      span.textContent = b;
-      badges.appendChild(span);
+
+    if (meta.n_heads) {
+      const specimenWrap = document.createElement('div');
+      specimenWrap.className = 'mini-specimen-wrap';
+      renderMiniSpecimen(meta, specimenWrap);
+      sec.appendChild(specimenWrap);
     }
-    sec.appendChild(badges);
+
+    if (archBadges.length > 0) {
+      const badges = document.createElement('div');
+      badges.className = 'arch-badges';
+      for (const b of archBadges) {
+        const span = document.createElement('span');
+        span.className = 'badge';
+        span.textContent = b;
+        badges.appendChild(span);
+      }
+      sec.appendChild(badges);
+    }
     inner.appendChild(sec);
   }
 
@@ -830,14 +844,6 @@ function renderPlate(model, index) {
   morphTitle.className = 'section-title';
   morphTitle.textContent = 'Morphologie d’une couche';
   morphSec.appendChild(morphTitle);
-  if (meta.n_heads) {
-    const headNote = document.createElement('p');
-    headNote.className = 'section-subtitle';
-    headNote.textContent = (meta.n_kv_heads && meta.n_kv_heads !== meta.n_heads)
-      ? `${meta.n_heads} têtes de requête · ${meta.n_kv_heads} têtes clé-valeur (GQA ×${Math.round(meta.n_heads / meta.n_kv_heads)})`
-      : `${meta.n_heads} têtes d’attention`;
-    morphSec.appendChild(headNote);
-  }
   const morphWrap = document.createElement('div');
   morphWrap.className = 'morpho-wrap';
   renderMorphology(stats, meta, morphWrap, 'language');
@@ -1228,6 +1234,154 @@ document.addEventListener('mousemove', (e) => {
 });
 function hideTooltip() {
   tooltip.style.display = 'none';
+}
+
+// --- Mini specimen: same visual grammar as the comparative plate, one model at a time ---
+const MINI_SIDE_MAX = 62;
+const MINI_SIDE_FLOOR = 5;
+const MINI_ASPECT = 1.7;
+
+function renderMiniSpecimen(meta, container) {
+  const ns = 'http://www.w3.org/2000/svg';
+  const maxFileSize = Math.max(...MODELS.map(m => m.meta.file_size || 0)) || 1;
+  const side = Math.max(MINI_SIDE_FLOOR, MINI_SIDE_MAX * Math.sqrt((meta.file_size || 0) / maxFileSize));
+  const width = side * MINI_ASPECT;
+  const height = side;
+
+  const dEmbed = meta.d_embed || 0;
+  const dFF = meta.d_ff || 0;
+  const dFFe = meta.d_ff_expert || 0;
+  const nExp = meta.n_experts || 0;
+  const nAct = meta.n_experts_active || 0;
+  const effectiveFF = nExp ? dFFe * nAct : dFF;
+  const attnShare = (dEmbed + effectiveFF) > 0 ? dEmbed / (dEmbed + effectiveFF) : 0.5;
+
+  const hasVision = !!(meta.vision || (meta.params_vision && meta.params_vision > 0));
+  let visionSide = 0;
+  if (hasVision && meta.params_language > 0) {
+    visionSide = Math.min(side, Math.max(8, side * Math.sqrt((meta.params_vision || 0) / meta.params_language)));
+  }
+
+  const headTxt = meta.n_heads
+    ? ((meta.n_kv_heads && meta.n_kv_heads !== meta.n_heads)
+      ? `${meta.n_heads} têtes (${meta.n_kv_heads} kv)`
+      : `${meta.n_heads} têtes`)
+    : null;
+  const visDepth = meta.vision ? meta.vision.depth : null;
+  const visLabelTxt = hasVision ? (visDepth ? `vision · ${visDepth} blocs` : 'vision') : null;
+
+  const topPad = 14;
+  const botPad = hasVision ? 24 : 8;
+  const gap = hasVision ? 20 : 0;
+  const tallest = Math.max(height, visionSide);
+  const contentW = width + gap + visionSide;
+
+  // Small models get a tiny true-to-scale block, but the labels above/below it (head
+  // count, vision block count) are fixed-size text that can be wider than the block
+  // itself — and the vision label is centered on a satellite sitting at the row's right
+  // edge, so it can overhang past the block on that side alone. Size the canvas to
+  // whichever extent — shapes or labels — actually needs the room, on each side.
+  const headLabelHalfW = headTxt ? (headTxt.length * 5.2) / 2 : 0;
+  const visLabelHalfW = visLabelTxt ? (visLabelTxt.length * 4.6) / 2 : 0;
+  const visCenterX = width + gap + visionSide / 2;
+
+  const rightExtent = Math.max(contentW, width / 2 + headLabelHalfW, visCenterX + visLabelHalfW);
+  const leftExtent = Math.min(0, width / 2 - headLabelHalfW, visCenterX - visLabelHalfW);
+
+  const svgW = (rightExtent - leftExtent) + 8;
+  const svgH = topPad + tallest + botPad;
+  const contentX = -leftExtent + 4;
+
+  const svg = document.createElementNS(ns, 'svg');
+  svg.setAttribute('viewBox', `0 0 ${svgW} ${svgH}`);
+  svg.setAttribute('width', Math.round(Math.min(svgW * 1.8, 240)));
+  svg.style.display = 'block';
+  svg.style.margin = '0 auto';
+
+  function el(tag, attrs) {
+    const e = document.createElementNS(ns, tag);
+    for (const k in attrs) e.setAttribute(k, attrs[k]);
+    svg.appendChild(e);
+    return e;
+  }
+  function text(x, y, str, opts = {}) {
+    const t = el('text', {
+      x, y,
+      'text-anchor': opts.anchor || 'middle',
+      'font-size': opts.size || '8',
+      fill: opts.fill || 'var(--text-muted)',
+      'font-family': opts.font || 'var(--font-mono)',
+      'font-style': opts.italic ? 'italic' : 'normal',
+    });
+    t.textContent = str;
+    return t;
+  }
+
+  const bx = contentX;
+  const by = topPad + (tallest - height);
+  const wAttn = width * attnShare;
+  const wFF = width - wAttn;
+
+  if (headTxt) {
+    text(bx + width / 2, topPad - 4, headTxt, { size: '8' });
+  }
+
+  const attnRect = el('rect', {
+    x: bx, y: by, width: wAttn, height,
+    fill: 'hsla(212,55%,44%,0.82)', stroke: 'hsla(212,55%,30%,0.6)', 'stroke-width': '0.6',
+  });
+  const attnTip = document.createElementNS(ns, 'title');
+  attnTip.textContent = `Attention\nd_embed = ${meta.d_embed}\n${meta.n_heads} têtes` +
+    (meta.n_kv_heads && meta.n_kv_heads !== meta.n_heads ? ` (${meta.n_kv_heads} kv)` : '');
+  attnRect.appendChild(attnTip);
+
+  if (meta.n_kv_heads && meta.n_kv_heads < meta.n_heads && wAttn > 3) {
+    const kvY = by + height * (1 - meta.n_kv_heads / meta.n_heads);
+    el('line', {
+      x1: bx, y1: kvY, x2: bx + wAttn, y2: kvY,
+      stroke: 'hsla(212,55%,75%,0.7)', 'stroke-width': '0.5', 'stroke-dasharray': '2,1.5',
+    });
+  }
+
+  const ffRect = el('rect', {
+    x: bx + wAttn, y: by, width: wFF, height,
+    fill: nExp > 0 ? 'hsla(22,65%,40%,0.18)' : 'hsla(22,65%,40%,0.82)',
+    stroke: 'hsla(22,65%,30%,0.6)', 'stroke-width': '0.6',
+  });
+  const ffTip = document.createElementNS(ns, 'title');
+  ffTip.textContent = nExp > 0
+    ? `Feed-Forward (MoE)\n${nExp} experts × ${dFFe}\n${nAct} actifs par token`
+    : `Feed-Forward\nd_ff = ${meta.d_ff}`;
+  ffRect.appendChild(ffTip);
+
+  if (nExp > 0 && wFF > 12) {
+    const stripeW = wFF / nAct;
+    for (let k = 0; k < nAct; k++) {
+      el('rect', {
+        x: bx + wAttn + k * stripeW, y: by,
+        width: Math.max(0.5, stripeW - 0.5), height,
+        fill: 'hsla(22,65%,40%,0.75)',
+      });
+    }
+  }
+
+  el('rect', { x: bx, y: by, width, height, fill: 'none', stroke: 'var(--border)', 'stroke-width': '0.7' });
+
+  if (hasVision) {
+    const vx = bx + width + gap;
+    const vy = topPad + (tallest - visionSide);
+    const vRect = el('rect', {
+      x: vx, y: vy, width: visionSide, height: visionSide,
+      fill: 'hsla(135,25%,40%,0.3)', stroke: 'hsl(135,25%,40%)', 'stroke-width': '0.7',
+    });
+    const vTip = document.createElementNS(ns, 'title');
+    vTip.textContent = `Tour de vision\n${formatNum(meta.params_vision)} paramètres` +
+      (meta.vision && meta.vision.depth ? `\n${meta.vision.depth} blocs` : '');
+    vRect.appendChild(vTip);
+    text(vx + visionSide / 2, topPad + tallest + 11, visLabelTxt, { size: '7', fill: 'var(--text-faint)', italic: true });
+  }
+
+  container.appendChild(svg);
 }
 
 // --- Render comparative cross-sections (2D stacked) ---
