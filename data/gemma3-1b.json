@@ -1,6 +1,6 @@
 {
   "meta": {
-    "name": "gemma3",
+    "name": "gemma3:1b",
     "format": "gguf",
     "architecture": "gemma3",
     "params_total": 999885952,

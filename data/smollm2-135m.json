@@ -1,6 +1,6 @@
 {
   "meta": {
-    "name": "smollm2",
+    "name": "smollm2:135m",
     "format": "gguf",
     "architecture": "llama",
     "params_total": 134515008,

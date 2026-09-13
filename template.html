@@ -86,7 +86,7 @@ body {
 }
 .atlas-header .subtitle {
   font-style: italic;
-  font-size: 1.1rem;
+  font-size: 1.2rem;
   color: var(--text-muted);
   letter-spacing: 0.05em;
 }
@@ -122,7 +122,7 @@ body {
   right: 1.5rem;
   background: var(--bg-plate);
   padding: 0 0.75rem;
-  font-size: 0.75rem;
+  font-size: 0.82rem;
   font-style: italic;
   color: var(--text-muted);
   letter-spacing: 0.1em;
@@ -141,14 +141,14 @@ body {
 .plate-arch {
   text-align: center;
   font-style: italic;
-  font-size: 1rem;
+  font-size: 1.1rem;
   color: var(--text-mid);
   margin-bottom: 0.2rem;
   letter-spacing: 0.03em;
 }
 .plate-format {
   text-align: center;
-  font-size: 0.75rem;
+  font-size: 0.85rem;
   color: var(--text-muted);
   letter-spacing: 0.08em;
   text-transform: uppercase;
@@ -179,13 +179,13 @@ body {
   border-bottom: 1px dotted var(--rule);
 }
 .stat-label {
-  font-size: 0.8rem;
+  font-size: 0.92rem;
   color: var(--text-muted);
   font-style: italic;
 }
 .stat-value {
   font-family: var(--font-mono);
-  font-size: 0.85rem;
+  font-size: 1rem;
   color: var(--text);
   letter-spacing: -0.02em;
 }
@@ -195,12 +195,19 @@ body {
   margin-top: 1.5rem;
 }
 .section-title {
-  font-size: 0.7rem;
+  font-size: 0.8rem;
   text-transform: uppercase;
   letter-spacing: 0.2em;
   color: var(--text-muted);
   text-align: center;
   margin-bottom: 0.75rem;
+}
+.section-subtitle {
+  font-size: 0.82rem;
+  font-style: italic;
+  color: var(--text-muted);
+  text-align: center;
+  margin: -0.4rem 0 0.75rem;
 }
 .arch-badges {
   display: flex;
@@ -209,7 +216,7 @@ body {
   gap: 0.4rem;
 }
 .badge {
-  font-size: 0.7rem;
+  font-size: 0.82rem;
   padding: 0.2rem 0.6rem;
   border: 1px solid var(--border-light);
   color: var(--text-mid);
@@ -237,7 +244,7 @@ body {
   background: var(--bg-plate-inner);
   border: 1px solid var(--border);
   padding: 0.4rem 0.6rem;
-  font-size: 0.72rem;
+  font-size: 0.82rem;
   line-height: 1.4;
   color: var(--text);
   z-index: 100;
@@ -251,7 +258,7 @@ body {
 }
 .spectrum-tooltip .tt-stats {
   font-family: var(--font-mono);
-  font-size: 0.68rem;
+  font-size: 0.76rem;
   color: var(--text-mid);
   margin-top: 0.2rem;
 }
@@ -267,7 +274,7 @@ body {
   display: flex;
   align-items: center;
   gap: 0.3rem;
-  font-size: 0.68rem;
+  font-size: 0.8rem;
   color: var(--text-muted);
   font-style: italic;
 }
@@ -280,7 +287,7 @@ body {
 .atlas-footer {
   text-align: center;
   padding: 2rem 1rem 3rem;
-  font-size: 0.75rem;
+  font-size: 0.85rem;
   color: var(--text-faint);
   font-style: italic;
   letter-spacing: 0.05em;
@@ -292,7 +299,7 @@ body {
   margin-top: 0.75rem;
   padding: 0.3rem 1rem;
   font-family: var(--font-body);
-  font-size: 0.75rem;
+  font-size: 0.85rem;
   font-style: italic;
   color: var(--text-muted);
   background: transparent;
@@ -345,7 +352,7 @@ body {
 .guide-close:hover { color: var(--text); }
 .guide-title {
   font-family: var(--font-display);
-  font-size: 1.5rem;
+  font-size: 1.6rem;
   text-align: center;
   letter-spacing: 0.1em;
   margin-bottom: 0.5rem;
@@ -353,12 +360,12 @@ body {
 .guide-intro {
   text-align: center;
   font-style: italic;
-  font-size: 0.82rem;
+  font-size: 0.94rem;
   color: var(--text-muted);
   margin-bottom: 1.2rem;
 }
 .guide-section-title {
-  font-size: 0.7rem;
+  font-size: 0.8rem;
   text-transform: uppercase;
   letter-spacing: 0.2em;
   color: var(--text-muted);
@@ -369,17 +376,37 @@ body {
 .guide-dl { list-style: none; }
 .guide-dl dt {
   font-weight: 600;
-  font-size: 0.85rem;
+  font-size: 0.97rem;
   color: var(--accent);
   margin-top: 0.7rem;
 }
 .guide-dl dt:first-child { margin-top: 0; }
 .guide-dl dd {
-  font-size: 0.82rem;
+  font-size: 0.94rem;
   color: var(--text-mid);
   margin: 0.1rem 0 0 0;
   padding-left: 1rem;
   line-height: 1.55;
+}
+.guide-subintro {
+  text-align: center;
+  font-size: 0.88rem;
+  color: var(--text-muted);
+  font-style: italic;
+  margin-bottom: 0.6rem;
+}
+.guide-subgroup {
+  font-size: 0.82rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--accent);
+  margin: 1rem 0 0.3rem;
+}
+.guide-subgroup:first-of-type { margin-top: 0.4rem; }
+.guide-dl dt code, .guide-subgroup code {
+  font-family: var(--font-mono);
+  text-transform: none;
+  letter-spacing: 0;
 }
 
 /* --- Comparative cross-section --- */
@@ -391,11 +418,20 @@ body {
 .comparative-title {
   text-align: center;
   font-family: var(--font-mono);
-  font-size: 0.7rem;
+  font-size: 0.8rem;
   letter-spacing: 0.18em;
   text-transform: uppercase;
   color: var(--text-muted);
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.35rem;
+}
+.comparative-caption {
+  text-align: center;
+  font-size: 0.88rem;
+  font-style: italic;
+  color: var(--text-muted);
+  max-width: 32rem;
+  margin: 0 auto 0.9rem;
+  line-height: 1.5;
 }
 .comparative-wrap {
   overflow-x: auto;
@@ -429,7 +465,7 @@ body {
     <p class="guide-intro">Clefs pour lire les planches de cet atlas.</p>
 
     <div class="guide-section-title">Comment fonctionne un transformer</div>
-    <p style="font-size:0.82rem;color:var(--text-mid);line-height:1.55;margin-bottom:0.8rem;text-align:center;">
+    <p style="font-size:0.94rem;color:var(--text-mid);line-height:1.55;margin-bottom:0.8rem;text-align:center;">
       Un modèle de langage empile des dizaines de <em>couches</em> identiques.<br>
       Chaque couche traite le texte en deux étapes, toujours dans le même ordre :
     </p>
@@ -476,7 +512,7 @@ body {
       <text x="160" y="330" text-anchor="middle" font-size="10" fill="var(--text-mid)" font-style="italic">Sortie → couche suivante</text>
     </svg>
 
-    <p style="font-size:0.78rem;color:var(--text-muted);line-height:1.5;text-align:center;margin-bottom:0.5rem;">
+    <p style="font-size:0.88rem;color:var(--text-muted);line-height:1.5;text-align:center;margin-bottom:0.5rem;">
       Les connexions <em>résiduelles</em> (tirets) permettent au signal de contourner
       une étape — sans elles, empiler 30+ couches ne fonctionnerait pas.
     </p>
@@ -511,6 +547,65 @@ body {
       <dd>Stabilise les valeurs entre les couches pour que le réseau converge bien. Comme un thermostat : empêche les signaux de devenir trop grands ou trop petits en traversant les couches.</dd>
     </dl>
 
+    <div class="guide-section-title">Abréviations des tenseurs</div>
+    <p class="guide-subintro">Les noms courts affichés dans le spectre et la morphologie, groupés par famille.</p>
+
+    <p class="guide-subgroup">Attention classique — <code>attn.*</code></p>
+    <dl class="guide-dl">
+      <dt><code>attn.q</code> · <code>attn.k</code> · <code>attn.v</code></dt>
+      <dd>Matrices Query / Key / Value : projettent chaque token pour calculer qui doit « regarder » qui.</dd>
+      <dt><code>attn.o</code></dt>
+      <dd>Projection de sortie de l'attention — recombine les têtes en un seul vecteur.</dd>
+      <dt><code>attn.qkv</code></dt>
+      <dd>Variante où Q, K et V sont fusionnées en une seule matrice, plus compacte.</dd>
+    </dl>
+
+    <p class="guide-subgroup">Attention linéaire (hybride) — <code>lin.*</code></p>
+    <dl class="guide-dl">
+      <dt><code>lin.qkv</code> · <code>lin.z</code> · <code>lin.o</code> · <code>lin.in</code></dt>
+      <dd>Entrée, porte de sortie et projection finale d'un bloc récurrent (type SSM/Mamba) qui remplace l'attention classique sur certaines couches — plus rapide sur les longs contextes. Le nom exact (<code>lin.qkv</code> ou <code>lin.in</code>) dépend de la génération du bloc Mamba.</dd>
+      <dt><code>lin.a</code> · <code>lin.b</code> · <code>lin.A</code> · <code>lin.dt</code> · <code>lin.x</code> · <code>lin.d</code></dt>
+      <dd>Paramètres de la récurrence : <code>lin.A</code> contrôle ce que l'état « oublie », <code>lin.dt</code> règle la vitesse de mise à jour, <code>lin.x</code> prépare les coefficients de la récurrence, <code>lin.d</code> est une connexion directe (skip) en parallèle.</dd>
+      <dt><code>lin.conv</code></dt>
+      <dd>Petite convolution locale appliquée avant la récurrence, pour capter le contexte immédiat.</dd>
+      <dt><code>lin.norm</code></dt>
+      <dd>Normalisation interne propre au bloc linéaire.</dd>
+    </dl>
+
+    <p class="guide-subgroup">Feed-Forward &amp; Mixture of Experts — <code>ff.*</code> / <code>exp.*</code> / <code>shr.*</code></p>
+    <dl class="guide-dl">
+      <dt><code>ff.gate</code> · <code>ff.up</code> · <code>ff.down</code></dt>
+      <dd>Les trois projections du MLP : gate filtre l'information, up l'étale dans un espace plus large, down la ramène à la taille d'origine.</dd>
+      <dt><code>ff.router</code></dt>
+      <dd>L'aiguilleur d'un modèle MoE : décide, pour chaque token, quels experts activer.</dd>
+      <dt><code>exp.gate</code> · <code>exp.up</code> · <code>exp.down</code></dt>
+      <dd>Mêmes rôles que <code>ff.*</code>, mais à l'intérieur d'un expert routé — un sous-réseau parmi beaucoup, activé seulement pour certains tokens.</dd>
+      <dt><code>shr.gate</code> · <code>shr.up</code> · <code>shr.down</code> · <code>ff.shared_gate</code></dt>
+      <dd>Un expert « partagé », toujours actif en plus des experts routés ; <code>ff.shared_gate</code> pondère sa contribution.</dd>
+    </dl>
+
+    <p class="guide-subgroup">Normalisation &amp; plongement — <code>norm.*</code> / <code>embed</code> / <code>output</code></p>
+    <dl class="guide-dl">
+      <dt><code>norm.attn</code> · <code>norm.ffn</code></dt>
+      <dd>Normalisation juste avant l'attention et juste avant le feed-forward de chaque couche.</dd>
+      <dt><code>norm.q</code> · <code>norm.k</code></dt>
+      <dd>Normalisation appliquée directement aux projections Query/Key — stabilise l'entraînement des grands modèles.</dd>
+      <dt><code>norm.final</code></dt>
+      <dd>Dernière normalisation, juste avant de prédire le mot suivant.</dd>
+      <dt><code>embed</code> · <code>output</code></dt>
+      <dd><code>embed</code> convertit chaque token en vecteur à l'entrée ; <code>output</code> fait l'inverse en sortie (vecteur → probabilités sur le vocabulaire).</dd>
+    </dl>
+
+    <p class="guide-subgroup">Tour de vision — <code>vt.*</code></p>
+    <dl class="guide-dl">
+      <dt><code>vt.attn.qkv</code> · <code>vt.attn.proj</code></dt>
+      <dd>Attention de l'encodeur d'image — même principe que <code>attn.*</code>, mais appliquée à des patchs d'image plutôt qu'à des mots.</dd>
+      <dt><code>vt.ff.up</code> · <code>vt.ff.down</code></dt>
+      <dd>Feed-forward de l'encodeur d'image.</dd>
+      <dt><code>vt.norm.attn</code> · <code>vt.norm.ffn</code></dt>
+      <dd>Normalisations de l'encodeur d'image.</dd>
+    </dl>
+
     <div class="guide-section-title">Spectre des poids</div>
     <dl class="guide-dl">
       <dt>Grille</dt>
@@ -518,7 +613,7 @@ body {
       <dt>Couleur</dt>
       <dd>Indique la famille du composant — bleu pour l'attention, brun pour le feed-forward, violet pour la normalisation, vert pour la tour de vision.</dd>
       <dt>Intensité</dt>
-      <dd>Proportionnelle au RMS (root mean square — la magnitude moyenne des poids) du tenseur, en échelle logarithmique. Une cellule plus intense = des poids de plus grande amplitude. Cela révèle quelles couches « pèsent » le plus dans le calcul.</dd>
+      <dd>Proportionnelle au RMS (root mean square — la magnitude moyenne des poids) du tenseur, en échelle logarithmique, <em>normalisée famille par famille</em> (attention, feed-forward, normalisation…) plutôt que sur toute la planche : chaque famille a sa propre plage de magnitude naturelle, donc partager une seule échelle aplatirait les variations à l'intérieur de chacune. Une cellule plus intense = poids plus marqués <em>par rapport aux autres couches du même type</em>.</dd>
     </dl>
 
     <div class="guide-section-title">Traits architecturaux</div>
@@ -536,7 +631,8 @@ body {
 </div>
 
 <section class="comparative-section">
-  <div class="comparative-title">Coupe architecturale comparée</div>
+  <div class="comparative-title">Planche comparative — à même échelle</div>
+  <p class="comparative-caption">Chaque bloc est dessiné à l'échelle réelle : son aire est proportionnelle au poids du modèle sur le disque. Sa largeur se répartit entre attention (bleu) et feed-forward (brun) — rayé lorsque le modèle utilise un mélange d'experts (MoE).</p>
   <div class="comparative-wrap" id="comparative"></div>
 </section>
 
@@ -552,13 +648,21 @@ body {
 const MODELS = "INJECT_DATA";
 
 const MODEL_INFO = {
-  'smollm2':        { developer: 'Hugging Face',    year: 2024 },
-  'qwen2.5':        { developer: 'Alibaba (Qwen)',  year: 2024 },
-  'gemma3':         { developer: 'Google DeepMind', year: 2025 },
-  'deepseek-r1':    { developer: 'DeepSeek',        year: 2025 },
-  'llama3.2':       { developer: 'Meta',            year: 2024 },
-  'phi4-mini':      { developer: 'Microsoft',       year: 2025 },
-  'qwen3.6-coding': { developer: 'Alibaba (Qwen)',  year: 2025 },
+  'smollm2:135m':                              { developer: 'Hugging Face',    year: 2024 },
+  'qwen2.5:0.5b':                              { developer: 'Alibaba (Qwen)',  year: 2024 },
+  'qwen2.5:7b':                                { developer: 'Alibaba (Qwen)',  year: 2024 },
+  'gemma3:1b':                                 { developer: 'Google DeepMind', year: 2025 },
+  'gemma3:4b':                                 { developer: 'Google DeepMind', year: 2025 },
+  'deepseek-r1:1.5b':                          { developer: 'DeepSeek',        year: 2025 },
+  'deepseek-r1:8b':                            { developer: 'DeepSeek',        year: 2025 },
+  'llama3.2:1b':                               { developer: 'Meta',            year: 2024 },
+  'llama3.2:3b':                               { developer: 'Meta',            year: 2024 },
+  'phi4-mini':                                 { developer: 'Microsoft',       year: 2025 },
+  'qwen3.6-coding':                            { developer: 'Alibaba (Qwen)',  year: 2025 },
+  'mixtral:8x7b':                              { developer: 'Mistral AI',      year: 2023 },
+  'moondream':                                 { developer: 'vikhyatk',        year: 2024 },
+  'nomic-embed-text':                          { developer: 'Nomic AI',        year: 2024 },
+  'falcon-mamba-instruct:7b':                  { developer: 'TII',             year: 2024 },
 };
 
 const FAMILY_CONFIG = {
@@ -726,10 +830,31 @@ function renderPlate(model, index) {
   morphTitle.className = 'section-title';
   morphTitle.textContent = 'Morphologie d’une couche';
   morphSec.appendChild(morphTitle);
+  if (meta.n_heads) {
+    const headNote = document.createElement('p');
+    headNote.className = 'section-subtitle';
+    headNote.textContent = (meta.n_kv_heads && meta.n_kv_heads !== meta.n_heads)
+      ? `${meta.n_heads} têtes de requête · ${meta.n_kv_heads} têtes clé-valeur (GQA ×${Math.round(meta.n_heads / meta.n_kv_heads)})`
+      : `${meta.n_heads} têtes d’attention`;
+    morphSec.appendChild(headNote);
+  }
   const morphWrap = document.createElement('div');
   morphWrap.className = 'morpho-wrap';
-  renderMorphology(stats, meta, morphWrap);
+  renderMorphology(stats, meta, morphWrap, 'language');
   morphSec.appendChild(morphWrap);
+
+  const vtMorphTensors = stats.filter(t => t.domain === 'vision' && t.kind === 'weight');
+  if (vtMorphTensors.length > 0) {
+    const vtMorphTitle = document.createElement('div');
+    vtMorphTitle.className = 'section-title';
+    vtMorphTitle.style.marginTop = '1.25rem';
+    vtMorphTitle.textContent = 'Morphologie d’un bloc de vision';
+    morphSec.appendChild(vtMorphTitle);
+    const vtMorphWrap = document.createElement('div');
+    vtMorphWrap.className = 'morpho-wrap';
+    renderMorphology(stats, meta, vtMorphWrap, 'vision');
+    morphSec.appendChild(vtMorphWrap);
+  }
   inner.appendChild(morphSec);
 
   // --- Zone 4: Spectrum ---
@@ -777,10 +902,11 @@ function createRule(cls) {
 
 // (renderArchDiagram removed — comparative 2D section replaces it)
 
-function renderMorphology(tensorStats, meta, container) {
-  const midLayer = Math.floor((meta.n_layers || 1) / 2);
+function renderMorphology(tensorStats, meta, container, domain = 'language') {
+  const nLayers = domain === 'vision' ? (meta.vision ? meta.vision.depth : 1) : (meta.n_layers || 1);
+  const midLayer = Math.floor((nLayers || 1) / 2);
   const layerTensors = tensorStats.filter(t =>
-    t.layer === midLayer && t.kind === 'weight' && t.domain === 'language' && t.shape && t.shape.length >= 1
+    t.layer === midLayer && t.kind === 'weight' && t.domain === domain && t.shape && t.shape.length >= 1
   );
   if (layerTensors.length === 0) return;
 
@@ -806,6 +932,7 @@ function renderMorphology(tensorStats, meta, container) {
   const largestArea = Math.max(...allTensors.map(t => t.area));
   const scaleFactor = Math.sqrt(maxArea / largestArea);
   const minDim = 3;
+  const minDimVector = 11; // 1D tensors (biases, norm weights) get a cheat-floor so they stay legible
 
   // Layout: groups left to right, tensors in each group side by side
   const ns = 'http://www.w3.org/2000/svg';
@@ -825,7 +952,7 @@ function renderMorphology(tensorStats, meta, container) {
     const rects = [];
     for (const t of tensors) {
       const w = Math.max(minDim, Math.round(t.cols * scaleFactor));
-      const h = Math.max(minDim, Math.round(t.rows * scaleFactor));
+      const h = Math.max(t.rows === 1 ? minDimVector : minDim, Math.round(t.rows * scaleFactor));
       rects.push({ t, w, h });
       gw += w + tensorGap;
       gh = Math.max(gh, h);
@@ -953,16 +1080,30 @@ function renderSpectrumGrid(tensors, nLayers, container, isVision) {
     lookup.set(`${t.layer}:${t.component}`, t);
   }
 
-  // RMS normalization (log scale)
-  const rmsValues = tensors.map(t => t.rms).filter(v => v > 0);
-  const logMin = Math.log(Math.min(...rmsValues));
-  const logMax = Math.log(Math.max(...rmsValues));
-  const logRange = logMax - logMin || 1;
+  // RMS normalization (log scale) — computed per component family, not globally.
+  // Norms and attention weights don't naturally live at the same magnitude, so one
+  // shared scale flattens both: norms all look "high", everything else all looks
+  // "low", and the real layer-to-layer variation within each family disappears.
+  // Giving each family its own min/max restores that contrast.
+  const rangeByFamily = new Map();
+  for (const t of tensors) {
+    if (!(t.rms > 0)) continue;
+    const fam = getFamily(t.component);
+    const r = rangeByFamily.get(fam);
+    if (!r) rangeByFamily.set(fam, { min: t.rms, max: t.rms });
+    else { r.min = Math.min(r.min, t.rms); r.max = Math.max(r.max, t.rms); }
+  }
+  for (const r of rangeByFamily.values()) {
+    r.logMin = Math.log(r.min);
+    r.logRange = Math.log(r.max) - r.logMin || 1;
+  }
 
-  function rmsToOpacity(rms) {
+  function rmsToOpacity(rms, fam) {
     if (rms <= 0) return 0.05;
-    const norm = (Math.log(rms) - logMin) / logRange;
-    return 0.15 + norm * 0.85;
+    const r = rangeByFamily.get(fam);
+    if (!r) return 0.5;
+    const norm = (Math.log(rms) - r.logMin) / r.logRange;
+    return 0.15 + Math.min(1, Math.max(0, norm)) * 0.85;
   }
 
   // Dimensions
@@ -1047,7 +1188,7 @@ function renderSpectrumGrid(tensors, nLayers, container, isVision) {
       rect.setAttribute('y', y);
       rect.setAttribute('width', cellW);
       rect.setAttribute('height', cellH);
-      rect.setAttribute('fill', familyColor(fam, rmsToOpacity(t.rms)));
+      rect.setAttribute('fill', familyColor(fam, rmsToOpacity(t.rms, fam)));
       rect.setAttribute('stroke', 'var(--rule)');
       rect.setAttribute('stroke-width', '0.3');
       rect.dataset.tensor = JSON.stringify(t);
@@ -1096,144 +1237,199 @@ function renderComparativeSection() {
 
   const ns = 'http://www.w3.org/2000/svg';
 
-  // Layout constants
-  const labelW = 130;
-  const barX = labelW + 8;
-  const maxBarW = 500;
-  const rowGap = 6;
-  const layerScale = 0.55;
-  const rightPad = 80;
+  // Blocks are drawn true-to-scale: area ∝ file_size (weight on disk), sitting
+  // on a common ground line — like specimens of very different sizes set side
+  // by side on the same plate. Width still splits into attention / feed-forward,
+  // exactly as before.
+  const sorted = [...MODELS].sort((a, b) => (a.meta.file_size || 0) - (b.meta.file_size || 0));
+  const maxFileSize = Math.max(...sorted.map(m => m.meta.file_size || 0));
+  if (maxFileSize === 0) return;
 
-  // Compute global scale from max dimension across all models
-  let globalMaxDim = 0;
-  for (const m of MODELS) {
-    const dE = m.meta.d_embed || 0;
-    const dFF = m.meta.d_ff || 0;
-    const dFFe = m.meta.d_ff_expert || 0;
-    const nAct = m.meta.n_experts_active || 0;
-    const effectiveFF = m.meta.n_experts ? dFFe * nAct : dFF;
-    globalMaxDim = Math.max(globalMaxDim, dE, effectiveFF, dFF);
-  }
-  if (globalMaxDim === 0) return;
-  const px = maxBarW / globalMaxDim;
+  const SIDE_MAX = 108;
+  const SIDE_FLOOR = 6;
+  const ASPECT = 1.7; // block width = side * ASPECT, height = side
+  const GUTTER = 26;
+  const MARGIN = 20;
+  const FIG_GAP = 12;
+  const LABEL_LINE1 = 15;
+  const LABEL_LINE2 = 26;
+  const LEGEND_H = 22;
 
-  // Compute total SVG height
-  let totalH = 0;
-  for (const m of MODELS) {
-    const h = Math.max(12, Math.round((m.meta.n_layers || 1) * layerScale));
-    totalH += h + rowGap;
-  }
-  totalH -= rowGap;
-  const svgW = barX + maxBarW + rightPad;
-  const svgH = totalH + 16;
-
-  const svg = document.createElementNS(ns, 'svg');
-  svg.setAttribute('viewBox', `0 0 ${svgW} ${svgH}`);
-  svg.setAttribute('width', svgW);
-
-  function rect(x, y, w, h, fill, stroke, tip) {
-    const r = document.createElementNS(ns, 'rect');
-    r.setAttribute('x', x); r.setAttribute('y', y);
-    r.setAttribute('width', Math.max(0, w)); r.setAttribute('height', h);
-    r.setAttribute('fill', fill);
-    if (stroke) { r.setAttribute('stroke', stroke); r.setAttribute('stroke-width', '0.5'); }
-    if (tip) { const t = document.createElementNS(ns, 'title'); t.textContent = tip; r.appendChild(t); }
-    svg.appendChild(r); return r;
+  function sideFor(fileSize) {
+    return Math.max(SIDE_FLOOR, SIDE_MAX * Math.sqrt((fileSize || 0) / maxFileSize));
   }
 
-  function text(x, y, str, opts) {
-    const t = document.createElementNS(ns, 'text');
-    t.setAttribute('x', x); t.setAttribute('y', y);
-    t.setAttribute('text-anchor', opts?.anchor || 'start');
-    t.setAttribute('font-size', opts?.size || '9');
-    t.setAttribute('fill', opts?.fill || 'var(--text-mid)');
-    t.setAttribute('font-family', opts?.font || 'var(--font-body)');
-    if (opts?.italic) t.setAttribute('font-style', 'italic');
-    if (opts?.weight) t.setAttribute('font-weight', opts.weight);
-    t.textContent = str;
-    svg.appendChild(t); return t;
+  // Estimate label footprint so blocks never collide with their own caption.
+  function labelWidth(name, statsStr) {
+    return Math.max(name.length * 6.2, statsStr.length * 4.6) + 6;
   }
 
-  let curY = 4;
-
-  for (const model of MODELS) {
+  const specimens = sorted.map(model => {
     const m = model.meta;
+    const side = sideFor(m.file_size);
+    const width = side * ASPECT;
+    const height = side;
     const dEmbed = m.d_embed || 0;
     const dFF = m.d_ff || 0;
     const dFFe = m.d_ff_expert || 0;
     const nExp = m.n_experts || 0;
     const nAct = m.n_experts_active || 0;
-    const nLayers = m.n_layers || 1;
-    const h = Math.max(12, Math.round(nLayers * layerScale));
+    const effectiveFF = nExp ? dFFe * nAct : dFF;
+    const attnShare = (dEmbed + effectiveFF) > 0 ? dEmbed / (dEmbed + effectiveFF) : 0.5;
+    const stats = `${formatNum(m.params_total)} · ${formatBytes(m.file_size || 0)}`;
+    const slot = Math.max(width, labelWidth(m.name, stats)) + GUTTER;
+    return { m, width, height, attnShare, nExp, nAct, dFFe, stats, slot };
+  });
 
-    // Model name (left)
-    text(labelW, curY + h / 2 + 3.5, m.name, { anchor: 'end', size: '9', font: 'var(--font-display)' });
-
-    // Attention block (blue)
-    const wAttn = Math.max(1, dEmbed * px);
-    rect(barX, curY, wAttn, h,
-      'hsla(212,55%,44%,0.85)', 'hsla(212,55%,30%,0.6)',
-      `Attention\nd_embed = ${dEmbed}\n${m.n_heads} têtes` + (m.n_kv_heads && m.n_kv_heads !== m.n_heads ? ` (${m.n_kv_heads} kv)` : ''));
-
-    // GQA subdivision line
-    if (m.n_kv_heads && m.n_kv_heads < m.n_heads) {
-      const kvH = h * (m.n_kv_heads / m.n_heads);
-      const line = document.createElementNS(ns, 'line');
-      line.setAttribute('x1', barX); line.setAttribute('y1', curY + kvH);
-      line.setAttribute('x2', barX + wAttn); line.setAttribute('y2', curY + kvH);
-      line.setAttribute('stroke', 'hsla(212,55%,60%,0.5)');
-      line.setAttribute('stroke-width', '0.5');
-      line.setAttribute('stroke-dasharray', '3,2');
-      svg.appendChild(line);
+  // Wrap into several rows instead of one long strip — closer to a real specimen
+  // board with a few rows of pinned insects than to a bar-chart histogram. Reading
+  // order (smallest → largest) still flows left-to-right, row by row.
+  const MAX_ROW_W = 600;
+  const ROW_GAP = 30;
+  const rowsOfSpecimens = [];
+  let curRow = [];
+  let curRowW = 0;
+  for (const s of specimens) {
+    if (curRow.length > 0 && curRowW + s.slot > MAX_ROW_W) {
+      rowsOfSpecimens.push(curRow);
+      curRow = [];
+      curRowW = 0;
     }
+    curRow.push(s);
+    curRowW += s.slot;
+  }
+  if (curRow.length > 0) rowsOfSpecimens.push(curRow);
 
-    // Feed-forward block
-    const ffX = barX + wAttn + 2;
-
-    if (nExp > 0) {
-      // MoE: show active experts as stacked stripes + total envelope
-      const wExpert = Math.max(1, dFFe * px);
-      const wActive = wExpert * nAct;
-      const wTotal = wExpert * Math.min(nExp, Math.round(maxBarW / wExpert));
-
-      // Faded envelope: total expert capacity
-      rect(ffX, curY, wTotal, h,
-        'hsla(22,65%,40%,0.08)', 'hsla(22,65%,30%,0.15)',
-        `${nExp} experts × ${dFFe}`);
-
-      // Active experts: bright stripes
-      for (let e = 0; e < nAct; e++) {
-        rect(ffX + e * wExpert, curY, wExpert, h,
-          'hsla(22,65%,40%,0.7)', 'hsla(22,65%,30%,0.5)',
-          `Expert actif ${e + 1}/${nAct}\nd_ff = ${dFFe}`);
-      }
-
-      // Expert count label
-      text(ffX + wActive + 5, curY + h / 2 + 3, `× ${nExp} exp.`,
-        { size: '7', fill: 'var(--text-faint)', italic: true });
-      text(ffX + wActive + 5, curY + h / 2 + 11, `(${nAct} actifs)`,
-        { size: '6', fill: 'var(--text-faint)', italic: true });
-    } else {
-      // Dense FF
-      const wFF = Math.max(1, dFF * px);
-      rect(ffX, curY, wFF, h,
-        'hsla(22,65%,40%,0.85)', 'hsla(22,65%,30%,0.6)',
-        `Feed-Forward\nd_ff = ${dFF}`);
-    }
-
-    // Params (right)
-    text(svgW - 4, curY + h / 2 + 3.5, formatNum(m.params_total),
-      { anchor: 'end', size: '7.5', fill: 'var(--text-faint)', font: 'var(--font-mono)' });
-
-    curY += h + rowGap;
+  // Each row's height follows its own tallest specimen, so a row of small
+  // models stays compact instead of reserving space for the largest model overall.
+  let cursorY = 10;
+  const rowLayouts = [];
+  for (const row of rowsOfSpecimens) {
+    const rowMaxSide = Math.max(...row.map(s => s.height));
+    const baselineY = cursorY + rowMaxSide + FIG_GAP;
+    rowLayouts.push({ row, baselineY });
+    cursorY = baselineY + LABEL_LINE2 + ROW_GAP;
   }
 
-  // Legend at bottom
-  const legY = svgH - 2;
-  rect(barX, legY - 6, 8, 6, 'hsla(212,55%,44%,0.85)', 'hsla(212,55%,30%,0.6)');
-  text(barX + 11, legY, 'Attention (d_embed)', { size: '7', fill: 'var(--text-faint)' });
-  rect(barX + 130, legY - 6, 8, 6, 'hsla(22,65%,40%,0.85)', 'hsla(22,65%,30%,0.6)');
-  text(barX + 141, legY, 'Feed-Forward (d_ff)', { size: '7', fill: 'var(--text-faint)' });
+  const svgW = MAX_ROW_W + MARGIN * 2;
+  const svgH = cursorY - ROW_GAP + LEGEND_H;
+
+  const svg = document.createElementNS(ns, 'svg');
+  svg.setAttribute('viewBox', `0 0 ${svgW} ${svgH}`);
+  svg.setAttribute('width', svgW);
+
+  function el(tag, attrs) {
+    const e = document.createElementNS(ns, tag);
+    for (const k in attrs) e.setAttribute(k, attrs[k]);
+    svg.appendChild(e);
+    return e;
+  }
+
+  function text(x, y, str, opts = {}) {
+    const t = el('text', {
+      x, y,
+      'text-anchor': opts.anchor || 'middle',
+      'font-size': opts.size || '9',
+      fill: opts.fill || 'var(--text-mid)',
+      'font-family': opts.font || 'var(--font-body)',
+      'font-style': opts.italic ? 'italic' : 'normal',
+    });
+    t.textContent = str;
+    return t;
+  }
+
+  let hasMoE = false;
+  let figIndex = 0;
+
+  for (const { row, baselineY } of rowLayouts) {
+    // Ground line — every block in the row sits on the same rail
+    el('line', {
+      x1: MARGIN * 0.4, y1: baselineY, x2: svgW - MARGIN * 0.4, y2: baselineY,
+      stroke: 'var(--rule)', 'stroke-width': '0.8', 'stroke-dasharray': '1,3',
+    });
+
+    let x = MARGIN;
+
+    for (const s of row) {
+    figIndex++;
+    const bx = x + (s.slot - s.width) / 2;
+    const by = baselineY - s.height;
+    const cx = bx + s.width / 2;
+    const wAttn = Math.max(0, s.width * s.attnShare);
+    const wFF = s.width - wAttn;
+
+    text(cx, by - FIG_GAP + 4, `Fig. ${figIndex}`, { size: '6.5', fill: 'var(--text-faint)', font: 'var(--font-mono)', italic: true });
+
+    // Attention portion (blue)
+    const attnRect = el('rect', {
+      x: bx, y: by, width: wAttn, height: s.height,
+      fill: 'hsla(212,55%,44%,0.82)', stroke: 'hsla(212,55%,30%,0.6)', 'stroke-width': '0.6',
+    });
+    const attnTip = document.createElementNS(ns, 'title');
+    attnTip.textContent = `Attention\nd_embed = ${s.m.d_embed}\n${s.m.n_heads} têtes` +
+      (s.m.n_kv_heads && s.m.n_kv_heads !== s.m.n_heads ? ` (${s.m.n_kv_heads} kv)` : '');
+    attnRect.appendChild(attnTip);
+
+    // GQA divider: kv heads share only part of the block's height
+    if (s.m.n_kv_heads && s.m.n_kv_heads < s.m.n_heads && wAttn > 3) {
+      const kvY = by + s.height * (1 - s.m.n_kv_heads / s.m.n_heads);
+      el('line', {
+        x1: bx, y1: kvY, x2: bx + wAttn, y2: kvY,
+        stroke: 'hsla(212,55%,75%,0.7)', 'stroke-width': '0.5', 'stroke-dasharray': '2,1.5',
+      });
+    }
+
+    // Feed-forward portion (brown) — striped into active experts for MoE models
+    const ffRect = el('rect', {
+      x: bx + wAttn, y: by, width: wFF, height: s.height,
+      fill: s.nExp > 0 ? 'hsla(22,65%,40%,0.18)' : 'hsla(22,65%,40%,0.82)',
+      stroke: 'hsla(22,65%,30%,0.6)', 'stroke-width': '0.6',
+    });
+    const ffTip = document.createElementNS(ns, 'title');
+    ffTip.textContent = s.nExp > 0
+      ? `Feed-Forward (MoE)\n${s.nExp} experts × ${s.dFFe}\n${s.nAct} actifs par token`
+      : `Feed-Forward\nd_ff = ${s.m.d_ff}`;
+    ffRect.appendChild(ffTip);
+
+    if (s.nExp > 0) {
+      hasMoE = true;
+      if (wFF > 16) {
+        const stripeW = wFF / s.nAct;
+        for (let k = 0; k < s.nAct; k++) {
+          el('rect', {
+            x: bx + wAttn + k * stripeW, y: by,
+            width: Math.max(0.5, stripeW - 0.6), height: s.height,
+            fill: 'hsla(22,65%,40%,0.75)',
+          });
+        }
+      }
+    }
+
+    // Crisp outer frame over both portions
+    el('rect', { x: bx, y: by, width: s.width, height: s.height, fill: 'none', stroke: 'var(--border)', 'stroke-width': '0.8' });
+
+    // Caption: name in italics, then the raw numbers
+    text(cx, baselineY + LABEL_LINE1, s.m.name, { size: '10.5', font: 'var(--font-display)', italic: true, fill: 'var(--text)' });
+    text(cx, baselineY + LABEL_LINE2, s.stats, { size: '7', font: 'var(--font-mono)', fill: 'var(--text-faint)' });
+
+    x += s.slot;
+    }
+  }
+
+  // Legend
+  const legend = [
+    { color: 'hsla(212,55%,44%,0.82)', label: 'Attention (d_embed)' },
+    { color: 'hsla(22,65%,40%,0.82)', label: 'Feed-Forward (d_ff)' },
+  ];
+  if (hasMoE) legend.push({ color: 'hsla(22,65%,40%,0.75)', label: 'Experts actifs / token (MoE)' });
+  const legendW = legend.reduce((sum, it) => sum + 10 + 4 + it.label.length * 4.7 + 18, 0) - 18;
+  let lx = (svgW - legendW) / 2;
+  const legY = svgH - 8;
+  for (const it of legend) {
+    el('rect', { x: lx, y: legY - 6, width: 10, height: 7, fill: it.color, stroke: 'none' });
+    text(lx + 10 + 4 + (it.label.length * 4.7) / 2, legY, it.label, { size: '7', fill: 'var(--text-faint)', anchor: 'middle' });
+    lx += 10 + 4 + it.label.length * 4.7 + 18;
+  }
 
   wrap.appendChild(svg);
 }
