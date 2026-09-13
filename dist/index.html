@@ -202,6 +202,13 @@ body {
   text-align: center;
   margin-bottom: 0.75rem;
 }
+.section-subtitle {
+  font-size: 0.82rem;
+  font-style: italic;
+  color: var(--text-muted);
+  text-align: center;
+  margin: -0.4rem 0 0.75rem;
+}
 .arch-badges {
   display: flex;
   flex-wrap: wrap;
@@ -606,7 +613,7 @@ body {
       <dt>Couleur</dt>
       <dd>Indique la famille du composant — bleu pour l'attention, brun pour le feed-forward, violet pour la normalisation, vert pour la tour de vision.</dd>
       <dt>Intensité</dt>
-      <dd>Proportionnelle au RMS (root mean square — la magnitude moyenne des poids) du tenseur, en échelle logarithmique. Une cellule plus intense = des poids de plus grande amplitude. Cela révèle quelles couches « pèsent » le plus dans le calcul.</dd>
+      <dd>Proportionnelle au RMS (root mean square — la magnitude moyenne des poids) du tenseur, en échelle logarithmique, <em>normalisée famille par famille</em> (attention, feed-forward, normalisation…) plutôt que sur toute la planche : chaque famille a sa propre plage de magnitude naturelle, donc partager une seule échelle aplatirait les variations à l'intérieur de chacune. Une cellule plus intense = poids plus marqués <em>par rapport aux autres couches du même type</em>.</dd>
     </dl>
 
     <div class="guide-section-title">Traits architecturaux</div>
@@ -823,10 +830,31 @@ function renderPlate(model, index) {
   morphTitle.className = 'section-title';
   morphTitle.textContent = 'Morphologie d’une couche';
   morphSec.appendChild(morphTitle);
+  if (meta.n_heads) {
+    const headNote = document.createElement('p');
+    headNote.className = 'section-subtitle';
+    headNote.textContent = (meta.n_kv_heads && meta.n_kv_heads !== meta.n_heads)
+      ? `${meta.n_heads} têtes de requête · ${meta.n_kv_heads} têtes clé-valeur (GQA ×${Math.round(meta.n_heads / meta.n_kv_heads)})`
+      : `${meta.n_heads} têtes d’attention`;
+    morphSec.appendChild(headNote);
+  }
   const morphWrap = document.createElement('div');
   morphWrap.className = 'morpho-wrap';
-  renderMorphology(stats, meta, morphWrap);
+  renderMorphology(stats, meta, morphWrap, 'language');
   morphSec.appendChild(morphWrap);
+
+  const vtMorphTensors = stats.filter(t => t.domain === 'vision' && t.kind === 'weight');
+  if (vtMorphTensors.length > 0) {
+    const vtMorphTitle = document.createElement('div');
+    vtMorphTitle.className = 'section-title';
+    vtMorphTitle.style.marginTop = '1.25rem';
+    vtMorphTitle.textContent = 'Morphologie d’un bloc de vision';
+    morphSec.appendChild(vtMorphTitle);
+    const vtMorphWrap = document.createElement('div');
+    vtMorphWrap.className = 'morpho-wrap';
+    renderMorphology(stats, meta, vtMorphWrap, 'vision');
+    morphSec.appendChild(vtMorphWrap);
+  }
   inner.appendChild(morphSec);
 
   // --- Zone 4: Spectrum ---
@@ -874,10 +902,11 @@ function createRule(cls) {
 
 // (renderArchDiagram removed — comparative 2D section replaces it)
 
-function renderMorphology(tensorStats, meta, container) {
-  const midLayer = Math.floor((meta.n_layers || 1) / 2);
+function renderMorphology(tensorStats, meta, container, domain = 'language') {
+  const nLayers = domain === 'vision' ? (meta.vision ? meta.vision.depth : 1) : (meta.n_layers || 1);
+  const midLayer = Math.floor((nLayers || 1) / 2);
   const layerTensors = tensorStats.filter(t =>
-    t.layer === midLayer && t.kind === 'weight' && t.domain === 'language' && t.shape && t.shape.length >= 1
+    t.layer === midLayer && t.kind === 'weight' && t.domain === domain && t.shape && t.shape.length >= 1
   );
   if (layerTensors.length === 0) return;
 
@@ -1051,16 +1080,30 @@ function renderSpectrumGrid(tensors, nLayers, container, isVision) {
     lookup.set(`${t.layer}:${t.component}`, t);
   }
 
-  // RMS normalization (log scale)
-  const rmsValues = tensors.map(t => t.rms).filter(v => v > 0);
-  const logMin = Math.log(Math.min(...rmsValues));
-  const logMax = Math.log(Math.max(...rmsValues));
-  const logRange = logMax - logMin || 1;
+  // RMS normalization (log scale) — computed per component family, not globally.
+  // Norms and attention weights don't naturally live at the same magnitude, so one
+  // shared scale flattens both: norms all look "high", everything else all looks
+  // "low", and the real layer-to-layer variation within each family disappears.
+  // Giving each family its own min/max restores that contrast.
+  const rangeByFamily = new Map();
+  for (const t of tensors) {
+    if (!(t.rms > 0)) continue;
+    const fam = getFamily(t.component);
+    const r = rangeByFamily.get(fam);
+    if (!r) rangeByFamily.set(fam, { min: t.rms, max: t.rms });
+    else { r.min = Math.min(r.min, t.rms); r.max = Math.max(r.max, t.rms); }
+  }
+  for (const r of rangeByFamily.values()) {
+    r.logMin = Math.log(r.min);
+    r.logRange = Math.log(r.max) - r.logMin || 1;
+  }
 
-  function rmsToOpacity(rms) {
+  function rmsToOpacity(rms, fam) {
     if (rms <= 0) return 0.05;
-    const norm = (Math.log(rms) - logMin) / logRange;
-    return 0.15 + norm * 0.85;
+    const r = rangeByFamily.get(fam);
+    if (!r) return 0.5;
+    const norm = (Math.log(rms) - r.logMin) / r.logRange;
+    return 0.15 + Math.min(1, Math.max(0, norm)) * 0.85;
   }
 
   // Dimensions
@@ -1145,7 +1188,7 @@ function renderSpectrumGrid(tensors, nLayers, container, isVision) {
       rect.setAttribute('y', y);
       rect.setAttribute('width', cellW);
       rect.setAttribute('height', cellH);
-      rect.setAttribute('fill', familyColor(fam, rmsToOpacity(t.rms)));
+      rect.setAttribute('fill', familyColor(fam, rmsToOpacity(t.rms, fam)));
       rect.setAttribute('stroke', 'var(--rule)');
       rect.setAttribute('stroke-width', '0.3');
       rect.dataset.tensor = JSON.stringify(t);
@@ -1238,9 +1281,38 @@ function renderComparativeSection() {
     return { m, width, height, attnShare, nExp, nAct, dFFe, stats, slot };
   });
 
-  const baselineY = SIDE_MAX + FIG_GAP + 10;
-  const svgH = baselineY + LABEL_LINE2 + LEGEND_H + 6;
-  const svgW = specimens.reduce((sum, s) => sum + s.slot, 0) + MARGIN * 2;
+  // Wrap into several rows instead of one long strip — closer to a real specimen
+  // board with a few rows of pinned insects than to a bar-chart histogram. Reading
+  // order (smallest → largest) still flows left-to-right, row by row.
+  const MAX_ROW_W = 600;
+  const ROW_GAP = 30;
+  const rowsOfSpecimens = [];
+  let curRow = [];
+  let curRowW = 0;
+  for (const s of specimens) {
+    if (curRow.length > 0 && curRowW + s.slot > MAX_ROW_W) {
+      rowsOfSpecimens.push(curRow);
+      curRow = [];
+      curRowW = 0;
+    }
+    curRow.push(s);
+    curRowW += s.slot;
+  }
+  if (curRow.length > 0) rowsOfSpecimens.push(curRow);
+
+  // Each row's height follows its own tallest specimen, so a row of small
+  // models stays compact instead of reserving space for the largest model overall.
+  let cursorY = 10;
+  const rowLayouts = [];
+  for (const row of rowsOfSpecimens) {
+    const rowMaxSide = Math.max(...row.map(s => s.height));
+    const baselineY = cursorY + rowMaxSide + FIG_GAP;
+    rowLayouts.push({ row, baselineY });
+    cursorY = baselineY + LABEL_LINE2 + ROW_GAP;
+  }
+
+  const svgW = MAX_ROW_W + MARGIN * 2;
+  const svgH = cursorY - ROW_GAP + LEGEND_H;
 
   const svg = document.createElementNS(ns, 'svg');
   svg.setAttribute('viewBox', `0 0 ${svgW} ${svgH}`);
@@ -1266,23 +1338,27 @@ function renderComparativeSection() {
     return t;
   }
 
-  // Ground line — every block sits on the same rail, so height alone tells the story
-  el('line', {
-    x1: MARGIN * 0.4, y1: baselineY, x2: svgW - MARGIN * 0.4, y2: baselineY,
-    stroke: 'var(--rule)', 'stroke-width': '0.8', 'stroke-dasharray': '1,3',
-  });
-
-  let x = MARGIN;
   let hasMoE = false;
+  let figIndex = 0;
 
-  specimens.forEach((s, i) => {
+  for (const { row, baselineY } of rowLayouts) {
+    // Ground line — every block in the row sits on the same rail
+    el('line', {
+      x1: MARGIN * 0.4, y1: baselineY, x2: svgW - MARGIN * 0.4, y2: baselineY,
+      stroke: 'var(--rule)', 'stroke-width': '0.8', 'stroke-dasharray': '1,3',
+    });
+
+    let x = MARGIN;
+
+    for (const s of row) {
+    figIndex++;
     const bx = x + (s.slot - s.width) / 2;
     const by = baselineY - s.height;
     const cx = bx + s.width / 2;
     const wAttn = Math.max(0, s.width * s.attnShare);
     const wFF = s.width - wAttn;
 
-    text(cx, by - FIG_GAP + 4, `Fig. ${i + 1}`, { size: '6.5', fill: 'var(--text-faint)', font: 'var(--font-mono)', italic: true });
+    text(cx, by - FIG_GAP + 4, `Fig. ${figIndex}`, { size: '6.5', fill: 'var(--text-faint)', font: 'var(--font-mono)', italic: true });
 
     // Attention portion (blue)
     const attnRect = el('rect', {
@@ -1337,7 +1413,8 @@ function renderComparativeSection() {
     text(cx, baselineY + LABEL_LINE2, s.stats, { size: '7', font: 'var(--font-mono)', fill: 'var(--text-faint)' });
 
     x += s.slot;
-  });
+    }
+  }
 
   // Legend
   const legend = [
