@@ -407,6 +407,17 @@ def load_st_config(manifest: dict) -> dict | None:
     return None
 
 
+def st_source_ref(manifest: dict) -> str | None:
+    # A per-tensor-blob "from" field only ever shows up on a model built locally
+    # with `ollama create` (e.g. a manual GGUF/safetensors conversion or requant) —
+    # never on one pulled straight from the public registry. When present, it's the
+    # only verifiable provenance we have for an otherwise unverifiable model name.
+    for layer in manifest["layers"]:
+        if layer["mediaType"] == "application/vnd.ollama.image.tensor" and layer.get("from"):
+            return layer["from"]
+    return None
+
+
 def build_st_meta(name: str, config: dict | None, tensors: list, manifest: dict) -> dict:
     tc = config.get("text_config", {}) if config else {}
     vc = config.get("vision_config", {}) if config else {}
@@ -434,10 +445,14 @@ def build_st_meta(name: str, config: dict | None, tensors: list, manifest: dict)
     if layer_types:
         full_attn_layers = [i for i, lt in enumerate(layer_types) if lt == "full_attention"]
 
+    source_ref = st_source_ref(manifest)
+
     meta = {
         "name": name,
         "format": "safetensors",
         "architecture": config.get("model_type", "unknown") if config else "unknown",
+        "source_ref": source_ref,
+        "local_build": source_ref is not None,
         "params_total": params_total,
         "params_language": params_language,
         "params_vision": params_vision,

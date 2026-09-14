@@ -156,6 +156,14 @@ body {
   text-transform: uppercase;
   margin-bottom: 1.2rem;
 }
+.plate-local-note {
+  text-align: center;
+  font-size: 0.72rem;
+  font-style: italic;
+  color: var(--text-muted);
+  margin-top: -0.9rem;
+  margin-bottom: 1.2rem;
+}
 
 .plate-rule {
   border: none;
@@ -818,8 +826,8 @@ const MODEL_INFO = {
   'qwen2.5:7b':                                { developer: 'Alibaba (Qwen)',  year: 2024 },
   'gemma3:1b':                                 { developer: 'Google DeepMind', year: 2025 },
   'gemma3:4b':                                 { developer: 'Google DeepMind', year: 2025 },
-  'deepseek-r1:1.5b':                          { developer: 'DeepSeek',        year: 2025 },
-  'deepseek-r1:8b':                            { developer: 'DeepSeek',        year: 2025 },
+  'deepseek-r1:1.5b':                          { developer: 'DeepSeek', year: 2025, archNote: { fr: 'distillation Qwen2', en: 'Qwen2 distillation' } },
+  'deepseek-r1:8b':                            { developer: 'DeepSeek', year: 2025, archNote: { fr: 'distillation Qwen3', en: 'Qwen3 distillation' } },
   'llama3.2:1b':                               { developer: 'Meta',            year: 2024 },
   'llama3.2:3b':                               { developer: 'Meta',            year: 2024 },
   'phi4-mini':                                 { developer: 'Microsoft',       year: 2025 },
@@ -912,6 +920,7 @@ const STR = {
   specimenStats:    { fr: (p, b) => `${p} · ${b} disque`, en: (p, b) => `${p} · ${b} disk` },
   ttLayer:          { fr: l => `couche ${l}`, en: l => `layer ${l}` },
   ttSparsity:       { fr: 'sparsité', en: 'sparsity' },
+  localBuildNote:   { fr: ref => `⚠ build local — quantifié depuis le tag Ollama « ${ref} », non vérifiable publiquement`, en: ref => `⚠ local build — quantized from the Ollama tag "${ref}", not publicly verifiable` },
 };
 
 function t(key, ...args) {
@@ -1024,12 +1033,18 @@ function renderPlate(model, index) {
   title.textContent = meta.name;
   inner.appendChild(title);
 
+  const info = MODEL_INFO[meta.name];
+
   const arch = document.createElement('p');
   arch.className = 'plate-arch';
-  arch.textContent = meta.architecture;
+  // The GGUF/safetensors architecture string is what the file itself reports
+  // (e.g. "qwen3" for a DeepSeek-R1 distill) — technically accurate, but reads
+  // as a labeling error next to a name that says "deepseek". Spell out the
+  // relationship rather than leaving base architecture and display name to
+  // silently disagree.
+  arch.textContent = meta.architecture + (info && info.archNote ? ` — ${info.archNote[currentLang]}` : '');
   inner.appendChild(arch);
 
-  const info = MODEL_INFO[meta.name];
   if (info) {
     const dev = document.createElement('p');
     dev.className = 'plate-format';
@@ -1042,6 +1057,13 @@ function renderPlate(model, index) {
   fmt.className = 'plate-format';
   fmt.textContent = meta.format + ' · ' + meta.quantization;
   inner.appendChild(fmt);
+
+  if (meta.local_build) {
+    const localNote = document.createElement('p');
+    localNote.className = 'plate-local-note';
+    localNote.textContent = t('localBuildNote', meta.source_ref || '?');
+    inner.appendChild(localNote);
+  }
 
   inner.appendChild(createRule());
 
