@@ -3,7 +3,15 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>LLMdex — Atlas visuel des modèles LLM</title>
+<title>LLMdex — A Visual Atlas of Language Models</title>
+<meta name="description" content="An atlas of local language models: architecture diagrams, weight spectra, and true-to-scale comparative specimens, extracted directly from their GGUF/safetensors weights.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="LLMdex — A Visual Atlas of Language Models">
+<meta property="og:description" content="An atlas of local language models: architecture diagrams, weight spectra, and true-to-scale comparative specimens, extracted directly from their GGUF/safetensors weights.">
+<meta property="og:url" content="https://tjubault.github.io/LLMdex/">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="LLMdex — A Visual Atlas of Language Models">
+<meta name="twitter:description" content="An atlas of local language models: architecture diagrams, weight spectra, and true-to-scale comparative specimens, extracted directly from their GGUF/safetensors weights.">
 <style>
 :root {
   --bg: #ede8dd;
@@ -286,6 +294,27 @@ body {
   font-style: italic;
   color: var(--text-faint);
   margin: -0.5rem 0 0.9rem;
+}
+.spectrum-note {
+  max-width: 42rem;
+  margin: 0.3rem auto 0.9rem;
+  font-size: 0.82rem;
+  font-style: italic;
+  line-height: 1.5;
+  color: var(--text-mid);
+  text-align: center;
+}
+.spectrum-note code {
+  font-family: var(--font-mono);
+  font-style: normal;
+  font-size: 0.92em;
+}
+.spectrum-note a {
+  color: var(--text-mid);
+  text-decoration-color: var(--border);
+}
+.spectrum-note a:hover {
+  color: var(--accent);
 }
 .badge {
   font-size: 0.82rem;
@@ -921,6 +950,71 @@ const MODEL_INFO = {
   'falcon-mamba-instruct:7b':                  { developer: 'TII',             year: 2024 },
 };
 
+// One data-driven observation per model, pointing at a specific, verifiable
+// feature of its own weight spectrum (an RMS discontinuity, an extreme range,
+// a comparison to another plate) rather than a generic transformer-anatomy
+// remark that would apply equally to all fourteen. Found by scanning each
+// model's tensor_stats for the layer-to-layer RMS jumps and overall ranges
+// per component — see the numbers quoted below for the exact layers/values.
+const SPECIMEN_NOTES = {
+  'smollm2:135m': {
+    fr: 'La toute première couche tranche nettement sur le reste : <code>attn.v</code> et <code>norm.attn</code> bondissent d\'un coup entre les couches 0 et 1 (RMS ×2,7 et ×4,2) avant de se stabiliser — le bloc d\'entrée « démarre » différemment du reste de la pile.',
+    en: 'The very first layer stands apart from the rest: <code>attn.v</code> and <code>norm.attn</code> both jump sharply between layers 0 and 1 (RMS ×2.7 and ×4.2) before settling down — the entry block "starts up" differently from the rest of the stack.',
+  },
+  'qwen2.5:0.5b': {
+    fr: '<code>norm.attn</code> change d\'échelle dès la couche 1 (RMS ×7,7, de 0,10 à 0,76) puis continue de grossir jusqu\'à ×26 en sortie — le flux résiduel gonfle vite pour un si petit modèle.',
+    en: '<code>norm.attn</code> jumps in scale right at layer 1 (RMS ×7.7, from 0.10 to 0.76), then keeps growing to a ×26 total range by the output — the residual stream inflates fast for such a small model.',
+  },
+  'gemma3:1b': {
+    fr: '<code>norm.attn</code> culmine tôt (couche 4, RMS 14,5) puis retombe d\'un coup (×3,5) à la couche 5 avant de se stabiliser — un pic isolé plutôt qu\'une croissance régulière avec la profondeur.',
+    en: '<code>norm.attn</code> peaks early (layer 4, RMS 14.5) then drops sharply (×3.5) at layer 5 before settling down — an isolated spike rather than steady growth with depth.',
+  },
+  'deepseek-r1:1.5b': {
+    fr: 'Rien de spectaculaire ici : les normes croissent progressivement avec la profondeur (×5 sur <code>norm.ffn</code>) sans saut brutal — un profil bien plus lisse que son grand frère <a href="#plate-deepseek-r1-8b">DeepSeek-R1 8B</a>, distillé lui depuis Qwen3.',
+    en: 'Nothing dramatic here: norms grow gradually with depth (×5 on <code>norm.ffn</code>) with no sharp jump — a much smoother profile than its sibling <a href="#plate-deepseek-r1-8b">DeepSeek-R1 8B</a>, distilled from Qwen3 instead.',
+  },
+  'llama3.2:1b': {
+    fr: 'Un des profils les plus plats de l\'atlas : aucune composante ne varie de plus de ×2,5 sur toute la profondeur du modèle — à comparer aux ×70 de <a href="#plate-falcon-mamba-instruct-7b">Falcon-Mamba</a> ou aux ×343 de <a href="#plate-deepseek-r1-8b">DeepSeek-R1 8B</a>.',
+    en: 'One of the flattest profiles in the atlas: no component varies by more than ×2.5 across the model\'s full depth — compare that to <a href="#plate-falcon-mamba-instruct-7b">Falcon-Mamba</a>\'s ×70 or <a href="#plate-deepseek-r1-8b">DeepSeek-R1 8B</a>\'s ×343.',
+  },
+  'moondream': {
+    fr: 'Le spectre le plus plat de tout l\'atlas (aucune composante ne dépasse ×2,3 sur la profondeur) — et pourtant le modèle le plus « vision » de la collection : sa tour de vision pèse 24 % du total, contre 10 % pour <a href="#plate-gemma3-4b">gemma3:4b</a> et 1 % pour <a href="#plate-qwen3-6-coding">qwen3.6-coding</a>.',
+    en: 'The flattest spectrum in the entire atlas (no component exceeds ×2.3 across depth) — and yet the most vision-heavy model in the collection: its vision tower is 24% of the total weight, versus 10% for <a href="#plate-gemma3-4b">gemma3:4b</a> and 1% for <a href="#plate-qwen3-6-coding">qwen3.6-coding</a>.',
+  },
+  'llama3.2:3b': {
+    fr: 'Même famille, même allure que le <a href="#plate-llama3-2-1b">1B</a> : croissance douce des normes (×3,7 sur <code>norm.attn</code>) et aucun saut brutal — le passage à l\'échelle n\'a pas changé la forme du spectre, seulement sa taille.',
+    en: 'Same family, same shape as the <a href="#plate-llama3-2-1b">1B</a>: a mild rise in norm scale (×3.7 on <code>norm.attn</code>) and no sharp jump — scaling up didn\'t change the spectrum\'s shape, only its size.',
+  },
+  'phi4-mini': {
+    fr: 'À contre-courant du reste de l\'atlas : <code>norm.attn</code> grossit sur presque toute la profondeur puis s\'effondre d\'un coup à la toute dernière couche (×4,7, de 0,46 à 0,096) — la plupart des autres modèles ici finissent en pic, pas en creux.',
+    en: 'Bucks the trend seen elsewhere in the atlas: <code>norm.attn</code> grows through nearly the whole stack, then collapses right at the very last layer (×4.7, from 0.46 to 0.096) — most other models here end on a peak, not a dip.',
+  },
+  'gemma3:4b': {
+    fr: '<code>norm.post_attn</code> balaie une plage de ×72 sur la profondeur (de 2,1 à 150) — parmi les plus extrêmes de l\'atlas, juste derrière <a href="#plate-deepseek-r1-8b">DeepSeek-R1 8B</a> (×343).',
+    en: '<code>norm.post_attn</code> sweeps a ×72 range across depth (from 2.1 to 150) — among the most extreme in the atlas, second only to <a href="#plate-deepseek-r1-8b">DeepSeek-R1 8B</a>\'s ×343.',
+  },
+  'falcon-mamba-instruct:7b': {
+    fr: 'Pas d\'attention, donc pas de comparaison directe avec le reste de l\'atlas — mais son propre spectre a un accident net : <code>linear_attn.A</code> (la dynamique de décroissance de l\'état) bondit ×19 entre les couches 48 et 49 (de 72 à 1376), la plus grosse discontinuité isolée de toute la collection.',
+    en: 'No attention here, so no direct comparison to the rest of the atlas — but its own spectrum has a sharp accident: <code>linear_attn.A</code> (the state-decay dynamics) jumps ×19 between layers 48 and 49 (from 72 to 1376), the single biggest discontinuity anywhere in the collection.',
+  },
+  'qwen2.5:7b': {
+    fr: 'Même forme que le <a href="#plate-qwen2-5-0-5b">0.5B</a> mais atténuée : <code>norm.ffn</code> varie de ×7,7 ici contre ×26 pour le petit modèle — la croissance du flux résiduel avec la profondeur semble se calmer à plus grande échelle.',
+    en: 'Same shape as the <a href="#plate-qwen2-5-0-5b">0.5B</a> but muted: <code>norm.ffn</code> varies by ×7.7 here versus ×26 for the small model — residual-stream growth with depth seems to calm down at larger scale.',
+  },
+  'deepseek-r1:8b': {
+    fr: 'Le spectre le plus extrême de l\'atlas : <code>norm.attn</code> varie de ×343 sur la profondeur (de 0,012 à 3,99) — et c\'est une distillation Qwen3, pas un DeepSeek natif ; son petit frère <a href="#plate-deepseek-r1-1-5b">1.5B</a>, distillé depuis Qwen2, reste lui à ×5.',
+    en: 'The most extreme spectrum in the atlas: <code>norm.attn</code> spans ×343 across depth (from 0.012 to 3.99) — and this is a Qwen3 distillation, not a native DeepSeek model; its sibling <a href="#plate-deepseek-r1-1-5b">1.5B</a>, distilled from Qwen2 instead, stays at ×5.',
+  },
+  'qwen3.6-coding': {
+    fr: 'Dans les couches à attention linéaire, <code>linear_attn.A</code> décroît régulièrement de moitié sur la profondeur (3,35 → 1,06) — et malgré la tour de vision, celle-ci ne pèse que 1,3 % du total : à 35B de paramètres surtout logés dans 256 experts, même 447M de vision devient anecdotique.',
+    en: 'Across its linear-attention layers, <code>linear_attn.A</code> steadily decays to about half its starting value over depth (3.35 → 1.06) — and despite the vision tower, it\'s only 1.3% of the total: at 35B parameters mostly stored in 256 experts, even 447M of vision becomes a rounding error.',
+  },
+  'mixtral:8x7b': {
+    fr: '<code>norm.attn</code> saute ×4,4 entre les couches 1 et 2 puis balaie ×21 sur toute la profondeur — et maintenant que la largeur du spécimen reflète la vraie masse de paramètres (voir le spécimen miniature ci-dessus), la domination des experts FF sur l\'attention saute enfin aux yeux.',
+    en: '<code>norm.attn</code> jumps ×4.4 between layers 1 and 2, then sweeps a ×21 range across the full depth — and now that the specimen\'s width reflects real parameter mass (see the mini-specimen above), the FF experts\' dominance over attention is finally visible at a glance.',
+  },
+};
+
 const FAMILY_CONFIG = {
   attn:        { hue: [212, 55, 38] },
   ff:          { hue: [22,  65, 32] },
@@ -1022,11 +1116,14 @@ function applyStaticStrings() {
   });
 }
 
+const PAGE_TITLE = { fr: 'LLMdex — Atlas visuel des modèles de langage', en: 'LLMdex — A Visual Atlas of Language Models' };
+
 function setLang(lang) {
   currentLang = lang;
   localStorage.setItem('llmdex-lang', lang);
   document.documentElement.lang = lang;
   document.documentElement.dataset.lang = lang;
+  document.title = PAGE_TITLE[lang];
   document.querySelectorAll('#lang-toggle button').forEach(b => {
     b.classList.toggle('active', b.dataset.setLang === lang);
   });
@@ -1295,6 +1392,14 @@ function renderPlate(model, index) {
   specTitle.className = 'section-title';
   specTitle.textContent = t('sectionSpectrum');
   specSec.appendChild(specTitle);
+
+  const note = SPECIMEN_NOTES[meta.name];
+  if (note) {
+    const noteEl = document.createElement('p');
+    noteEl.className = 'spectrum-note';
+    noteEl.innerHTML = note[currentLang];
+    specSec.appendChild(noteEl);
+  }
 
   const specWrap = document.createElement('div');
   specWrap.className = 'spectrum-wrap';
@@ -2140,6 +2245,7 @@ function rerenderDynamic() {
 
 document.documentElement.lang = currentLang;
 document.documentElement.dataset.lang = currentLang;
+document.title = PAGE_TITLE[currentLang];
 document.querySelectorAll('#lang-toggle button').forEach(b => {
   b.classList.toggle('active', b.dataset.setLang === currentLang);
 });
