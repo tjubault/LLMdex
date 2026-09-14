@@ -18,7 +18,7 @@
     "d_ff_expert": null,
     "d_ff_shared": null,
     "context_length": 131072,
-    "vocab_size": null,
+    "vocab_size": 151936,
     "n_experts": null,
     "n_experts_active": null,
     "rope_theta": 10000.0,
