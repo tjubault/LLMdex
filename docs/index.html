@@ -65,6 +65,7 @@
 
 body {
   font-family: var(--font-body);
+  font-size: 18px;
   background: var(--bg);
   color: var(--text);
   line-height: 1.5;
@@ -72,6 +73,7 @@ body {
 }
 
 .atlas-header {
+  position: relative;
   text-align: center;
   padding: 3rem 1rem 1rem;
 }
@@ -450,44 +452,83 @@ body {
 .morpho-section { margin-top: 1.5rem; }
 .morpho-wrap { overflow-x: auto; margin: 0.5rem 0; }
 .morpho-wrap svg { display: block; margin: 0 auto; }
+
+/* --- i18n: FR/EN toggle --- */
+html:not([data-lang="en"]) .t-en { display: none; }
+html[data-lang="en"] .t-fr { display: none; }
+html:not([data-lang="en"]) text.t-en { display: none; }
+html[data-lang="en"] text.t-fr { display: none; }
+.lang-toggle {
+  position: absolute;
+  top: 1rem;
+  right: 1.2rem;
+  display: flex;
+  gap: 0;
+  border: 1px solid var(--border-light);
+  font-family: var(--font-body);
+}
+.lang-toggle button {
+  background: transparent;
+  border: none;
+  padding: 0.3rem 0.7rem;
+  font-size: 0.82rem;
+  letter-spacing: 0.08em;
+  color: var(--text-muted);
+  cursor: pointer;
+  font-family: inherit;
+}
+.lang-toggle button:not(:last-child) { border-right: 1px solid var(--border-light); }
+.lang-toggle button.active { color: var(--text); background: var(--bg-plate); font-weight: 600; }
+.lang-toggle button:hover:not(.active) { color: var(--text); }
 </style>
 </head>
 <body>
 
 <header class="atlas-header">
+  <div class="lang-toggle" id="lang-toggle">
+    <button data-set-lang="fr" class="active">FR</button>
+    <button data-set-lang="en">EN</button>
+  </div>
   <h1>LLMdex</h1>
-  <p class="subtitle">Atlas visuel des modèles de langage</p>
+  <p class="subtitle" data-i18n="subtitle">Atlas visuel des modèles de langage</p>
   <div class="ornament">— ✦ —</div>
-  <button class="guide-btn" onclick="document.getElementById('guide').classList.add('open')">Guide de lecture</button>
+  <button class="guide-btn" data-i18n="guideBtn" onclick="document.getElementById('guide').classList.add('open')">Guide de lecture</button>
 </header>
 
 <div class="guide-overlay" id="guide" onclick="if(event.target===this)this.classList.remove('open')">
   <div class="guide-panel">
     <button class="guide-close" onclick="document.getElementById('guide').classList.remove('open')">✕</button>
-    <h2 class="guide-title">Guide de lecture</h2>
-    <p class="guide-intro">Clefs pour lire les planches de cet atlas.</p>
+    <h2 class="guide-title"><span class="t-fr">Guide de lecture</span><span class="t-en">Reading guide</span></h2>
+    <p class="guide-intro"><span class="t-fr">Clefs pour lire les planches de cet atlas.</span><span class="t-en">Keys to reading the plates in this atlas.</span></p>
 
-    <div class="guide-section-title">Comment fonctionne un transformer</div>
+    <div class="guide-section-title"><span class="t-fr">Comment fonctionne un transformer</span><span class="t-en">How a transformer works</span></div>
     <p style="font-size:0.94rem;color:var(--text-mid);line-height:1.55;margin-bottom:0.8rem;text-align:center;">
-      Un modèle de langage empile des dizaines de <em>couches</em> identiques.<br>
-      Chaque couche traite le texte en deux étapes, toujours dans le même ordre :
+      <span class="t-fr">Un modèle de langage empile des dizaines de <em>couches</em> identiques.<br>
+      Chaque couche traite le texte en deux étapes, toujours dans le même ordre :</span>
+      <span class="t-en">A language model stacks dozens of identical <em>layers</em>.<br>
+      Each layer processes the text in two steps, always in the same order:</span>
     </p>
 
     <svg viewBox="0 0 370 340" width="330" style="display:block;margin:0 auto 1rem;" xmlns="http://www.w3.org/2000/svg">
       <style>svg text{font-family:var(--font-body)}</style>
-      <text x="175" y="16" text-anchor="middle" font-size="11" fill="var(--text-mid)" font-style="italic">Entrée (un vecteur par token)</text>
+      <text class="t-fr" x="175" y="16" text-anchor="middle" font-size="11" fill="var(--text-mid)" font-style="italic">Entrée (un vecteur par token)</text>
+      <text class="t-en" x="175" y="16" text-anchor="middle" font-size="11" fill="var(--text-mid)" font-style="italic">Input (one vector per token)</text>
       <line x1="175" y1="22" x2="175" y2="42" stroke="var(--text-faint)" stroke-width="1"/>
       <polygon points="171,40 179,40 175,46" fill="var(--text-faint)"/>
       <path d="M175,32 L70,32 L70,148" stroke="var(--text-faint)" stroke-width="1" fill="none" stroke-dasharray="4,3"/>
-      <text x="55" y="93" text-anchor="middle" font-size="8.5" fill="var(--text-faint)" font-style="italic" transform="rotate(-90,55,93)">résiduelle</text>
+      <text class="t-fr" x="55" y="93" text-anchor="middle" font-size="8.5" fill="var(--text-faint)" font-style="italic" transform="rotate(-90,55,93)">résiduelle</text>
+      <text class="t-en" x="55" y="93" text-anchor="middle" font-size="8.5" fill="var(--text-faint)" font-style="italic" transform="rotate(-90,55,93)">residual</text>
       <rect x="107" y="48" width="136" height="28" rx="3" fill="hsla(270,15%,45%,0.12)" stroke="hsl(270,15%,45%)" stroke-width="0.8"/>
-      <text x="175" y="66" text-anchor="middle" font-size="11" fill="hsl(270,15%,45%)">Normalisation</text>
+      <text class="t-fr" x="175" y="66" text-anchor="middle" font-size="11" fill="hsl(270,15%,45%)">Normalisation</text>
+      <text class="t-en" x="175" y="66" text-anchor="middle" font-size="11" fill="hsl(270,15%,45%)">Normalization</text>
       <line x1="175" y1="76" x2="175" y2="92" stroke="var(--text-faint)" stroke-width="1"/>
       <polygon points="171,90 179,90 175,96" fill="var(--text-faint)"/>
       <rect x="107" y="98" width="136" height="28" rx="3" fill="hsla(212,55%,38%,0.12)" stroke="hsl(212,55%,38%)" stroke-width="0.8"/>
       <text x="175" y="116" text-anchor="middle" font-size="11" fill="hsl(212,55%,38%)">Attention</text>
-      <text x="255" y="110" font-size="9" fill="var(--text-muted)" font-style="italic">chaque mot regarde</text>
-      <text x="255" y="121" font-size="9" fill="var(--text-muted)" font-style="italic">les autres mots</text>
+      <text class="t-fr" x="255" y="110" font-size="9" fill="var(--text-muted)" font-style="italic">chaque mot regarde</text>
+      <text class="t-fr" x="255" y="121" font-size="9" fill="var(--text-muted)" font-style="italic">les autres mots</text>
+      <text class="t-en" x="255" y="110" font-size="9" fill="var(--text-muted)" font-style="italic">each word looks at</text>
+      <text class="t-en" x="255" y="121" font-size="9" fill="var(--text-muted)" font-style="italic">the other words</text>
       <line x1="175" y1="126" x2="175" y2="140" stroke="var(--text-faint)" stroke-width="1"/>
       <circle cx="175" cy="150" r="10" fill="var(--bg-plate-inner)" stroke="var(--text-muted)" stroke-width="0.8"/>
       <text x="175" y="154" text-anchor="middle" font-size="13" fill="var(--text-muted)">+</text>
@@ -496,15 +537,19 @@ body {
       <line x1="175" y1="160" x2="175" y2="174" stroke="var(--text-faint)" stroke-width="1"/>
       <polygon points="171,172 179,172 175,178" fill="var(--text-faint)"/>
       <path d="M175,168 L70,168 L70,280" stroke="var(--text-faint)" stroke-width="1" fill="none" stroke-dasharray="4,3"/>
-      <text x="55" y="226" text-anchor="middle" font-size="8.5" fill="var(--text-faint)" font-style="italic" transform="rotate(-90,55,226)">résiduelle</text>
+      <text class="t-fr" x="55" y="226" text-anchor="middle" font-size="8.5" fill="var(--text-faint)" font-style="italic" transform="rotate(-90,55,226)">résiduelle</text>
+      <text class="t-en" x="55" y="226" text-anchor="middle" font-size="8.5" fill="var(--text-faint)" font-style="italic" transform="rotate(-90,55,226)">residual</text>
       <rect x="107" y="180" width="136" height="28" rx="3" fill="hsla(270,15%,45%,0.12)" stroke="hsl(270,15%,45%)" stroke-width="0.8"/>
-      <text x="175" y="198" text-anchor="middle" font-size="11" fill="hsl(270,15%,45%)">Normalisation</text>
+      <text class="t-fr" x="175" y="198" text-anchor="middle" font-size="11" fill="hsl(270,15%,45%)">Normalisation</text>
+      <text class="t-en" x="175" y="198" text-anchor="middle" font-size="11" fill="hsl(270,15%,45%)">Normalization</text>
       <line x1="175" y1="208" x2="175" y2="222" stroke="var(--text-faint)" stroke-width="1"/>
       <polygon points="171,220 179,220 175,226" fill="var(--text-faint)"/>
       <rect x="107" y="228" width="136" height="28" rx="3" fill="hsla(22,65%,32%,0.12)" stroke="hsl(22,65%,32%)" stroke-width="0.8"/>
       <text x="175" y="246" text-anchor="middle" font-size="11" fill="hsl(22,65%,32%)">Feed-Forward</text>
-      <text x="255" y="240" font-size="9" fill="var(--text-muted)" font-style="italic">chaque position</text>
-      <text x="255" y="251" font-size="9" fill="var(--text-muted)" font-style="italic">« réfléchit » seule</text>
+      <text class="t-fr" x="255" y="240" font-size="9" fill="var(--text-muted)" font-style="italic">chaque position</text>
+      <text class="t-fr" x="255" y="251" font-size="9" fill="var(--text-muted)" font-style="italic">« réfléchit » seule</text>
+      <text class="t-en" x="255" y="240" font-size="9" fill="var(--text-muted)" font-style="italic">each position</text>
+      <text class="t-en" x="255" y="251" font-size="9" fill="var(--text-muted)" font-style="italic">"thinks" alone</text>
       <line x1="175" y1="256" x2="175" y2="272" stroke="var(--text-faint)" stroke-width="1"/>
       <circle cx="175" cy="282" r="10" fill="var(--bg-plate-inner)" stroke="var(--text-muted)" stroke-width="0.8"/>
       <text x="175" y="286" text-anchor="middle" font-size="13" fill="var(--text-muted)">+</text>
@@ -512,16 +557,19 @@ body {
       <polygon points="162,279 162,285 165,282" fill="var(--text-faint)"/>
       <line x1="175" y1="292" x2="175" y2="310" stroke="var(--text-faint)" stroke-width="1"/>
       <polygon points="171,308 179,308 175,314" fill="var(--text-faint)"/>
-      <text x="175" y="330" text-anchor="middle" font-size="11" fill="var(--text-mid)" font-style="italic">Sortie → couche suivante</text>
+      <text class="t-fr" x="175" y="330" text-anchor="middle" font-size="11" fill="var(--text-mid)" font-style="italic">Sortie → couche suivante</text>
+      <text class="t-en" x="175" y="330" text-anchor="middle" font-size="11" fill="var(--text-mid)" font-style="italic">Output → next layer</text>
     </svg>
 
     <p style="font-size:0.88rem;color:var(--text-muted);line-height:1.5;text-align:center;margin-bottom:0.5rem;">
-      Les connexions <em>résiduelles</em> (tirets) permettent au signal de contourner
-      une étape — sans elles, empiler 30+ couches ne fonctionnerait pas.
+      <span class="t-fr">Les connexions <em>résiduelles</em> (tirets) permettent au signal de contourner
+      une étape — sans elles, empiler 30+ couches ne fonctionnerait pas.</span>
+      <span class="t-en">The <em>residual</em> connections (dashed) let the signal bypass
+      a step — without them, stacking 30+ layers wouldn't work.</span>
     </p>
 
-    <div class="guide-section-title">Mesures de la fiche</div>
-    <dl class="guide-dl">
+    <div class="guide-section-title"><span class="t-fr">Mesures de la fiche</span><span class="t-en">Plate measurements</span></div>
+    <dl class="guide-dl t-fr">
       <dt>Paramètres</dt>
       <dd>Nombre total de valeurs numériques (« poids ») du modèle. Plus il y en a, plus le modèle est expressif — mais aussi gourmand en mémoire et en calcul.</dd>
       <dt>Couches</dt>
@@ -539,9 +587,27 @@ body {
       <dt>Quantification</dt>
       <dd>Technique de compression des poids. F16 = 16 bits par poids (demi-précision). Q4_K = ~4 bits par poids. Plus c'est compressé, plus le modèle est petit et rapide — au prix d'une légère perte de précision.</dd>
     </dl>
+    <dl class="guide-dl t-en">
+      <dt>Parameters</dt>
+      <dd>Total number of numeric values ("weights") in the model. More of them means a more expressive model — but also heavier on memory and compute.</dd>
+      <dt>Layers</dt>
+      <dd>Number of stacked transformer blocks. Each layer processes information in sequence: more of them means the model reasons "more deeply".</dd>
+      <dt>d_embed</dt>
+      <dd>Embedding dimension — the size of the vector representing each word inside the network. It's the model's "width": a bigger vector captures more nuance.</dd>
+      <dt>d_ff</dt>
+      <dd>Feed-forward dimension — the width of the feed-forward sub-network's intermediate layer. Usually 2× to 8× d_embed. This is where the network has the most "room to think".</dd>
+      <dt>Heads</dt>
+      <dd>Number of attention heads. Each head learns a different kind of relationship between words (syntax, coreference, position…). "kv" heads are key-value heads shared across several query heads — a technique (GQA) that saves memory without losing much quality.</dd>
+      <dt>Context</dt>
+      <dd>Maximum number of tokens (words/sub-words) the model can see at once. An 8K context ≈ 12 pages; 128K ≈ an entire book.</dd>
+      <dt>Vocabulary</dt>
+      <dd>Number of distinct tokens the model knows: whole words, syllables, special characters. A larger vocabulary recognizes more words directly, at the cost of more memory.</dd>
+      <dt>Quantization</dt>
+      <dd>A weight-compression technique. F16 = 16 bits per weight (half precision). Q4_K = ~4 bits per weight. The more compressed, the smaller and faster the model — at the cost of a slight precision loss.</dd>
+    </dl>
 
-    <div class="guide-section-title">Composants du transformer</div>
-    <dl class="guide-dl">
+    <div class="guide-section-title"><span class="t-fr">Composants du transformer</span><span class="t-en">Transformer components</span></div>
+    <dl class="guide-dl t-fr">
       <dt>Attention</dt>
       <dd>Le mécanisme qui permet à chaque mot de « regarder » les autres mots pour comprendre le contexte. Quatre matrices (Q, K, V, O) transforment les vecteurs pour calculer quels mots sont pertinents les uns pour les autres. C'est le cœur du transformer.</dd>
       <dt>Feed-Forward</dt>
@@ -549,10 +615,20 @@ body {
       <dt>Normalisation</dt>
       <dd>Stabilise les valeurs entre les couches pour que le réseau converge bien. Comme un thermostat : empêche les signaux de devenir trop grands ou trop petits en traversant les couches.</dd>
     </dl>
+    <dl class="guide-dl t-en">
+      <dt>Attention</dt>
+      <dd>The mechanism that lets each word "look at" the other words to understand context. Four matrices (Q, K, V, O) transform vectors to compute which words matter to each other. This is the transformer's core.</dd>
+      <dt>Feed-Forward</dt>
+      <dd>A small neural network applied to each position independently (gate, up, down). This is where the model "digests" the information after reading it through attention. Often 2/3 of a layer's parameters.</dd>
+      <dt>Normalization</dt>
+      <dd>Stabilizes values between layers so the network converges well. Like a thermostat: keeps signals from becoming too large or too small as they pass through layers.</dd>
+    </dl>
 
-    <div class="guide-section-title">Abréviations des tenseurs</div>
-    <p class="guide-subintro">Les noms courts affichés dans le spectre et la morphologie, groupés par famille.</p>
+    <div class="guide-section-title"><span class="t-fr">Abréviations des tenseurs</span><span class="t-en">Tensor abbreviations</span></div>
+    <p class="guide-subintro t-fr">Les noms courts affichés dans le spectre et la morphologie, groupés par famille.</p>
+    <p class="guide-subintro t-en">The short names shown in the spectrum and morphology diagrams, grouped by family.</p>
 
+    <div class="t-fr">
     <p class="guide-subgroup">Attention classique — <code>attn.*</code></p>
     <dl class="guide-dl">
       <dt><code>attn.q</code> · <code>attn.k</code> · <code>attn.v</code></dt>
@@ -608,9 +684,68 @@ body {
       <dt><code>vt.norm.attn</code> · <code>vt.norm.ffn</code></dt>
       <dd>Normalisations de l'encodeur d'image.</dd>
     </dl>
+    </div>
 
-    <div class="guide-section-title">Spectre des poids</div>
+    <div class="t-en">
+    <p class="guide-subgroup">Classic attention — <code>attn.*</code></p>
     <dl class="guide-dl">
+      <dt><code>attn.q</code> · <code>attn.k</code> · <code>attn.v</code></dt>
+      <dd>Query / Key / Value matrices: project each token to compute who should "look at" whom.</dd>
+      <dt><code>attn.o</code></dt>
+      <dd>Attention output projection — recombines the heads into a single vector.</dd>
+      <dt><code>attn.qkv</code></dt>
+      <dd>A variant where Q, K and V are fused into a single, more compact matrix.</dd>
+    </dl>
+
+    <p class="guide-subgroup">Linear attention (hybrid) — <code>lin.*</code></p>
+    <dl class="guide-dl">
+      <dt><code>lin.qkv</code> · <code>lin.z</code> · <code>lin.o</code> · <code>lin.in</code></dt>
+      <dd>Input, output gate, and final projection of a recurrent block (SSM/Mamba-type) that replaces classic attention on some layers — faster on long contexts. The exact name (<code>lin.qkv</code> or <code>lin.in</code>) depends on the Mamba block generation.</dd>
+      <dt><code>lin.a</code> · <code>lin.b</code> · <code>lin.A</code> · <code>lin.dt</code> · <code>lin.x</code> · <code>lin.d</code></dt>
+      <dd>Recurrence parameters: <code>lin.A</code> controls what the state "forgets", <code>lin.dt</code> sets the update speed, <code>lin.x</code> prepares the recurrence coefficients, <code>lin.d</code> is a parallel direct (skip) connection.</dd>
+      <dt><code>lin.conv</code></dt>
+      <dd>A small local convolution applied before the recurrence, to capture immediate context.</dd>
+      <dt><code>lin.norm</code></dt>
+      <dd>Internal normalization specific to the linear block.</dd>
+    </dl>
+
+    <p class="guide-subgroup">Feed-Forward &amp; Mixture of Experts — <code>ff.*</code> / <code>exp.*</code> / <code>shr.*</code></p>
+    <dl class="guide-dl">
+      <dt><code>ff.gate</code> · <code>ff.up</code> · <code>ff.down</code></dt>
+      <dd>The MLP's three projections: gate filters the information, up spreads it into a wider space, down brings it back to the original size.</dd>
+      <dt><code>ff.router</code></dt>
+      <dd>A MoE model's switchboard: decides, for each token, which experts to activate.</dd>
+      <dt><code>exp.gate</code> · <code>exp.up</code> · <code>exp.down</code></dt>
+      <dd>Same roles as <code>ff.*</code>, but inside a routed expert — one sub-network among many, activated only for certain tokens.</dd>
+      <dt><code>shr.gate</code> · <code>shr.up</code> · <code>shr.down</code> · <code>ff.shared_gate</code></dt>
+      <dd>A "shared" expert, always active alongside the routed experts; <code>ff.shared_gate</code> weighs its contribution.</dd>
+    </dl>
+
+    <p class="guide-subgroup">Normalization &amp; embedding — <code>norm.*</code> / <code>embed</code> / <code>output</code></p>
+    <dl class="guide-dl">
+      <dt><code>norm.attn</code> · <code>norm.ffn</code></dt>
+      <dd>Normalization right before attention and right before the feed-forward of each layer.</dd>
+      <dt><code>norm.q</code> · <code>norm.k</code></dt>
+      <dd>Normalization applied directly to the Query/Key projections — stabilizes training for large models.</dd>
+      <dt><code>norm.final</code></dt>
+      <dd>The last normalization, right before predicting the next word.</dd>
+      <dt><code>embed</code> · <code>output</code></dt>
+      <dd><code>embed</code> converts each token into a vector on input; <code>output</code> does the reverse on output (vector → probabilities over the vocabulary).</dd>
+    </dl>
+
+    <p class="guide-subgroup">Vision tower — <code>vt.*</code></p>
+    <dl class="guide-dl">
+      <dt><code>vt.attn.qkv</code> · <code>vt.attn.proj</code></dt>
+      <dd>Image encoder attention — same principle as <code>attn.*</code>, but applied to image patches rather than words.</dd>
+      <dt><code>vt.ff.up</code> · <code>vt.ff.down</code></dt>
+      <dd>Image encoder feed-forward.</dd>
+      <dt><code>vt.norm.attn</code> · <code>vt.norm.ffn</code></dt>
+      <dd>Image encoder normalizations.</dd>
+    </dl>
+    </div>
+
+    <div class="guide-section-title"><span class="t-fr">Spectre des poids</span><span class="t-en">Weight spectrum</span></div>
+    <dl class="guide-dl t-fr">
       <dt>Grille</dt>
       <dd>Chaque cellule représente un tenseur (une matrice de poids) : les colonnes sont les couches (0 → n), les lignes sont les composants (attention, feed-forward…).</dd>
       <dt>Couleur</dt>
@@ -618,26 +753,44 @@ body {
       <dt>Intensité</dt>
       <dd>Proportionnelle au RMS (root mean square — la magnitude moyenne des poids) du tenseur, en échelle logarithmique, <em>normalisée famille par famille</em> (attention, feed-forward, normalisation…) plutôt que sur toute la planche : chaque famille a sa propre plage de magnitude naturelle, donc partager une seule échelle aplatirait les variations à l'intérieur de chacune. Une cellule plus intense = poids plus marqués <em>par rapport aux autres couches du même type</em>.</dd>
     </dl>
+    <dl class="guide-dl t-en">
+      <dt>Grid</dt>
+      <dd>Each cell represents a tensor (a weight matrix): columns are layers (0 → n), rows are components (attention, feed-forward…).</dd>
+      <dt>Color</dt>
+      <dd>Indicates the component's family — blue for attention, brown for feed-forward, purple for normalization, green for the vision tower.</dd>
+      <dt>Intensity</dt>
+      <dd>Proportional to the tensor's RMS (root mean square — the average weight magnitude), on a log scale, <em>normalized family by family</em> (attention, feed-forward, normalization…) rather than across the whole plate: each family has its own natural magnitude range, so sharing one scale would flatten the variation within each. A more intense cell = stronger weights <em>relative to the other layers of the same type</em>.</dd>
+    </dl>
 
-    <div class="guide-section-title">Traits architecturaux</div>
-    <dl class="guide-dl">
+    <div class="guide-section-title"><span class="t-fr">Traits architecturaux</span><span class="t-en">Architectural traits</span></div>
+    <dl class="guide-dl t-fr">
       <dt>Le spécimen miniature</dt>
       <dd>Le même dessin que la planche comparative, mais pour ce modèle seul : la portion bleue est l'attention, la brune le feed-forward (rayée si MoE). La ligne pointillée dans le bleu marque la frontière GQA — la part des têtes qui partagent leurs clés/valeurs. Le petit carré vert, quand il y en a un, est la tour de vision, dessinée à sa taille réelle par rapport au reste du modèle.</dd>
       <dt>Traits en texte</dt>
       <dd>Attention hybride (mélange de couches linéaires rapides et de couches d'attention complètes), MoE (mixture d'experts — seuls quelques experts s'activent par token), nombre de blocs de la tour de vision.</dd>
     </dl>
+    <dl class="guide-dl t-en">
+      <dt>The mini-specimen</dt>
+      <dd>The same drawing as the comparative plate, but for this model alone: the blue portion is attention, the brown one feed-forward (striped if MoE). The dashed line inside the blue marks the GQA boundary — the share of heads that share their keys/values. The small green square, when present, is the vision tower, drawn at its real size relative to the rest of the model.</dd>
+      <dt>Text traits</dt>
+      <dd>Hybrid attention (a mix of fast linear layers and full attention layers), MoE (mixture of experts — only a few experts activate per token), number of vision tower blocks.</dd>
+    </dl>
 
-    <div class="guide-section-title">Morphologie d'une couche</div>
-    <dl class="guide-dl">
+    <div class="guide-section-title"><span class="t-fr">Morphologie d'une couche</span><span class="t-en">Layer morphology</span></div>
+    <dl class="guide-dl t-fr">
       <dt>Rectangles</dt>
       <dd>Chaque rectangle représente un tenseur (matrice de poids) d'une couche représentative. Le ratio largeur/hauteur correspond aux dimensions réelles de la matrice (une matrice carrée donne un carré). La surface est proportionnelle au nombre de paramètres — on voit d'un coup où se concentre la masse du modèle.</dd>
+    </dl>
+    <dl class="guide-dl t-en">
+      <dt>Rectangles</dt>
+      <dd>Each rectangle represents a tensor (weight matrix) from a representative layer. The width/height ratio matches the matrix's real dimensions (a square matrix gives a square). The area is proportional to the parameter count — showing at a glance where the model's mass is concentrated.</dd>
     </dl>
   </div>
 </div>
 
 <section class="comparative-section">
-  <div class="comparative-title">Planche comparative — à même échelle</div>
-  <p class="comparative-caption">Chaque bloc est dessiné à l'échelle réelle : son aire est proportionnelle au poids du modèle sur le disque. Sa largeur se répartit entre attention (bleu) et feed-forward (brun) — rayé lorsque le modèle utilise un mélange d'experts (MoE).</p>
+  <div class="comparative-title" data-i18n="compTitle">Planche comparative — à même échelle</div>
+  <p class="comparative-caption" data-i18n="compCaption">Chaque bloc est dessiné à l'échelle réelle de la taille du modèle <strong>sur le disque</strong> (l'aire du rectangle lui est proportionnelle) — pas du nombre de paramètres, qui peut varier différemment selon la quantification. Sous chaque bloc : nombre de paramètres, puis taille sur le disque. La largeur se répartit entre attention (bleu) et feed-forward (brun) — plein si dense, rayé si le modèle utilise un mélange d'experts (MoE).</p>
   <div class="comparative-wrap" id="comparative"></div>
 </section>
 
@@ -646,7 +799,7 @@ body {
 <div class="spectrum-tooltip" id="tooltip"></div>
 
 <footer class="atlas-footer">
-  LLMdex — Herbier numérique des modèles de langage locaux
+  <span data-i18n="footer">LLMdex — Herbier numérique des modèles de langage locaux</span>
 </footer>
 
 <script>
@@ -666,20 +819,117 @@ const MODEL_INFO = {
   'qwen3.6-coding':                            { developer: 'Alibaba (Qwen)',  year: 2025 },
   'mixtral:8x7b':                              { developer: 'Mistral AI',      year: 2023 },
   'moondream':                                 { developer: 'vikhyatk',        year: 2024 },
-  'nomic-embed-text':                          { developer: 'Nomic AI',        year: 2024 },
   'falcon-mamba-instruct:7b':                  { developer: 'TII',             year: 2024 },
 };
 
 const FAMILY_CONFIG = {
-  attn:        { label: 'Attention',         hue: [212, 55, 38] },
-  ff:          { label: 'Feed-Forward',      hue: [22,  65, 32] },
-  norm:        { label: 'Normalisation',     hue: [270, 15, 45] },
-  embed:       { label: 'Plongement',        hue: [40,  75, 38] },
-  linear_attn: { label: 'Attention linéaire', hue: [162, 40, 30] },
-  vt:          { label: 'Tour de vision',    hue: [135, 25, 40] },
+  attn:        { hue: [212, 55, 38] },
+  ff:          { hue: [22,  65, 32] },
+  norm:        { hue: [270, 15, 45] },
+  embed:       { hue: [40,  75, 38] },
+  linear_attn: { hue: [162, 40, 30] },
+  vt:          { hue: [135, 25, 40] },
 };
 
 const FAMILY_ORDER = ['norm', 'attn', 'linear_attn', 'ff', 'embed', 'vt'];
+
+// --- i18n ---
+let currentLang = localStorage.getItem('llmdex-lang') || 'fr';
+
+const STATIC_STRINGS = {
+  subtitle:    { fr: 'Atlas visuel des modèles de langage', en: 'A visual atlas of language models' },
+  guideBtn:    { fr: 'Guide de lecture', en: 'Reading guide' },
+  footer:      { fr: 'LLMdex — Herbier numérique des modèles de langage locaux', en: 'LLMdex — A digital herbarium of local language models' },
+  compTitle:   { fr: 'Planche comparative — à même échelle', en: 'Comparative plate — same scale' },
+  compCaption: {
+    fr: 'Chaque bloc est dessiné à l\'échelle réelle de la taille du modèle <strong>sur le disque</strong> (l\'aire du rectangle lui est proportionnelle) — pas du nombre de paramètres, qui peut varier différemment selon la quantification. Sous chaque bloc : nombre de paramètres, puis taille sur le disque. La largeur se répartit entre attention (bleu) et feed-forward (brun) — plein si dense, rayé si le modèle utilise un mélange d\'experts (MoE).',
+    en: 'Each block is drawn to the real scale of the model\'s size <strong>on disk</strong> (the rectangle\'s area is proportional to it) — not its parameter count, which can vary differently depending on quantization. Below each block: parameter count, then size on disk. Width splits between attention (blue) and feed-forward (brown) — solid if dense, striped if the model uses a mixture of experts (MoE).',
+  },
+};
+
+const FAMILY_LABELS = {
+  attn:        { fr: 'Attention',          en: 'Attention' },
+  ff:          { fr: 'Feed-Forward',       en: 'Feed-Forward' },
+  norm:        { fr: 'Normalisation',      en: 'Normalization' },
+  embed:       { fr: 'Plongement',         en: 'Embedding' },
+  linear_attn: { fr: 'Attention linéaire', en: 'Linear attention' },
+  vt:          { fr: 'Tour de vision',     en: 'Vision tower' },
+};
+
+function familyLabel(fam) {
+  const l = FAMILY_LABELS[fam];
+  return l ? l[currentLang] : fam;
+}
+
+const STR = {
+  statParams:       { fr: 'Paramètres',        en: 'Parameters' },
+  statParamsActive: { fr: 'Paramètres actifs', en: 'Active parameters' },
+  statLayers:       { fr: 'Couches',           en: 'Layers' },
+  statHeads:        { fr: 'Têtes',             en: 'Heads' },
+  statContext:      { fr: 'Contexte',          en: 'Context' },
+  statVocab:        { fr: 'Vocabulaire',       en: 'Vocabulary' },
+  statSize:         { fr: 'Taille',            en: 'Size' },
+  statExperts:      { fr: 'Experts',           en: 'Experts' },
+  statVision:       { fr: 'Vision',            en: 'Vision' },
+  unitParams:       { fr: 'params',            en: 'params' },
+  sectionArchTraits:   { fr: 'Traits architecturaux',        en: 'Architectural traits' },
+  sectionMorphoLayer:  { fr: 'Morphologie d’une couche', en: 'Morphology of a layer' },
+  sectionMorphoVision: { fr: 'Morphologie d’un bloc de vision', en: 'Morphology of a vision block' },
+  sectionSpectrum:     { fr: 'Spectre des poids',             en: 'Weight spectrum' },
+  sectionVisionTower:  { fr: 'Tour de vision',                en: 'Vision tower' },
+  plateNumber:      { fr: n => `Planche n° ${n}`, en: n => `Plate no. ${n}` },
+  headsShort:       { fr: 'têtes', en: 'heads' },
+  headsKv:          { fr: (n, kv) => `${n} têtes (${kv} kv)`, en: (n, kv) => `${n} heads (${kv} kv)` },
+  headsPlain:       { fr: n => `${n} têtes`, en: n => `${n} heads` },
+  visionWithDepth:  { fr: d => `vision · ${d} blocs`, en: d => `vision · ${d} blocks` },
+  visionPlain:      { fr: 'vision', en: 'vision' },
+  archFullAttn:     { fr: n => `${n} attention complète`, en: n => `${n} full attention` },
+  archLinAttn:      { fr: n => `${n} attention linéaire`, en: n => `${n} linear attention` },
+  archMoE:          { fr: (n, d) => `MoE ${n}×${d}`, en: (n, d) => `MoE ${n}×${d}` },
+  archVision:       { fr: n => `Vision ${n} blocs`, en: n => `Vision ${n} blocks` },
+  attnTip:          { fr: (d, h) => `Attention\nd_embed = ${d}\n${h}`, en: (d, h) => `Attention\nd_embed = ${d}\n${h}` },
+  ffTipMoE:         { fr: (n, d, a) => `Feed-Forward (MoE)\n${n} experts × ${d}\n${a} actifs par token`, en: (n, d, a) => `Feed-Forward (MoE)\n${n} experts × ${d}\n${a} active per token` },
+  ffTipDense:       { fr: d => `Feed-Forward\nd_ff = ${d}`, en: d => `Feed-Forward\nd_ff = ${d}` },
+  visionTip:        { fr: (p, d) => `Tour de vision\n${p} paramètres` + (d ? `\n${d} blocs` : ''), en: (p, d) => `Vision tower\n${p} parameters` + (d ? `\n${d} blocks` : '') },
+  legendAttn:       { fr: 'Attention (d_embed)', en: 'Attention (d_embed)' },
+  legendFFDense:    { fr: 'Feed-Forward — plein (dense)', en: 'Feed-Forward — solid (dense)' },
+  legendFFMoE:      { fr: 'Feed-Forward — rayé (MoE)', en: 'Feed-Forward — striped (MoE)' },
+  figLabel:         { fr: n => `Fig. ${n}`, en: n => `Fig. ${n}` },
+  specimenStats:    { fr: (p, b) => `${p} · ${b} disque`, en: (p, b) => `${p} · ${b} disk` },
+  ttLayer:          { fr: l => `couche ${l}`, en: l => `layer ${l}` },
+  ttSparsity:       { fr: 'sparsité', en: 'sparsity' },
+};
+
+function t(key, ...args) {
+  const entry = STR[key] || STATIC_STRINGS[key];
+  const v = entry ? entry[currentLang] : key;
+  return typeof v === 'function' ? v(...args) : v;
+}
+
+function applyStaticStrings() {
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.getAttribute('data-i18n');
+    const entry = STATIC_STRINGS[key];
+    if (entry) el.innerHTML = entry[currentLang];
+  });
+}
+
+function setLang(lang) {
+  currentLang = lang;
+  localStorage.setItem('llmdex-lang', lang);
+  document.documentElement.lang = lang;
+  document.documentElement.dataset.lang = lang;
+  document.querySelectorAll('#lang-toggle button').forEach(b => {
+    b.classList.toggle('active', b.dataset.setLang === lang);
+  });
+  applyStaticStrings();
+  rerenderDynamic();
+}
+
+document.getElementById('lang-toggle').addEventListener('click', (e) => {
+  const btn = e.target.closest('button[data-set-lang]');
+  if (btn) setLang(btn.dataset.setLang);
+});
 
 function getFamily(component) {
   if (component === 'embed' || component === 'output') return 'embed';
@@ -729,7 +979,7 @@ function renderPlate(model, index) {
 
   const plateNum = document.createElement('span');
   plateNum.className = 'plate-number';
-  plateNum.textContent = `Planche n° ${index + 1}`;
+  plateNum.textContent = t('plateNumber', index + 1);
   plate.appendChild(plateNum);
 
   const inner = document.createElement('div');
@@ -767,24 +1017,24 @@ function renderPlate(model, index) {
   grid.className = 'stats-grid';
 
   const statItems = [
-    ['Paramètres', formatNum(meta.params_total)],
-    ['Couches', meta.n_layers],
+    [t('statParams'), formatNum(meta.params_total)],
+    [t('statLayers'), meta.n_layers],
     ['d_embed', formatNum(meta.d_embed)],
     ['d_ff', formatNum(meta.d_ff || meta.d_ff_expert)],
-    ['Têtes', meta.n_heads + (meta.n_kv_heads && meta.n_kv_heads !== meta.n_heads ? ` (${meta.n_kv_heads} kv)` : '')],
-    ['Contexte', formatNum(meta.context_length)],
-    ['Vocabulaire', formatNum(meta.vocab_size)],
-    ['Taille', formatBytes(meta.file_size)],
+    [t('statHeads'), meta.n_heads + (meta.n_kv_heads && meta.n_kv_heads !== meta.n_heads ? ` (${meta.n_kv_heads} kv)` : '')],
+    [t('statContext'), formatNum(meta.context_length)],
+    [t('statVocab'), formatNum(meta.vocab_size)],
+    [t('statSize'), formatBytes(meta.file_size)],
   ];
 
   if (meta.params_active && meta.params_active !== meta.params_language) {
-    statItems.splice(1, 0, ['Paramètres actifs', formatNum(meta.params_active)]);
+    statItems.splice(1, 0, [t('statParamsActive'), formatNum(meta.params_active)]);
   }
   if (meta.n_experts) {
-    statItems.push(['Experts', `${meta.n_experts} (${meta.n_experts_active} actifs)`]);
+    statItems.push([t('statExperts'), `${meta.n_experts} (${meta.n_experts_active} ${currentLang === 'fr' ? 'actifs' : 'active'})`]);
   }
   if (meta.params_vision && meta.params_vision > 0) {
-    statItems.push(['Vision', formatNum(meta.params_vision) + ' params']);
+    statItems.push([t('statVision'), formatNum(meta.params_vision) + ' ' + t('unitParams')]);
   }
 
   for (const [label, value] of statItems) {
@@ -800,11 +1050,11 @@ function renderPlate(model, index) {
   if (meta.layer_types) {
     const nFull = meta.layer_types.filter(t => t === 'full_attention').length;
     const nLin = meta.layer_types.filter(t => t === 'linear_attention').length;
-    archBadges.push(`${nFull} attention complète`);
-    archBadges.push(`${nLin} attention linéaire`);
+    archBadges.push(t('archFullAttn', nFull));
+    archBadges.push(t('archLinAttn', nLin));
   }
-  if (meta.n_experts) archBadges.push(`MoE ${meta.n_experts}×${meta.d_ff_expert || '?'}`);
-  if (meta.vision) archBadges.push(`Vision ${meta.vision.depth} blocs`);
+  if (meta.n_experts) archBadges.push(t('archMoE', meta.n_experts, meta.d_ff_expert || '?'));
+  if (meta.vision) archBadges.push(t('archVision', meta.vision.depth));
 
   if (archBadges.length > 0 || meta.n_heads) {
     inner.appendChild(createRule());
@@ -812,7 +1062,7 @@ function renderPlate(model, index) {
     sec.className = 'arch-section';
     const secTitle = document.createElement('div');
     secTitle.className = 'section-title';
-    secTitle.textContent = 'Traits architecturaux';
+    secTitle.textContent = t('sectionArchTraits');
     sec.appendChild(secTitle);
 
     if (meta.n_heads) {
@@ -842,7 +1092,7 @@ function renderPlate(model, index) {
   morphSec.className = 'morpho-section';
   const morphTitle = document.createElement('div');
   morphTitle.className = 'section-title';
-  morphTitle.textContent = 'Morphologie d’une couche';
+  morphTitle.textContent = t('sectionMorphoLayer');
   morphSec.appendChild(morphTitle);
   const morphWrap = document.createElement('div');
   morphWrap.className = 'morpho-wrap';
@@ -854,7 +1104,7 @@ function renderPlate(model, index) {
     const vtMorphTitle = document.createElement('div');
     vtMorphTitle.className = 'section-title';
     vtMorphTitle.style.marginTop = '1.25rem';
-    vtMorphTitle.textContent = 'Morphologie d’un bloc de vision';
+    vtMorphTitle.textContent = t('sectionMorphoVision');
     morphSec.appendChild(vtMorphTitle);
     const vtMorphWrap = document.createElement('div');
     vtMorphWrap.className = 'morpho-wrap';
@@ -869,7 +1119,7 @@ function renderPlate(model, index) {
   specSec.className = 'spectrum-section';
   const specTitle = document.createElement('div');
   specTitle.className = 'section-title';
-  specTitle.textContent = 'Spectre des poids';
+  specTitle.textContent = t('sectionSpectrum');
   specSec.appendChild(specTitle);
 
   const specWrap = document.createElement('div');
@@ -890,7 +1140,7 @@ function renderPlate(model, index) {
     if (!cfg) continue;
     const item = document.createElement('span');
     item.className = 'legend-item';
-    item.innerHTML = `<span class="legend-swatch" style="background:${familySolid(fam)}"></span>${cfg.label}`;
+    item.innerHTML = `<span class="legend-swatch" style="background:${familySolid(fam)}"></span>${familyLabel(fam)}`;
     legendDiv.appendChild(item);
   }
   specSec.appendChild(legendDiv);
@@ -964,7 +1214,7 @@ function renderMorphology(tensorStats, meta, container, domain = 'language') {
       gh = Math.max(gh, h);
     }
     gw -= tensorGap;
-    const label = FAMILY_CONFIG[fam] ? FAMILY_CONFIG[fam].label : fam;
+    const label = familyLabel(fam);
     groupLayouts.push({ fam, rects, gw, gh, label });
     totalW += gw + groupGap;
     maxH = Math.max(maxH, gh);
@@ -1057,7 +1307,7 @@ function renderSpectrum(tensorStats, meta, container) {
     const vtLabel = document.createElement('div');
     vtLabel.className = 'section-title';
     vtLabel.style.marginTop = '1rem';
-    vtLabel.textContent = 'Tour de vision';
+    vtLabel.textContent = t('sectionVisionTower');
     container.appendChild(vtLabel);
     const vtDepth = meta.vision ? meta.vision.depth : Math.max(...vtTensors.map(t => t.layer)) + 1;
     renderSpectrumGrid(vtTensors, vtDepth, container, true);
@@ -1211,14 +1461,14 @@ function renderSpectrumGrid(tensors, nLayers, container, isVision) {
 
 const tooltip = document.getElementById('tooltip');
 function showTooltip(e) {
-  const t = JSON.parse(e.target.dataset.tensor);
+  const tensor = JSON.parse(e.target.dataset.tensor);
   tooltip.innerHTML = `
-    <span class="tt-comp">${t.component}</span> · couche ${t.layer}<br>
+    <span class="tt-comp">${tensor.component}</span> · ${t('ttLayer', tensor.layer)}<br>
     <span class="tt-stats">
-      shape ${JSON.stringify(t.shape)} · ${t.dtype}<br>
-      rms ${t.rms.toFixed(6)} · std ${t.std.toFixed(6)}<br>
-      min ${t.min.toFixed(4)} · max ${t.max.toFixed(4)}<br>
-      sparsité ${(t.sparsity * 100).toFixed(2)}%
+      shape ${JSON.stringify(tensor.shape)} · ${tensor.dtype}<br>
+      rms ${tensor.rms.toFixed(6)} · std ${tensor.std.toFixed(6)}<br>
+      min ${tensor.min.toFixed(4)} · max ${tensor.max.toFixed(4)}<br>
+      ${t('ttSparsity')} ${(tensor.sparsity * 100).toFixed(2)}%
     </span>`;
   tooltip.style.display = 'block';
   positionTooltip(e);
@@ -1264,11 +1514,11 @@ function renderMiniSpecimen(meta, container) {
 
   const headTxt = meta.n_heads
     ? ((meta.n_kv_heads && meta.n_kv_heads !== meta.n_heads)
-      ? `${meta.n_heads} têtes (${meta.n_kv_heads} kv)`
-      : `${meta.n_heads} têtes`)
+      ? t('headsKv', meta.n_heads, meta.n_kv_heads)
+      : t('headsPlain', meta.n_heads))
     : null;
   const visDepth = meta.vision ? meta.vision.depth : null;
-  const visLabelTxt = hasVision ? (visDepth ? `vision · ${visDepth} blocs` : 'vision') : null;
+  const visLabelTxt = hasVision ? (visDepth ? t('visionWithDepth', visDepth) : t('visionPlain')) : null;
 
   const topPad = 14;
   const botPad = hasVision ? 24 : 8;
@@ -1331,7 +1581,7 @@ function renderMiniSpecimen(meta, container) {
     fill: 'hsla(212,55%,44%,0.82)', stroke: 'hsla(212,55%,30%,0.6)', 'stroke-width': '0.6',
   });
   const attnTip = document.createElementNS(ns, 'title');
-  attnTip.textContent = `Attention\nd_embed = ${meta.d_embed}\n${meta.n_heads} têtes` +
+  attnTip.textContent = t('attnTip', meta.d_embed, t('headsPlain', meta.n_heads)) +
     (meta.n_kv_heads && meta.n_kv_heads !== meta.n_heads ? ` (${meta.n_kv_heads} kv)` : '');
   attnRect.appendChild(attnTip);
 
@@ -1350,8 +1600,8 @@ function renderMiniSpecimen(meta, container) {
   });
   const ffTip = document.createElementNS(ns, 'title');
   ffTip.textContent = nExp > 0
-    ? `Feed-Forward (MoE)\n${nExp} experts × ${dFFe}\n${nAct} actifs par token`
-    : `Feed-Forward\nd_ff = ${meta.d_ff}`;
+    ? t('ffTipMoE', nExp, dFFe, nAct)
+    : t('ffTipDense', meta.d_ff);
   ffRect.appendChild(ffTip);
 
   if (nExp > 0 && wFF > 12) {
@@ -1375,8 +1625,7 @@ function renderMiniSpecimen(meta, container) {
       fill: 'hsla(135,25%,40%,0.3)', stroke: 'hsl(135,25%,40%)', 'stroke-width': '0.7',
     });
     const vTip = document.createElementNS(ns, 'title');
-    vTip.textContent = `Tour de vision\n${formatNum(meta.params_vision)} paramètres` +
-      (meta.vision && meta.vision.depth ? `\n${meta.vision.depth} blocs` : '');
+    vTip.textContent = t('visionTip', formatNum(meta.params_vision), meta.vision && meta.vision.depth ? meta.vision.depth : null);
     vRect.appendChild(vTip);
     text(vx + visionSide / 2, topPad + tallest + 11, visLabelTxt, { size: '7', fill: 'var(--text-faint)', italic: true });
   }
@@ -1388,6 +1637,7 @@ function renderMiniSpecimen(meta, container) {
 function renderComparativeSection() {
   const wrap = document.getElementById('comparative');
   if (!wrap || MODELS.length === 0) return;
+  wrap.innerHTML = '';
 
   const ns = 'http://www.w3.org/2000/svg';
 
@@ -1399,15 +1649,15 @@ function renderComparativeSection() {
   const maxFileSize = Math.max(...sorted.map(m => m.meta.file_size || 0));
   if (maxFileSize === 0) return;
 
-  const SIDE_MAX = 108;
-  const SIDE_FLOOR = 6;
+  const SIDE_MAX = 132;
+  const SIDE_FLOOR = 7;
   const ASPECT = 1.7; // block width = side * ASPECT, height = side
-  const GUTTER = 26;
-  const MARGIN = 20;
-  const FIG_GAP = 12;
-  const LABEL_LINE1 = 15;
-  const LABEL_LINE2 = 26;
-  const LEGEND_H = 22;
+  const GUTTER = 30;
+  const MARGIN = 24;
+  const FIG_GAP = 14;
+  const LABEL_LINE1 = 18;
+  const LABEL_LINE2 = 32;
+  const LEGEND_H = 28;
 
   function sideFor(fileSize) {
     return Math.max(SIDE_FLOOR, SIDE_MAX * Math.sqrt((fileSize || 0) / maxFileSize));
@@ -1415,7 +1665,7 @@ function renderComparativeSection() {
 
   // Estimate label footprint so blocks never collide with their own caption.
   function labelWidth(name, statsStr) {
-    return Math.max(name.length * 6.2, statsStr.length * 4.6) + 6;
+    return Math.max(name.length * 7, statsStr.length * 5.2) + 6;
   }
 
   const specimens = sorted.map(model => {
@@ -1430,7 +1680,7 @@ function renderComparativeSection() {
     const nAct = m.n_experts_active || 0;
     const effectiveFF = nExp ? dFFe * nAct : dFF;
     const attnShare = (dEmbed + effectiveFF) > 0 ? dEmbed / (dEmbed + effectiveFF) : 0.5;
-    const stats = `${formatNum(m.params_total)} · ${formatBytes(m.file_size || 0)}`;
+    const stats = t('specimenStats', formatNum(m.params_total), formatBytes(m.file_size || 0));
     const slot = Math.max(width, labelWidth(m.name, stats)) + GUTTER;
     return { m, width, height, attnShare, nExp, nAct, dFFe, stats, slot };
   });
@@ -1438,8 +1688,13 @@ function renderComparativeSection() {
   // Wrap into several rows instead of one long strip — closer to a real specimen
   // board with a few rows of pinned insects than to a bar-chart histogram. Reading
   // order (smallest → largest) still flows left-to-right, row by row.
-  const MAX_ROW_W = 600;
-  const ROW_GAP = 30;
+  // Adapt the row width to the actual space available instead of a fixed constant:
+  // packing specimens for an 860px design then letting CSS shrink the whole SVG to
+  // fit a narrow phone screen would crush every font size along with it. Measuring
+  // the real container width keeps rows (and their text) close to a legible size
+  // on any viewport — a narrow screen just gets more, shorter rows.
+  const MAX_ROW_W = Math.max(280, Math.min(860, wrap.clientWidth || 860));
+  const ROW_GAP = 34;
   const rowsOfSpecimens = [];
   let curRow = [];
   let curRowW = 0;
@@ -1512,7 +1767,7 @@ function renderComparativeSection() {
     const wAttn = Math.max(0, s.width * s.attnShare);
     const wFF = s.width - wAttn;
 
-    text(cx, by - FIG_GAP + 4, `Fig. ${figIndex}`, { size: '6.5', fill: 'var(--text-faint)', font: 'var(--font-mono)', italic: true });
+    text(cx, by - FIG_GAP + 4, t('figLabel', figIndex), { size: '7.5', fill: 'var(--text-faint)', font: 'var(--font-mono)', italic: true });
 
     // Attention portion (blue)
     const attnRect = el('rect', {
@@ -1520,7 +1775,7 @@ function renderComparativeSection() {
       fill: 'hsla(212,55%,44%,0.82)', stroke: 'hsla(212,55%,30%,0.6)', 'stroke-width': '0.6',
     });
     const attnTip = document.createElementNS(ns, 'title');
-    attnTip.textContent = `Attention\nd_embed = ${s.m.d_embed}\n${s.m.n_heads} têtes` +
+    attnTip.textContent = t('attnTip', s.m.d_embed, t('headsPlain', s.m.n_heads)) +
       (s.m.n_kv_heads && s.m.n_kv_heads !== s.m.n_heads ? ` (${s.m.n_kv_heads} kv)` : '');
     attnRect.appendChild(attnTip);
 
@@ -1541,8 +1796,8 @@ function renderComparativeSection() {
     });
     const ffTip = document.createElementNS(ns, 'title');
     ffTip.textContent = s.nExp > 0
-      ? `Feed-Forward (MoE)\n${s.nExp} experts × ${s.dFFe}\n${s.nAct} actifs par token`
-      : `Feed-Forward\nd_ff = ${s.m.d_ff}`;
+      ? t('ffTipMoE', s.nExp, s.dFFe, s.nAct)
+      : t('ffTipDense', s.m.d_ff);
     ffRect.appendChild(ffTip);
 
     if (s.nExp > 0) {
@@ -1563,26 +1818,41 @@ function renderComparativeSection() {
     el('rect', { x: bx, y: by, width: s.width, height: s.height, fill: 'none', stroke: 'var(--border)', 'stroke-width': '0.8' });
 
     // Caption: name in italics, then the raw numbers
-    text(cx, baselineY + LABEL_LINE1, s.m.name, { size: '10.5', font: 'var(--font-display)', italic: true, fill: 'var(--text)' });
-    text(cx, baselineY + LABEL_LINE2, s.stats, { size: '7', font: 'var(--font-mono)', fill: 'var(--text-faint)' });
+    text(cx, baselineY + LABEL_LINE1, s.m.name, { size: '12.5', font: 'var(--font-display)', italic: true, fill: 'var(--text)' });
+    text(cx, baselineY + LABEL_LINE2, s.stats, { size: '8.5', font: 'var(--font-mono)', fill: 'var(--text-faint)' });
 
     x += s.slot;
     }
   }
 
-  // Legend
+  // Legend — the MoE swatch is drawn with real stripes (not just a paler solid
+  // rect) so it visually matches the striping used on the actual MoE blocks above,
+  // instead of looking like a slightly-different shade of the same dense swatch.
+  const SW = 14, SH = 9;
+  function drawSwatch(x, y, color, striped) {
+    if (!striped) {
+      el('rect', { x, y, width: SW, height: SH, fill: color, stroke: 'none' });
+      return;
+    }
+    el('rect', { x, y, width: SW, height: SH, fill: 'hsla(22,65%,40%,0.18)', stroke: 'none' });
+    const stripeW = SW / 3;
+    for (let k = 0; k < 3; k++) {
+      el('rect', { x: x + k * stripeW, y, width: Math.max(0.5, stripeW - 0.8), height: SH, fill: color });
+    }
+  }
+
   const legend = [
-    { color: 'hsla(212,55%,44%,0.82)', label: 'Attention (d_embed)' },
-    { color: 'hsla(22,65%,40%,0.82)', label: 'Feed-Forward (d_ff)' },
+    { color: 'hsla(212,55%,44%,0.82)', label: t('legendAttn'), striped: false },
+    { color: 'hsla(22,65%,40%,0.82)', label: t('legendFFDense'), striped: false },
   ];
-  if (hasMoE) legend.push({ color: 'hsla(22,65%,40%,0.75)', label: 'Experts actifs / token (MoE)' });
-  const legendW = legend.reduce((sum, it) => sum + 10 + 4 + it.label.length * 4.7 + 18, 0) - 18;
+  if (hasMoE) legend.push({ color: 'hsla(22,65%,40%,0.75)', label: t('legendFFMoE'), striped: true });
+  const legendW = legend.reduce((sum, it) => sum + SW + 5 + it.label.length * 5.2 + 20, 0) - 20;
   let lx = (svgW - legendW) / 2;
-  const legY = svgH - 8;
+  const legY = svgH - 9;
   for (const it of legend) {
-    el('rect', { x: lx, y: legY - 6, width: 10, height: 7, fill: it.color, stroke: 'none' });
-    text(lx + 10 + 4 + (it.label.length * 4.7) / 2, legY, it.label, { size: '7', fill: 'var(--text-faint)', anchor: 'middle' });
-    lx += 10 + 4 + it.label.length * 4.7 + 18;
+    drawSwatch(lx, legY - SH + 2, it.color, it.striped);
+    text(lx + SW + 5 + (it.label.length * 5.2) / 2, legY, it.label, { size: '8', fill: 'var(--text-faint)', anchor: 'middle' });
+    lx += SW + 5 + it.label.length * 5.2 + 20;
   }
 
   wrap.appendChild(svg);
@@ -1591,10 +1861,22 @@ function renderComparativeSection() {
 // --- Render gallery ---
 const gallery = document.getElementById('gallery');
 MODELS.sort((a, b) => a.meta.params_total - b.meta.params_total);
-renderComparativeSection();
-MODELS.forEach((model, i) => {
-  gallery.appendChild(renderPlate(model, i));
+
+function rerenderDynamic() {
+  renderComparativeSection();
+  gallery.innerHTML = '';
+  MODELS.forEach((model, i) => {
+    gallery.appendChild(renderPlate(model, i));
+  });
+}
+
+document.documentElement.lang = currentLang;
+document.documentElement.dataset.lang = currentLang;
+document.querySelectorAll('#lang-toggle button').forEach(b => {
+  b.classList.toggle('active', b.dataset.setLang === currentLang);
 });
+applyStaticStrings();
+rerenderDynamic();
 </script>
 </body>
 </html>
