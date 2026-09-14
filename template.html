@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="en" data-lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -219,6 +219,13 @@ body {
 }
 .mini-specimen-wrap {
   margin-bottom: 0.9rem;
+}
+.mini-specimen-caption {
+  text-align: center;
+  font-size: 0.74rem;
+  font-style: italic;
+  color: var(--text-faint);
+  margin: -0.5rem 0 0.9rem;
 }
 .badge {
   font-size: 0.82rem;
@@ -486,8 +493,8 @@ html[data-lang="en"] text.t-fr { display: none; }
 
 <header class="atlas-header">
   <div class="lang-toggle" id="lang-toggle">
-    <button data-set-lang="fr" class="active">FR</button>
-    <button data-set-lang="en">EN</button>
+    <button data-set-lang="fr">FR</button>
+    <button data-set-lang="en" class="active">EN</button>
   </div>
   <h1>LLMdex</h1>
   <p class="subtitle" data-i18n="subtitle">Atlas visuel des modèles de langage</p>
@@ -834,7 +841,7 @@ const FAMILY_CONFIG = {
 const FAMILY_ORDER = ['norm', 'attn', 'linear_attn', 'ff', 'embed', 'vt'];
 
 // --- i18n ---
-let currentLang = localStorage.getItem('llmdex-lang') || 'fr';
+let currentLang = localStorage.getItem('llmdex-lang') || 'en';
 
 const STATIC_STRINGS = {
   subtitle:    { fr: 'Atlas visuel des modèles de langage', en: 'A visual atlas of language models' },
@@ -894,6 +901,9 @@ const STR = {
   legendAttn:       { fr: 'Attention (d_embed)', en: 'Attention (d_embed)' },
   legendFFDense:    { fr: 'Feed-Forward — plein (dense)', en: 'Feed-Forward — solid (dense)' },
   legendFFMoE:      { fr: 'Feed-Forward — rayé (MoE)', en: 'Feed-Forward — striped (MoE)' },
+  legendGQA:        { fr: 'Limite GQA (têtes clé/valeur partagées)', en: 'GQA boundary (shared key/value heads)' },
+  miniCapGQA:       { fr: 'tirets = limite GQA (têtes clé/valeur partagées)', en: 'dashes = GQA boundary (shared key/value heads)' },
+  miniCapMoE:       { fr: 'rayures = MoE (experts actifs)', en: 'stripes = MoE (active experts)' },
   figLabel:         { fr: n => `Fig. ${n}`, en: n => `Fig. ${n}` },
   specimenStats:    { fr: (p, b) => `${p} · ${b} disque`, en: (p, b) => `${p} · ${b} disk` },
   ttLayer:          { fr: l => `couche ${l}`, en: l => `layer ${l}` },
@@ -1070,6 +1080,16 @@ function renderPlate(model, index) {
       specimenWrap.className = 'mini-specimen-wrap';
       renderMiniSpecimen(meta, specimenWrap);
       sec.appendChild(specimenWrap);
+
+      const capParts = [];
+      if (meta.n_kv_heads && meta.n_kv_heads < meta.n_heads) capParts.push(t('miniCapGQA'));
+      if (meta.n_experts) capParts.push(t('miniCapMoE'));
+      if (capParts.length > 0) {
+        const cap = document.createElement('div');
+        cap.className = 'mini-specimen-caption';
+        cap.textContent = capParts.join(' · ');
+        sec.appendChild(cap);
+      }
     }
 
     if (archBadges.length > 0) {
@@ -1486,6 +1506,13 @@ function hideTooltip() {
   tooltip.style.display = 'none';
 }
 
+// A fixed number of MoE stripes, not one per active expert: with 2 active
+// experts (Mixtral) that literal mapping draws a single internal line, easy to
+// mistake for a rendering glitch or the GQA divider. The active-expert count
+// stays available via tooltip and the "MoE n×d" badge — the stripe pattern's
+// job is just to read as "MoE" consistently, at any block size.
+const MOE_STRIPE_COUNT = 6;
+
 // --- Mini specimen: same visual grammar as the comparative plate, one model at a time ---
 const MINI_SIDE_MAX = 62;
 const MINI_SIDE_FLOOR = 5;
@@ -1605,8 +1632,9 @@ function renderMiniSpecimen(meta, container) {
   ffRect.appendChild(ffTip);
 
   if (nExp > 0 && wFF > 12) {
-    const stripeW = wFF / nAct;
-    for (let k = 0; k < nAct; k++) {
+    const bands = Math.max(2, Math.min(MOE_STRIPE_COUNT, Math.floor(wFF / 5)));
+    const stripeW = wFF / bands;
+    for (let k = 0; k < bands; k++) {
       el('rect', {
         x: bx + wAttn + k * stripeW, y: by,
         width: Math.max(0.5, stripeW - 0.5), height,
@@ -1748,6 +1776,7 @@ function renderComparativeSection() {
   }
 
   let hasMoE = false;
+  let hasGQA = false;
   let figIndex = 0;
 
   for (const { row, baselineY } of rowLayouts) {
@@ -1781,6 +1810,7 @@ function renderComparativeSection() {
 
     // GQA divider: kv heads share only part of the block's height
     if (s.m.n_kv_heads && s.m.n_kv_heads < s.m.n_heads && wAttn > 3) {
+      hasGQA = true;
       const kvY = by + s.height * (1 - s.m.n_kv_heads / s.m.n_heads);
       el('line', {
         x1: bx, y1: kvY, x2: bx + wAttn, y2: kvY,
@@ -1803,8 +1833,9 @@ function renderComparativeSection() {
     if (s.nExp > 0) {
       hasMoE = true;
       if (wFF > 16) {
-        const stripeW = wFF / s.nAct;
-        for (let k = 0; k < s.nAct; k++) {
+        const bands = Math.max(2, Math.min(MOE_STRIPE_COUNT, Math.floor(wFF / 6)));
+        const stripeW = wFF / bands;
+        for (let k = 0; k < bands; k++) {
           el('rect', {
             x: bx + wAttn + k * stripeW, y: by,
             width: Math.max(0.5, stripeW - 0.6), height: s.height,
@@ -1829,28 +1860,35 @@ function renderComparativeSection() {
   // rect) so it visually matches the striping used on the actual MoE blocks above,
   // instead of looking like a slightly-different shade of the same dense swatch.
   const SW = 14, SH = 9;
-  function drawSwatch(x, y, color, striped) {
-    if (!striped) {
-      el('rect', { x, y, width: SW, height: SH, fill: color, stroke: 'none' });
+  function drawSwatch(x, y, color, kind) {
+    if (kind === 'striped') {
+      el('rect', { x, y, width: SW, height: SH, fill: 'hsla(22,65%,40%,0.18)', stroke: 'none' });
+      const stripeW = SW / 3;
+      for (let k = 0; k < 3; k++) {
+        el('rect', { x: x + k * stripeW, y, width: Math.max(0.5, stripeW - 0.8), height: SH, fill: color });
+      }
       return;
     }
-    el('rect', { x, y, width: SW, height: SH, fill: 'hsla(22,65%,40%,0.18)', stroke: 'none' });
-    const stripeW = SW / 3;
-    for (let k = 0; k < 3; k++) {
-      el('rect', { x: x + k * stripeW, y, width: Math.max(0.5, stripeW - 0.8), height: SH, fill: color });
+    el('rect', { x, y, width: SW, height: SH, fill: color, stroke: 'none' });
+    if (kind === 'gqa') {
+      el('line', {
+        x1: x, y1: y + SH * 0.62, x2: x + SW, y2: y + SH * 0.62,
+        stroke: 'hsla(212,55%,80%,0.9)', 'stroke-width': '0.7', 'stroke-dasharray': '2,1.5',
+      });
     }
   }
 
   const legend = [
-    { color: 'hsla(212,55%,44%,0.82)', label: t('legendAttn'), striped: false },
-    { color: 'hsla(22,65%,40%,0.82)', label: t('legendFFDense'), striped: false },
+    { color: 'hsla(212,55%,44%,0.82)', label: t('legendAttn'), kind: 'solid' },
+    { color: 'hsla(22,65%,40%,0.82)', label: t('legendFFDense'), kind: 'solid' },
   ];
-  if (hasMoE) legend.push({ color: 'hsla(22,65%,40%,0.75)', label: t('legendFFMoE'), striped: true });
+  if (hasMoE) legend.push({ color: 'hsla(22,65%,40%,0.75)', label: t('legendFFMoE'), kind: 'striped' });
+  if (hasGQA) legend.push({ color: 'hsla(212,55%,44%,0.82)', label: t('legendGQA'), kind: 'gqa' });
   const legendW = legend.reduce((sum, it) => sum + SW + 5 + it.label.length * 5.2 + 20, 0) - 20;
   let lx = (svgW - legendW) / 2;
   const legY = svgH - 9;
   for (const it of legend) {
-    drawSwatch(lx, legY - SH + 2, it.color, it.striped);
+    drawSwatch(lx, legY - SH + 2, it.color, it.kind);
     text(lx + SW + 5 + (it.label.length * 5.2) / 2, legY, it.label, { size: '8', fill: 'var(--text-faint)', anchor: 'middle' });
     lx += SW + 5 + it.label.length * 5.2 + 20;
   }
