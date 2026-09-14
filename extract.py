@@ -107,6 +107,45 @@ GGUF_GLOBAL_MAP = {
 
 GGUF_SKIP = {"rope_freqs", "rope_factors_long", "rope_factors_short"}
 
+# --- GGUF vision-tower component map ---
+#
+# Two different naming conventions show up in the wild, depending on how the
+# vision tower was packaged into the GGUF: models with the vision tower
+# embedded directly in the main blob (e.g. Gemma 3) use one spelling
+# ("attn_output", "layer_norm1", "mlp.fc1"); standalone clip.cpp-style
+# projector blobs (mmproj, e.g. moondream) use another ("attn_out", "ln1",
+# "ffn_up"). Both funnel into the same vt.* namespace so getFamily() and the
+# spectrum/morphology renderers don't need to know which one produced a tensor.
+
+GGUF_VISION_COMPONENT_MAP = {
+    "attn_q":       "vt.attn.q",
+    "attn_k":       "vt.attn.k",
+    "attn_v":       "vt.attn.v",
+    "attn_output":  "vt.attn.o",
+    "attn_out":     "vt.attn.o",
+    "layer_norm1":  "vt.norm.attn",
+    "layer_norm2":  "vt.norm.ffn",
+    "ln1":          "vt.norm.attn",
+    "ln2":          "vt.norm.ffn",
+    "mlp.fc1":      "vt.ff.up",
+    "mlp.fc2":      "vt.ff.down",
+    "ffn_up":       "vt.ff.up",
+    "ffn_down":     "vt.ff.down",
+}
+
+GGUF_VISION_GLOBAL_MAP = {
+    "v.patch_embedding":       "vt.patch_embed",
+    "v.patch_embd":            "vt.patch_embed",
+    "v.position_embedding":    "vt.pos_embed",
+    "v.position_embd":         "vt.pos_embed",
+    "v.post_layernorm":        "vt.norm.final",
+    "v.post_ln":               "vt.norm.final",
+    "mm.mm_input_projection":  "vt.merger.proj",
+    "mm.mm_soft_emb_norm":     "vt.merger.norm",
+    "mm.0":                    "vt.merger.fc1",
+    "mm.2":                    "vt.merger.fc2",
+}
+
 
 # --- Common utilities ---
 
@@ -486,12 +525,17 @@ def gguf_parse_tensor_name(name: str):
     suffix = name.rsplit(".", 1)[-1]
     kind = "bias" if suffix == "bias" else "weight"
 
+    vblk = re.match(r"v\.blk\.(\d+)\.(.+?)(?:\.(?:weight|bias))?$", name)
+    if vblk:
+        return int(vblk.group(1)), vblk.group(2), "vision", kind
+
     blk = re.match(r"blk\.(\d+)\.(.+?)(?:\.(?:weight|bias))?$", name)
     if blk:
-        return int(blk.group(1)), blk.group(2), kind
+        return int(blk.group(1)), blk.group(2), "language", kind
 
     base = re.sub(r"\.(?:weight|bias)$", "", name)
-    return None, base, kind
+    domain = "vision" if base.startswith("v.") or base.startswith("mm.") else "language"
+    return None, base, domain, kind
 
 
 GGUF_FLOAT_TYPES = {"F16", "F32", "BF16"}
@@ -510,18 +554,9 @@ def gguf_dequant_tensor(tensor) -> np.ndarray:
     return gguf_dequantize(tensor.data, tensor.tensor_type)
 
 
-def extract_gguf(manifest: dict, with_stats: bool = True) -> tuple[list[dict], dict]:
+def _read_gguf_blob(blob_path: Path, with_stats: bool, force_domain: str | None) -> tuple[list[dict], dict]:
     from gguf import GGUFReader
 
-    gguf_blob = None
-    for layer in manifest["layers"]:
-        if layer["mediaType"] == "application/vnd.ollama.image.model":
-            gguf_blob = layer
-            break
-    if not gguf_blob:
-        return [], {}
-
-    blob_path = resolve_blob(gguf_blob["digest"])
     reader = GGUFReader(str(blob_path))
 
     metadata = {}
@@ -549,9 +584,13 @@ def extract_gguf(manifest: dict, with_stats: bool = True) -> tuple[list[dict], d
         for d in shape_rowmajor:
             n_params *= d
 
-        layer_idx, raw_comp, kind = gguf_parse_tensor_name(t.name)
+        layer_idx, raw_comp, name_domain, kind = gguf_parse_tensor_name(t.name)
+        domain = force_domain or name_domain
 
-        if layer_idx is not None:
+        if domain == "vision":
+            vmap = GGUF_VISION_COMPONENT_MAP if layer_idx is not None else GGUF_VISION_GLOBAL_MAP
+            component = vmap.get(raw_comp, f"vt.{raw_comp}")
+        elif layer_idx is not None:
             component = GGUF_COMPONENT_MAP.get(raw_comp, raw_comp)
         else:
             component = GGUF_GLOBAL_MAP.get(raw_comp, raw_comp)
@@ -560,7 +599,7 @@ def extract_gguf(manifest: dict, with_stats: bool = True) -> tuple[list[dict], d
             "name": t.name,
             "layer": layer_idx,
             "component": component,
-            "domain": "language",
+            "domain": domain,
             "kind": kind,
             "shape": shape_rowmajor,
             "dtype": dtype,
@@ -577,6 +616,65 @@ def extract_gguf(manifest: dict, with_stats: bool = True) -> tuple[list[dict], d
     return tensors, metadata
 
 
+def extract_gguf(manifest: dict, with_stats: bool = True) -> tuple[list[dict], dict]:
+    model_layer = next(
+        (l for l in manifest["layers"] if l["mediaType"] == "application/vnd.ollama.image.model"), None
+    )
+    if not model_layer:
+        return [], {}
+
+    tensors, metadata = _read_gguf_blob(resolve_blob(model_layer["digest"]), with_stats, force_domain=None)
+
+    # Some multimodal models (e.g. moondream) keep the vision encoder in a
+    # separate "mmproj" blob rather than embedding it in the main GGUF (e.g.
+    # Gemma 3). When present, read it too — same tensor/metadata shape, just
+    # force every tensor from it into the vision domain since a projector
+    # blob has no language tensors of its own.
+    projector_layer = next(
+        (l for l in manifest["layers"] if l["mediaType"] == "application/vnd.ollama.image.projector"), None
+    )
+    if projector_layer:
+        proj_tensors, proj_metadata = _read_gguf_blob(
+            resolve_blob(projector_layer["digest"]), with_stats, force_domain="vision"
+        )
+        tensors.extend(proj_tensors)
+        for key, value in proj_metadata.items():
+            metadata.setdefault(key, value)
+
+    return tensors, metadata
+
+
+def gguf_vision_meta(gguf_meta: dict, d_embed: int | None) -> dict | None:
+    # The vision-config key prefix varies with how the tower was packaged:
+    # embedded (e.g. "gemma3.vision.*", under the main arch) or a standalone
+    # clip.cpp projector (always "clip.vision.*", its own architecture).
+    # Detect it from whichever "*.vision.block_count" key is actually present
+    # rather than hardcoding one spelling.
+    prefix = None
+    for key in gguf_meta:
+        m = re.match(r"^([A-Za-z0-9_]+)\.vision\.block_count$", key)
+        if m:
+            prefix = f"{m.group(1)}.vision."
+            break
+    if prefix is None:
+        return None
+
+    def vget(key, default=None):
+        return gguf_meta.get(f"{prefix}{key}", default)
+
+    depth = vget("block_count")
+    if not depth:
+        return None
+    return {
+        "depth": depth,
+        "hidden_size": vget("embedding_length"),
+        "num_heads": vget("attention.head_count"),
+        "intermediate_size": vget("feed_forward_length"),
+        "patch_size": vget("patch_size"),
+        "out_hidden_size": d_embed,
+    }
+
+
 def build_gguf_meta(name: str, tensors: list, gguf_meta: dict, manifest: dict) -> dict:
     arch = gguf_meta.get("general.architecture", "unknown")
     arch_prefix = f"{arch}."
@@ -585,6 +683,8 @@ def build_gguf_meta(name: str, tensors: list, gguf_meta: dict, manifest: dict) -
         return gguf_meta.get(f"{arch_prefix}{key}", gguf_meta.get(key, default))
 
     params_total = sum(t["n_params"] for t in tensors)
+    params_vision = sum(t["n_params"] for t in tensors if t["domain"] == "vision")
+    params_language = params_total - params_vision
 
     n_experts = get("expert_count", 0)
     n_experts_active = get("expert_used_count", 0)
@@ -618,8 +718,8 @@ def build_gguf_meta(name: str, tensors: list, gguf_meta: dict, manifest: dict) -
         "format": "gguf",
         "architecture": arch,
         "params_total": params_total,
-        "params_language": params_total,
-        "params_vision": 0,
+        "params_language": params_language,
+        "params_vision": params_vision,
         "params_active": params_active,
         "quantization": derive_quantization(tensors),
         "file_size": compute_file_size(manifest),
@@ -640,6 +740,10 @@ def build_gguf_meta(name: str, tensors: list, gguf_meta: dict, manifest: dict) -
         "full_attn_layers": None,
         "linear_attn": None,
     }
+
+    vision = gguf_vision_meta(gguf_meta, d_embed)
+    if vision:
+        meta["vision"] = vision
 
     params_blob = load_params(manifest)
     if params_blob:
