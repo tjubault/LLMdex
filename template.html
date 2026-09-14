@@ -99,6 +99,57 @@ body {
   letter-spacing: 0.3em;
 }
 
+/* --- Table of contents --- */
+.atlas-toc {
+  max-width: 900px;
+  margin: 0 auto 1.5rem;
+  padding: 0 1rem;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.4rem 0.5rem;
+}
+.atlas-toc a {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.02em;
+  color: var(--text-muted);
+  text-decoration: none;
+  border: 1px solid var(--border-light);
+  border-radius: 2px;
+  padding: 0.2rem 0.5rem;
+  background: var(--bg-plate);
+  white-space: nowrap;
+}
+.atlas-toc a:hover {
+  color: var(--text);
+  border-color: var(--border);
+}
+
+/* --- Back to top --- */
+.back-to-top {
+  position: fixed;
+  right: 1.25rem;
+  bottom: 1.25rem;
+  width: 2.25rem;
+  height: 2.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  background: var(--bg-plate);
+  color: var(--text-mid);
+  font-size: 1.1rem;
+  text-decoration: none;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
+  z-index: 50;
+}
+.back-to-top:hover {
+  color: var(--text);
+  border-color: var(--accent);
+}
+
 .gallery {
   max-width: 1100px;
   margin: 0 auto;
@@ -112,6 +163,7 @@ body {
   padding: 6px;
   border: 1px solid var(--border);
   position: relative;
+  scroll-margin-top: 1.5rem;
 }
 .plate-inner {
   border: 1px solid var(--border-light);
@@ -462,6 +514,17 @@ body {
   max-width: 100%;
   height: auto;
 }
+.comparative-specimen-link {
+  cursor: pointer;
+}
+.comparative-specimen-link:hover rect,
+.comparative-specimen-link:focus rect {
+  stroke-width: 1.4;
+}
+.comparative-specimen-link:hover text,
+.comparative-specimen-link:focus text {
+  fill: var(--accent) !important;
+}
 
 /* --- Morphologie --- */
 .morpho-section { margin-top: 1.5rem; }
@@ -495,11 +558,28 @@ html[data-lang="en"] text.t-fr { display: none; }
 .lang-toggle button:not(:last-child) { border-right: 1px solid var(--border-light); }
 .lang-toggle button.active { color: var(--text); background: var(--bg-plate); font-weight: 600; }
 .lang-toggle button:hover:not(.active) { color: var(--text); }
+
+/* The reading guide's transformer diagram has a hard-coded pixel width (it's
+   hand-laid-out, not data-driven) — without this it overflows the guide panel
+   on any phone-width screen instead of scaling down with it. */
+.guide-panel svg { max-width: 100%; height: auto; }
+
+@media (max-width: 560px) {
+  .atlas-header { padding: 2rem 1rem 0.75rem; }
+  .atlas-header h1 { font-size: 2.1rem; }
+  .atlas-header .subtitle { font-size: 1rem; }
+  .plate { margin: 1.5rem auto; }
+  .plate-inner { padding: 1.5rem 1.1rem; }
+  .plate-title { font-size: 1.6rem; }
+  .guide-overlay { padding: 1rem 0.5rem; }
+  .guide-panel { padding: 1.75rem 1.25rem; }
+  .back-to-top { right: 0.75rem; bottom: 0.75rem; width: 2rem; height: 2rem; font-size: 1rem; }
+}
 </style>
 </head>
 <body>
 
-<header class="atlas-header">
+<header class="atlas-header" id="top">
   <div class="lang-toggle" id="lang-toggle">
     <button data-set-lang="fr">FR</button>
     <button data-set-lang="en" class="active">EN</button>
@@ -509,6 +589,10 @@ html[data-lang="en"] text.t-fr { display: none; }
   <div class="ornament">— ✦ —</div>
   <button class="guide-btn" data-i18n="guideBtn" onclick="document.getElementById('guide').classList.add('open')">Guide de lecture</button>
 </header>
+
+<nav class="atlas-toc" id="toc" aria-label="Table des matières"></nav>
+
+<a class="back-to-top" href="#top" aria-label="Back to top">↑</a>
 
 <div class="guide-overlay" id="guide" onclick="if(event.target===this)this.classList.remove('open')">
   <div class="guide-panel">
@@ -921,6 +1005,7 @@ const STR = {
   ttLayer:          { fr: l => `couche ${l}`, en: l => `layer ${l}` },
   ttSparsity:       { fr: 'sparsité', en: 'sparsity' },
   localBuildNote:   { fr: ref => `⚠ build local — quantifié depuis le tag Ollama « ${ref} », non vérifiable publiquement`, en: ref => `⚠ local build — quantized from the Ollama tag "${ref}", not publicly verifiable` },
+  goToPlate:        { fr: n => `Voir la planche de ${n}`, en: n => `Go to the ${n} plate` },
 };
 
 function t(key, ...args) {
@@ -952,6 +1037,10 @@ function setLang(lang) {
 document.getElementById('lang-toggle').addEventListener('click', (e) => {
   const btn = e.target.closest('button[data-set-lang]');
   if (btn) setLang(btn.dataset.setLang);
+});
+
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') document.getElementById('guide').classList.remove('open');
 });
 
 function getFamily(component) {
@@ -1012,12 +1101,17 @@ function formatBytes(n) {
   return (n / 1e3).toFixed(0) + ' KB';
 }
 
+function plateId(modelName) {
+  return 'plate-' + modelName.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+}
+
 function renderPlate(model, index) {
   const meta = model.meta;
   const stats = model.tensor_stats;
 
   const plate = document.createElement('article');
   plate.className = 'plate';
+  plate.id = plateId(meta.name);
 
   const plateNum = document.createElement('span');
   plateNum.className = 'plate-number';
@@ -1472,9 +1566,12 @@ function renderSpectrumGrid(tensors, nLayers, container, isVision) {
   const ns = 'http://www.w3.org/2000/svg';
   const svg = document.createElementNS(ns, 'svg');
   svg.setAttribute('viewBox', `0 0 ${totalW} ${totalH}`);
+  // No max-width:100% here on purpose: this grid's columns have a hard floor
+  // (cellW below) below which the per-layer labels stop being legible. Scaling
+  // the whole SVG down to fit a phone screen would shrink 7px text to ~3px —
+  // unreadable. Instead render at native size and let .spectrum-wrap's
+  // overflow-x: auto make it a horizontally scrollable strip on narrow screens.
   svg.setAttribute('width', Math.min(totalW, 1000));
-  svg.style.maxWidth = '100%';
-  svg.style.height = 'auto';
 
   // Layer number headers
   for (let l = 0; l < nLayers; l++) {
@@ -1530,6 +1627,10 @@ function renderSpectrumGrid(tensors, nLayers, container, isVision) {
       rect.dataset.tensor = JSON.stringify(t);
       rect.addEventListener('mouseenter', showTooltip);
       rect.addEventListener('mouseleave', hideTooltip);
+      // Touch has no hover state, so mouseenter/mouseleave alone leave the whole
+      // RMS layer unreachable on a phone — tap a cell to show its tooltip, tap
+      // anywhere else to dismiss it (see the document-level click listener below).
+      rect.addEventListener('click', (e) => { e.stopPropagation(); showTooltip(e); });
       svg.appendChild(rect);
     }
 
@@ -1561,6 +1662,11 @@ function positionTooltip(e) {
 }
 document.addEventListener('mousemove', (e) => {
   if (tooltip.style.display === 'block') positionTooltip(e);
+});
+// Tap-to-dismiss counterpart to the per-cell click handler above: any click that
+// isn't on a spectrum cell (those call stopPropagation) closes the tooltip.
+document.addEventListener('click', () => {
+  if (tooltip.style.display === 'block') hideTooltip();
 });
 function hideTooltip() {
   tooltip.style.display = 'none';
@@ -1829,14 +1935,14 @@ function renderComparativeSection() {
   svg.setAttribute('viewBox', `0 0 ${svgW} ${svgH}`);
   svg.setAttribute('width', svgW);
 
-  function el(tag, attrs) {
+  function el(tag, attrs, parent) {
     const e = document.createElementNS(ns, tag);
     for (const k in attrs) e.setAttribute(k, attrs[k]);
-    svg.appendChild(e);
+    (parent || svg).appendChild(e);
     return e;
   }
 
-  function text(x, y, str, opts = {}) {
+  function text(x, y, str, opts = {}, parent) {
     const t = el('text', {
       x, y,
       'text-anchor': opts.anchor || 'middle',
@@ -1844,7 +1950,7 @@ function renderComparativeSection() {
       fill: opts.fill || 'var(--text-mid)',
       'font-family': opts.font || 'var(--font-body)',
       'font-style': opts.italic ? 'italic' : 'normal',
-    });
+    }, parent);
     t.textContent = str;
     return t;
   }
@@ -1870,7 +1976,15 @@ function renderComparativeSection() {
     const cx = bx + s.width / 2;
     const totalMass = s.masses.attn + s.masses.linear_attn + s.masses.ff;
 
-    text(cx, by - FIG_GAP + 4, t('figLabel', figIndex), { size: '7.5', fill: 'var(--text-faint)', font: 'var(--font-mono)', italic: true });
+    // Each specimen links to its own full plate — the two orderings (this plate
+    // by disk size, the gallery below by total params) otherwise have no way
+    // to cross-reference the same model.
+    const specLink = el('a', { href: '#' + plateId(s.m.name), class: 'comparative-specimen-link' });
+    const specLinkTitle = document.createElementNS(ns, 'title');
+    specLinkTitle.textContent = t('goToPlate', s.m.name);
+    specLink.appendChild(specLinkTitle);
+
+    text(cx, by - FIG_GAP + 4, t('figLabel', figIndex), { size: '7.5', fill: 'var(--text-faint)', font: 'var(--font-mono)', italic: true }, specLink);
 
     let cursor = bx;
 
@@ -1880,7 +1994,7 @@ function renderComparativeSection() {
       const attnRect = el('rect', {
         x: cursor, y: by, width: wAttn, height: s.height,
         fill: 'hsla(212,55%,44%,0.82)', stroke: 'hsla(212,55%,30%,0.6)', 'stroke-width': '0.6',
-      });
+      }, specLink);
       const attnTip = document.createElementNS(ns, 'title');
       attnTip.textContent = t('attnTip', s.m.d_embed, t('headsPlain', s.m.n_heads)) +
         (s.m.n_kv_heads && s.m.n_kv_heads !== s.m.n_heads ? ` (${s.m.n_kv_heads} kv)` : '');
@@ -1893,7 +2007,7 @@ function renderComparativeSection() {
         el('line', {
           x1: cursor, y1: kvY, x2: cursor + wAttn, y2: kvY,
           stroke: 'hsla(212,55%,75%,0.7)', 'stroke-width': '0.5', 'stroke-dasharray': '2,1.5',
-        });
+        }, specLink);
       }
       cursor += wAttn;
     }
@@ -1906,7 +2020,7 @@ function renderComparativeSection() {
       const linRect = el('rect', {
         x: cursor, y: by, width: wLin, height: s.height,
         fill: familyColor('linear_attn', 0.82), stroke: familySolid('linear_attn'), 'stroke-width': '0.6',
-      });
+      }, specLink);
       const linTip = document.createElementNS(ns, 'title');
       linTip.textContent = t('linAttnTip', s.m.d_embed);
       linRect.appendChild(linTip);
@@ -1920,7 +2034,7 @@ function renderComparativeSection() {
         x: cursor, y: by, width: wFF, height: s.height,
         fill: s.nExp > 0 ? 'hsla(22,65%,40%,0.18)' : 'hsla(22,65%,40%,0.82)',
         stroke: 'hsla(22,65%,30%,0.6)', 'stroke-width': '0.6',
-      });
+      }, specLink);
       const ffTip = document.createElementNS(ns, 'title');
       ffTip.textContent = s.nExp > 0
         ? t('ffTipMoE', s.nExp, s.dFFe, s.nAct)
@@ -1937,18 +2051,18 @@ function renderComparativeSection() {
               x: cursor + k * stripeW, y: by,
               width: Math.max(0.5, stripeW - 0.6), height: s.height,
               fill: 'hsla(22,65%,40%,0.75)',
-            });
+            }, specLink);
           }
         }
       }
     }
 
     // Crisp outer frame over all portions
-    el('rect', { x: bx, y: by, width: s.width, height: s.height, fill: 'none', stroke: 'var(--border)', 'stroke-width': '0.8' });
+    el('rect', { x: bx, y: by, width: s.width, height: s.height, fill: 'none', stroke: 'var(--border)', 'stroke-width': '0.8' }, specLink);
 
     // Caption: name in italics, then the raw numbers
-    text(cx, baselineY + LABEL_LINE1, s.m.name, { size: '12.5', font: 'var(--font-display)', italic: true, fill: 'var(--text)' });
-    text(cx, baselineY + LABEL_LINE2, s.stats, { size: '8.5', font: 'var(--font-mono)', fill: 'var(--text-faint)' });
+    text(cx, baselineY + LABEL_LINE1, s.m.name, { size: '12.5', font: 'var(--font-display)', italic: true, fill: 'var(--text)' }, specLink);
+    text(cx, baselineY + LABEL_LINE2, s.stats, { size: '8.5', font: 'var(--font-mono)', fill: 'var(--text-faint)' }, specLink);
 
     x += s.slot;
     }
@@ -1997,10 +2111,27 @@ function renderComparativeSection() {
 
 // --- Render gallery ---
 const gallery = document.getElementById('gallery');
+const tocEl = document.getElementById('toc');
 MODELS.sort((a, b) => a.meta.params_total - b.meta.params_total);
+
+// A 14-plate atlas plus a same-scale comparative plate has two independent
+// reading orders (gallery: by total params; comparative: by disk size) and no
+// way to jump between a name and either one. The table of contents fixes the
+// "no way in" half of that; the comparative plate's specimens linking to their
+// full plate (see renderComparativeSection) fixes the "no way across" half.
+function renderTOC() {
+  tocEl.innerHTML = '';
+  for (const model of MODELS) {
+    const a = document.createElement('a');
+    a.href = '#' + plateId(model.meta.name);
+    a.textContent = model.meta.name;
+    tocEl.appendChild(a);
+  }
+}
 
 function rerenderDynamic() {
   renderComparativeSection();
+  renderTOC();
   gallery.innerHTML = '';
   MODELS.forEach((model, i) => {
     gallery.appendChild(renderPlate(model, i));
