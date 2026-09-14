@@ -526,6 +526,11 @@ def extract_gguf(manifest: dict, with_stats: bool = True) -> tuple[list[dict], d
 
     metadata = {}
     for key, field in reader.fields.items():
+        if key == "tokenizer.ggml.tokens":
+            # Many GGUF archs have no dedicated {arch}.vocab_size scalar — the token
+            # list's length *is* the vocabulary size. Keep just the count, not the list.
+            metadata["_vocab_size_from_tokens"] = len(field.data)
+            continue
         if "tokenizer" in key or "token" in key:
             continue
         metadata[key] = gguf_read_field(field)
@@ -627,7 +632,7 @@ def build_gguf_meta(name: str, tensors: list, gguf_meta: dict, manifest: dict) -
         "d_ff_expert": d_ff_expert,
         "d_ff_shared": None,
         "context_length": get("context_length"),
-        "vocab_size": get("vocab_size"),
+        "vocab_size": get("vocab_size") or gguf_meta.get("_vocab_size_from_tokens"),
         "n_experts": n_experts if n_experts else None,
         "n_experts_active": n_experts_active if n_experts_active else None,
         "rope_theta": get("rope.freq_base"),
