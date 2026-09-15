@@ -13,6 +13,13 @@ import numpy as np
 
 OLLAMA_MODELS = Path.home() / ".ollama" / "models"
 
+
+class EmbeddingOnlyModel(Exception):
+    """Raised for encoder-only models (e.g. nomic-embed-text) that produce a
+    pooled embedding vector rather than generating text — not a broken
+    extraction, just not what this atlas is for (see CLAUDE.md: purely
+    embedding models are deliberately excluded from the collection)."""
+
 # --- Safetensors component maps (Ollama v2 tensor-per-blob format) ---
 
 ST_COMPONENT_MAP = {
@@ -148,6 +155,26 @@ GGUF_VISION_GLOBAL_MAP = {
 
 
 # --- Common utilities ---
+
+# Mirrors getFamily() in template.html: any component that doesn't start with
+# one of these prefixes (or isn't "embed"/"output") silently falls into the
+# feed-forward bucket in the spectrum instead of its own family. That's a fine
+# fallback for one-off oddities, but for a whole unrecognized architecture it
+# would misrepresent the model rather than just look slightly off — so it's
+# worth surfacing at extraction time. Keep this in sync with getFamily().
+KNOWN_COMPONENT_PREFIXES = ("attn.", "ff.", "norm.", "linear_attn.", "vt.")
+KNOWN_COMPONENT_EXACT = {"embed", "output"}
+
+
+def unrecognized_components(tensor_stats: list[dict]) -> list[str]:
+    seen = set()
+    for t in tensor_stats:
+        comp = t["component"]
+        if comp in KNOWN_COMPONENT_EXACT or comp.startswith(KNOWN_COMPONENT_PREFIXES):
+            continue
+        seen.add(comp)
+    return sorted(seen)
+
 
 def resolve_blob(digest: str) -> Path:
     return OLLAMA_MODELS / "blobs" / digest.replace(":", "-")
@@ -697,6 +724,12 @@ def build_gguf_meta(name: str, tensors: list, gguf_meta: dict, manifest: dict) -
     def get(key, default=None):
         return gguf_meta.get(f"{arch_prefix}{key}", gguf_meta.get(key, default))
 
+    # llama.cpp only writes a pooling_type (and sets attention.causal to False)
+    # for encoder-style embedding conversions — a generative model has neither.
+    # Check both since which one is present varies by architecture/converter.
+    if get("pooling_type") is not None or get("attention.causal") is False:
+        raise EmbeddingOnlyModel(f"{name} ({arch}) is an embedding model, not a generative LLM")
+
     params_total = sum(t["n_params"] for t in tensors)
     params_vision = sum(t["n_params"] for t in tensors if t["domain"] == "vision")
     params_language = params_total - params_vision
@@ -832,30 +865,14 @@ def list_ollama_models() -> list[str]:
     return models
 
 
-def main():
-    parser = argparse.ArgumentParser(description="LLMdex — Extract model metadata")
-    parser.add_argument("model", nargs="?", help="Ollama model name (e.g. qwen3.6-coding)")
-    parser.add_argument("--tag", default="latest", help="Model tag (default: latest)")
-    parser.add_argument("--all", action="store_true", help="Extract all installed Ollama models")
-    parser.add_argument("--output", "-o", default="data", help="Output directory (default: data)")
-    args = parser.parse_args()
-
-    if not args.model and not args.all:
-        parser.print_help()
-        sys.exit(1)
-
-    output_dir = Path(args.output)
+def extract_models(model_specs: list[str], output_dir: Path) -> dict[str, list[str]]:
+    """Extract each "name" or "name:tag" spec, print progress the way a CLI
+    user expects, and write data/<model>.json. Returns {model_name: [unrecognized
+    components]} for whichever models had any — empty dict if none did."""
     output_dir.mkdir(parents=True, exist_ok=True)
+    warnings = {}
 
-    if args.all:
-        models = list_ollama_models()
-        if not models:
-            sys.exit("No Ollama models found.")
-        print(f"Found {len(models)} model(s)")
-    else:
-        models = [f"{args.model}:{args.tag}" if args.tag != "latest" else args.model]
-
-    for model_spec in models:
+    for model_spec in model_specs:
         if ":" in model_spec:
             name, tag = model_spec.rsplit(":", 1)
         else:
@@ -864,6 +881,9 @@ def main():
         print(f"\nExtracting {name}:{tag}...")
         try:
             result = extract_model(name, tag)
+        except EmbeddingOnlyModel as e:
+            print(f"  ⏭ skipped: {e}")
+            continue
         except Exception as e:
             print(f"  ERROR: {e}", file=sys.stderr)
             continue
@@ -884,12 +904,43 @@ def main():
         print(f"  Tensors: {len(tensors)}")
         print(f"  File size: {meta['file_size'] / 1e9:.1f} GB")
 
+        unknown = unrecognized_components(tensors)
+        if unknown:
+            warnings[meta["name"]] = unknown
+            preview = ", ".join(unknown[:6]) + ("…" if len(unknown) > 6 else "")
+            print(f"  ⚠ {len(unknown)} unrecognized tensor component(s), shown as feed-forward in the spectrum: {preview}")
+
         tagged_name = name if tag == "latest" else f"{name}-{tag}"
         safe_name = tagged_name.replace("/", "_").replace(":", "-")
         out_path = output_dir / f"{safe_name}.json"
         with open(out_path, "w") as f:
             json.dump(result, f, indent=2)
         print(f"  → {out_path}")
+
+    return warnings
+
+
+def main():
+    parser = argparse.ArgumentParser(description="LLMdex — Extract model metadata")
+    parser.add_argument("model", nargs="?", help="Ollama model name (e.g. qwen3.6-coding)")
+    parser.add_argument("--tag", default="latest", help="Model tag (default: latest)")
+    parser.add_argument("--all", action="store_true", help="Extract all installed Ollama models")
+    parser.add_argument("--output", "-o", default="data", help="Output directory (default: data)")
+    args = parser.parse_args()
+
+    if not args.model and not args.all:
+        parser.print_help()
+        sys.exit(1)
+
+    if args.all:
+        models = list_ollama_models()
+        if not models:
+            sys.exit("No Ollama models found.")
+        print(f"Found {len(models)} model(s)")
+    else:
+        models = [f"{args.model}:{args.tag}" if args.tag != "latest" else args.model]
+
+    extract_models(models, Path(args.output))
 
 
 if __name__ == "__main__":

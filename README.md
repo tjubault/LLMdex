@@ -28,20 +28,26 @@ Three independent pieces connected by a JSON schema in between:
 
 ## Quick start
 
+Build an atlas of your own local Ollama models, one command:
+
 ```bash
 pip install gguf numpy
+python make_atlas.py
+```
 
+This extracts every model installed in `~/.ollama/models`, assembles the atlas, and opens it in your browser. It's just a wrapper — equivalent to running the three steps below yourself, which is also how you extract a single model instead of everything:
+
+```bash
 python extract.py <model-name>     # one Ollama model, e.g. qwen2.5:7b
 python extract.py --all            # every model installed locally
 python build.py                    # → dist/index.html
 open dist/index.html
 ```
 
-`extract.py` also accepts a direct path to a `.gguf` or safetensors model instead of an Ollama name.
+`extract.py` reads GGUF tensors directly (via `GGUFReader`) and Ollama's safetensors-per-blob format (via each blob's config). If it runs into tensor names it doesn't recognize for a given architecture, it'll still produce a plate — those tensors just get grouped under feed-forward in the spectrum by default, and both `extract.py` and `make_atlas.py` print a warning naming them so you know the plate is approximate for that model.
 
 ## Roadmap
 
-- [ ] A proper mini-guide for running this against your own local model zoo
 - [ ] More in-depth explanations throughout the plates
 - [ ] A section showing how information actually flows through a model (the forward pass), not just its static weight structure
 - [ ] A more "artistic" rendering style, as an alternative to the current technical/naturalist look
