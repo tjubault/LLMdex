@@ -4,8 +4,8 @@
     "format": "gguf",
     "architecture": "gemma3",
     "params_total": 4299915632,
-    "params_language": 4299915632,
-    "params_vision": 0,
+    "params_language": 3880099328,
+    "params_vision": 419816304,
     "params_active": 4299915632,
     "quantization": "q4_k (f16, f32, q6_k embed/norms)",
     "file_size": 3338801315,
@@ -25,6 +25,14 @@
     "layer_types": null,
     "full_attn_layers": null,
     "linear_attn": null,
+    "vision": {
+      "depth": 27,
+      "hidden_size": 1152,
+      "num_heads": 16,
+      "intermediate_size": 4304,
+      "patch_size": 14,
+      "out_hidden_size": 2560
+    },
     "runtime_params": {
       "stop": [
         "<end_of_turn>"
@@ -38,8 +46,8 @@
     {
       "name": "mm.mm_input_projection.weight",
       "layer": null,
-      "component": "mm.mm_input_projection",
-      "domain": "language",
+      "component": "vt.merger.proj",
+      "domain": "vision",
       "kind": "weight",
       "shape": [
         1152,
@@ -57,8 +65,8 @@
     {
       "name": "mm.mm_soft_emb_norm.weight",
       "layer": null,
-      "component": "mm.mm_soft_emb_norm",
-      "domain": "language",
+      "component": "vt.merger.norm",
+      "domain": "vision",
       "kind": "weight",
       "shape": [
         1152
@@ -111,9 +119,9 @@
     },
     {
       "name": "v.blk.0.attn_k.bias",
-      "layer": null,
-      "component": "v.blk.0.attn_k",
-      "domain": "language",
+      "layer": 0,
+      "component": "vt.attn.k",
+      "domain": "vision",
       "kind": "bias",
       "shape": [
         1152
@@ -129,9 +137,9 @@
     },
     {
       "name": "v.blk.0.attn_k.weight",
-      "layer": null,
-      "component": "v.blk.0.attn_k",
-      "domain": "language",
+      "layer": 0,
+      "component": "vt.attn.k",
+      "domain": "vision",
       "kind": "weight",
       "shape": [
         1152,
@@ -148,9 +156,9 @@
     },
     {
       "name": "v.blk.0.attn_output.bias",
-      "layer": null,
-      "component": "v.blk.0.attn_output",
-      "domain": "language",
+      "layer": 0,
+      "component": "vt.attn.o",
+      "domain": "vision",
       "kind": "bias",
       "shape": [
         1152
@@ -166,9 +174,9 @@
     },
     {
       "name": "v.blk.0.attn_output.weight",
-      "layer": null,
-      "component": "v.blk.0.attn_output",
-      "domain": "language",
+      "layer": 0,
+      "component": "vt.attn.o",
+      "domain": "vision",
       "kind": "weight",
       "shape": [
         1152,
@@ -185,9 +193,9 @@
     },
     {
       "name": "v.blk.0.attn_q.bias",
-      "layer": null,
-      "component": "v.blk.0.attn_q",
-      "domain": "language",
+      "layer": 0,
+      "component": "vt.attn.q",
+      "domain": "vision",
       "kind": "bias",
       "shape": [
         1152
@@ -203,9 +211,9 @@
     },
     {
       "name": "v.blk.0.attn_q.weight",
-      "layer": null,
-      "component": "v.blk.0.attn_q",
-      "domain": "language",
+      "layer": 0,
+      "component": "vt.attn.q",
+      "domain": "vision",
       "kind": "weight",
       "shape": [
         1152,
@@ -222,9 +230,9 @@
     },
     {
       "name": "v.blk.0.attn_v.bias",
-      "layer": null,
-      "component": "v.blk.0.attn_v",
-      "domain": "language",
+      "layer": 0,
+      "component": "vt.attn.v",
+      "domain": "vision",
       "kind": "bias",
       "shape": [
         1152
@@ -240,9 +248,9 @@
     },
     {
       "name": "v.blk.0.attn_v.weight",
-      "layer": null,
-      "component": "v.blk.0.attn_v",
-      "domain": "language",
+      "layer": 0,
+      "component": "vt.attn.v",
+      "domain": "vision",
       "kind": "weight",
       "shape": [
         1152,
@@ -259,9 +267,9 @@
     },
     {
       "name": "v.blk.0.layer_norm1.bias",
-      "layer": null,
-      "component": "v.blk.0.layer_norm1",
-      "domain": "language",
+      "layer": 0,
+      "component": "vt.norm.attn",
+      "domain": "vision",
       "kind": "bias",
       "shape": [
         1152
@@ -277,9 +285,9 @@
     },
     {
       "name": "v.blk.0.layer_norm1.weight",
-      "layer": null,
-      "component": "v.blk.0.layer_norm1",
-      "domain": "language",
+      "layer": 0,
+      "component": "vt.norm.attn",
+      "domain": "vision",
       "kind": "weight",
       "shape": [
         1152
@@ -295,9 +303,9 @@
     },
     {
       "name": "v.blk.0.layer_norm2.bias",
-      "layer": null,
-      "component": "v.blk.0.layer_norm2",
-      "domain": "language",
+      "layer": 0,
+      "component": "vt.norm.ffn",
+      "domain": "vision",
       "kind": "bias",
       "shape": [
         1152
@@ -313,9 +321,9 @@
     },
     {
       "name": "v.blk.0.layer_norm2.weight",
-      "layer": null,
-      "component": "v.blk.0.layer_norm2",
-      "domain": "language",
+      "layer": 0,
+      "component": "vt.norm.ffn",
+      "domain": "vision",
       "kind": "weight",
       "shape": [
         1152
@@ -331,9 +339,9 @@
     },
     {
       "name": "v.blk.0.mlp.fc1.bias",
-      "layer": null,
-      "component": "v.blk.0.mlp.fc1",
-      "domain": "language",
+      "layer": 0,
+      "component": "vt.ff.up",
+      "domain": "vision",
       "kind": "bias",
       "shape": [
         4304
@@ -349,9 +357,9 @@
     },
     {
       "name": "v.blk.0.mlp.fc1.weight",
-      "layer": null,
-      "component": "v.blk.0.mlp.fc1",
-      "domain": "language",
+      "layer": 0,
+      "component": "vt.ff.up",
+      "domain": "vision",
       "kind": "weight",
       "shape": [
         4304,
@@ -368,9 +376,9 @@
     },
     {
       "name": "v.blk.0.mlp.fc2.bias",
-      "layer": null,
-      "component": "v.blk.0.mlp.fc2",
-      "domain": "language",
+      "layer": 0,
+      "component": "vt.ff.down",
+      "domain": "vision",
       "kind": "bias",
       "shape": [
         1152
@@ -386,9 +394,9 @@
     },
     {
       "name": "v.blk.0.mlp.fc2.weight",
-      "layer": null,
-      "component": "v.blk.0.mlp.fc2",
-      "domain": "language",
+      "layer": 0,
+      "component": "vt.ff.down",
+      "domain": "vision",
       "kind": "weight",
       "shape": [
         1152,
@@ -405,9 +413,9 @@
     },
     {
       "name": "v.blk.1.attn_k.bias",
-      "layer": null,
-      "component": "v.blk.1.attn_k",
-      "domain": "language",
+      "layer": 1,
+      "component": "vt.attn.k",
+      "domain": "vision",
       "kind": "bias",
       "shape": [
         1152
@@ -423,9 +431,9 @@
     },
     {
       "name": "v.blk.1.attn_k.weight",
-      "layer": null,
-      "component": "v.blk.1.attn_k",
-      "domain": "language",
+      "layer": 1,
+      "component": "vt.attn.k",
+      "domain": "vision",
       "kind": "weight",
       "shape": [
         1152,
@@ -442,9 +450,9 @@
     },
     {
       "name": "v.blk.1.attn_output.bias",
-      "layer": null,
-      "component": "v.blk.1.attn_output",
-      "domain": "language",
+      "layer": 1,
+      "component": "vt.attn.o",
+      "domain": "vision",
       "kind": "bias",
       "shape": [
         1152
@@ -460,9 +468,9 @@
     },
     {
       "name": "v.blk.1.attn_output.weight",
-      "layer": null,
-      "component": "v.blk.1.attn_output",
-      "domain": "language",
+      "layer": 1,
+      "component": "vt.attn.o",
+      "domain": "vision",
       "kind": "weight",
       "shape": [
         1152,
@@ -479,9 +487,9 @@
     },
     {
       "name": "v.blk.1.attn_q.bias",
-      "layer": null,
-      "component": "v.blk.1.attn_q",
-      "domain": "language",
+      "layer": 1,
+      "component": "vt.attn.q",
+      "domain": "vision",
       "kind": "bias",
       "shape": [
         1152
@@ -497,9 +505,9 @@
     },
     {
       "name": "v.blk.1.attn_q.weight",
-      "layer": null,
-      "component": "v.blk.1.attn_q",
-      "domain": "language",
+      "layer": 1,
+      "component": "vt.attn.q",
+      "domain": "vision",
       "kind": "weight",
       "shape": [
         1152,
@@ -516,9 +524,9 @@
     },
     {
       "name": "v.blk.1.attn_v.bias",
-      "layer": null,
-      "component": "v.blk.1.attn_v",
-      "domain": "language",
+      "layer": 1,
+      "component": "vt.attn.v",
+      "domain": "vision",
       "kind": "bias",
       "shape": [
         1152
@@ -534,9 +542,9 @@
     },
     {
       "name": "v.blk.1.attn_v.weight",
-      "layer": null,
-      "component": "v.blk.1.attn_v",
-      "domain": "language",
+      "layer": 1,
+      "component": "vt.attn.v",
+      "domain": "vision",
       "kind": "weight",
       "shape": [
         1152,
@@ -553,9 +561,9 @@
     },
     {
       "name": "v.blk.1.layer_norm1.bias",
-      "layer": null,
-      "component": "v.blk.1.layer_norm1",
-      "domain": "language",
+      "layer": 1,
+      "component": "vt.norm.attn",
+      "domain": "vision",
       "kind": "bias",
       "shape": [
         1152
@@ -571,9 +579,9 @@
     },
     {
       "name": "v.blk.1.layer_norm1.weight",
-      "layer": null,
-      "component": "v.blk.1.layer_norm1",
-      "domain": "language",
+      "layer": 1,
+      "component": "vt.norm.attn",
+      "domain": "vision",
       "kind": "weight",
       "shape": [
         1152
@@ -589,9 +597,9 @@
     },
     {
       "name": "v.blk.1.layer_norm2.bias",
-      "layer": null,
-      "component": "v.blk.1.layer_norm2",
-      "domain": "language",
+      "layer": 1,
+      "component": "vt.norm.ffn",
+      "domain": "vision",
       "kind": "bias",
       "shape": [
         1152
@@ -607,9 +615,9 @@
     },
     {
       "name": "v.blk.1.layer_norm2.weight",
-      "layer": null,
-      "component": "v.blk.1.layer_norm2",
-      "domain": "language",
+      "layer": 1,
+      "component": "vt.norm.ffn",
+      "domain": "vision",
       "kind": "weight",
       "shape": [
         1152
@@ -625,9 +633,9 @@
     },
     {
       "name": "v.blk.1.mlp.fc1.bias",
-      "layer": null,
-      "component": "v.blk.1.mlp.fc1",
-      "domain": "language",
+      "layer": 1,
+      "component": "vt.ff.up",
+      "domain": "vision",
       "kind": "bias",
       "shape": [
         4304
@@ -643,9 +651,9 @@
     },
     {
       "name": "v.blk.1.mlp.fc1.weight",
-      "layer": null,
-      "component": "v.blk.1.mlp.fc1",
-      "domain": "language",
+      "layer": 1,
+      "component": "vt.ff.up",
+      "domain": "vision",
       "kind": "weight",
       "shape": [
         4304,
@@ -662,9 +670,9 @@
     },
     {
       "name": "v.blk.1.mlp.fc2.bias",
-      "layer": null,
-      "component": "v.blk.1.mlp.fc2",
-      "domain": "language",
+      "layer": 1,
+      "component": "vt.ff.down",
+      "domain": "vision",
       "kind": "bias",
       "shape": [
         1152
@@ -680,9 +688,9 @@
     },
     {
       "name": "v.blk.1.mlp.fc2.weight",
-      "layer": null,
-      "component": "v.blk.1.mlp.fc2",
-      "domain": "language",
+      "layer": 1,
+      "component": "vt.ff.down",
+      "domain": "vision",
       "kind": "weight",
       "shape": [
         1152,
@@ -699,9 +707,9 @@
     },
     {
       "name": "v.blk.10.attn_k.bias",
-      "layer": null,
-      "component": "v.blk.10.attn_k",
-      "domain": "language",
+      "layer": 10,
+      "component": "vt.attn.k",
+      "domain": "vision",
       "kind": "bias",
       "shape": [
         1152
@@ -717,9 +725,9 @@
     },
     {
       "name": "v.blk.10.attn_k.weight",
-      "layer": null,
-      "component": "v.blk.10.attn_k",
-      "domain": "language",
+      "layer": 10,
+      "component": "vt.attn.k",
+      "domain": "vision",
       "kind": "weight",
       "shape": [
         1152,
@@ -736,9 +744,9 @@
     },
     {
       "name": "v.blk.10.attn_output.bias",
-      "layer": null,
-      "component": "v.blk.10.attn_output",
-      "domain": "language",
+      "layer": 10,
+      "component": "vt.attn.o",
+      "domain": "vision",
       "kind": "bias",
       "shape": [
         1152
@@ -754,9 +762,9 @@
     },
     {
       "name": "v.blk.10.attn_output.weight",
-      "layer": null,
-      "component": "v.blk.10.attn_output",
-      "domain": "language",
+      "layer": 10,
+      "component": "vt.attn.o",
+      "domain": "vision",
       "kind": "weight",
       "shape": [
         1152,
@@ -773,9 +781,9 @@
     },
     {
       "name": "v.blk.10.attn_q.bias",
-      "layer": null,
-      "component": "v.blk.10.attn_q",
-      "domain": "language",
+      "layer": 10,
+      "component": "vt.attn.q",
+      "domain": "vision",
       "kind": "bias",
       "shape": [
         1152
@@ -791,9 +799,9 @@
     },
     {
       "name": "v.blk.10.attn_q.weight",
-      "layer": null,
-      "component": "v.blk.10.attn_q",
-      "domain": "language",
+      "layer": 10,
+      "component": "vt.attn.q",
+      "domain": "vision",
       "kind": "weight",
       "shape": [
         1152,
@@ -810,9 +818,9 @@
     },
     {
       "name": "v.blk.10.attn_v.bias",
-      "layer": null,
-      "component": "v.blk.10.attn_v",
-      "domain": "language",
+      "layer": 10,
+      "component": "vt.attn.v",
+      "domain": "vision",
       "kind": "bias",
       "shape": [
         1152
@@ -828,9 +836,9 @@
     },
     {
       "name": "v.blk.10.attn_v.weight",
-      "layer": null,
-      "component": "v.blk.10.attn_v",
-      "domain": "language",
+      "layer": 10,
+      "component": "vt.attn.v",
+      "domain": "vision",
       "kind": "weight",
       "shape": [
         1152,
@@ -847,9 +855,9 @@
     },
     {
       "name": "v.blk.10.layer_norm1.bias",
-      "layer": null,
-      "component": "v.blk.10.layer_norm1",
-      "domain": "language",
+      "layer": 10,
+      "component": "vt.norm.attn",
+      "domain": "vision",
       "kind": "bias",
       "shape": [
         1152
@@ -865,9 +873,9 @@
     },
     {
       "name": "v.blk.10.layer_norm1.weight",
-      "layer": null,
-      "component": "v.blk.10.layer_norm1",
-      "domain": "language",
+      "layer": 10,
+      "component": "vt.norm.attn",
+      "domain": "vision",
       "kind": "weight",
       "shape": [
         1152
@@ -883,9 +891,9 @@
     },
     {
       "name": "v.blk.10.layer_norm2.bias",
-      "layer": null,
-      "component": "v.blk.10.layer_norm2",
-      "domain": "language",
+      "layer": 10,
+      "component": "vt.norm.ffn",
+      "domain": "vision",
       "kind": "bias",
       "shape": [
         1152
@@ -901,9 +909,9 @@
     },
     {
       "name": "v.blk.10.layer_norm2.weight",
-      "layer": null,
-      "component": "v.blk.10.layer_norm2",
-      "domain": "language",
+      "layer": 10,
+      "component": "vt.norm.ffn",
+      "domain": "vision",
       "kind": "weight",
       "shape": [
         1152
@@ -919,9 +927,9 @@
     },
     {
       "name": "v.blk.10.mlp.fc1.bias",
-      "layer": null,
-      "component": "v.blk.10.mlp.fc1",
-      "domain": "language",
+      "layer": 10,
+      "component": "vt.ff.up",
+      "domain": "vision",
       "kind": "bias",
       "shape": [
         4304
@@ -937,9 +945,9 @@
     },
     {
       "name": "v.blk.10.mlp.fc1.weight",
-      "layer": null,
-      "component": "v.blk.10.mlp.fc1",
-      "domain": "language",
+      "layer": 10,
+      "component": "vt.ff.up",
+      "domain": "vision",
       "kind": "weight",
       "shape": [
         4304,
@@ -956,9 +964,9 @@
     },
     {
       "name": "v.blk.10.mlp.fc2.bias",
-      "layer": null,
-      "component": "v.blk.10.mlp.fc2",
-      "domain": "language",
+      "layer": 10,
+      "component": "vt.ff.down",
+      "domain": "vision",
       "kind": "bias",
       "shape": [
         1152
@@ -974,9 +982,9 @@
     },
     {
       "name": "v.blk.10.mlp.fc2.weight",
-      "layer": null,
-      "component": "v.blk.10.mlp.fc2",
-      "domain": "language",
+      "layer": 10,
+      "component": "vt.ff.down",
+      "domain": "vision",
       "kind": "weight",
       "shape": [
         1152,
@@ -993,9 +1001,9 @@
     },
     {
       "name": "v.blk.11.attn_k.bias",
-      "layer": null,
-      "component": "v.blk.11.attn_k",
-      "domain": "language",
+      "layer": 11,
+      "component": "vt.attn.k",
+      "domain": "vision",
       "kind": "bias",
       "shape": [
         1152
@@ -1011,9 +1019,9 @@
     },
     {
       "name": "v.blk.11.attn_k.weight",
-      "layer": null,
-      "component": "v.blk.11.attn_k",
-      "domain": "language",
+      "layer": 11,
+      "component": "vt.attn.k",
+      "domain": "vision",
       "kind": "weight",
       "shape": [
         1152,
@@ -1030,9 +1038,9 @@
     },
     {
       "name": "v.blk.11.attn_output.bias",
-      "layer": null,
-      "component": "v.blk.11.attn_output",
-      "domain": "language",
+      "layer": 11,
+      "component": "vt.attn.o",
+      "domain": "vision",
       "kind": "bias",
       "shape": [
         1152
@@ -1048,9 +1056,9 @@
     },
     {
       "name": "v.blk.11.attn_output.weight",
-      "layer": null,
-      "component": "v.blk.11.attn_output",
-      "domain": "language",
+      "layer": 11,
+      "component": "vt.attn.o",
+      "domain": "vision",
       "kind": "weight",
       "shape": [
         1152,
@@ -1067,9 +1075,9 @@
     },
     {
       "name": "v.blk.11.attn_q.bias",
-      "layer": null,
-      "component": "v.blk.11.attn_q",
-      "domain": "language",
+      "layer": 11,
+      "component": "vt.attn.q",
+      "domain": "vision",
       "kind": "bias",
       "shape": [
         1152
@@ -1085,9 +1093,9 @@
     },
     {
       "name": "v.blk.11.attn_q.weight",
-      "layer": null,
-      "component": "v.blk.11.attn_q",
-      "domain": "language",
+      "layer": 11,
+      "component": "vt.attn.q",
+      "domain": "vision",
       "kind": "weight",
       "shape": [
         1152,
@@ -1104,9 +1112,9 @@
     },
     {
       "name": "v.blk.11.attn_v.bias",
-      "layer": null,
-      "component": "v.blk.11.attn_v",
-      "domain": "language",
+      "layer": 11,
+      "component": "vt.attn.v",
+      "domain": "vision",
       "kind": "bias",
       "shape": [
         1152
@@ -1122,9 +1130,9 @@
     },
     {
       "name": "v.blk.11.attn_v.weight",
-      "layer": null,
-      "component": "v.blk.11.attn_v",
-      "domain": "language",
+      "layer": 11,
+      "component": "vt.attn.v",
+      "domain": "vision",
       "kind": "weight",
       "shape": [
         1152,
@@ -1141,9 +1149,9 @@
     },
     {
       "name": "v.blk.11.layer_norm1.bias",
-      "layer": null,
-      "component": "v.blk.11.layer_norm1",
-      "domain": "language",
+      "layer": 11,
+      "component": "vt.norm.attn",
+      "domain": "vision",
       "kind": "bias",
       "shape": [
         1152
@@ -1159,9 +1167,9 @@
     },
     {
       "name": "v.blk.11.layer_norm1.weight",
-      "layer": null,
-      "component": "v.blk.11.layer_norm1",
-      "domain": "language",
+      "layer": 11,
+      "component": "vt.norm.attn",
+      "domain": "vision",
       "kind": "weight",
       "shape": [
         1152
@@ -1177,9 +1185,9 @@
     },
     {
       "name": "v.blk.11.layer_norm2.bias",
-      "layer": null,
-      "component": "v.blk.11.layer_norm2",
-      "domain": "language",
+      "layer": 11,
+      "component": "vt.norm.ffn",
+      "domain": "vision",
       "kind": "bias",
       "shape": [
         1152
@@ -1195,9 +1203,9 @@
     },
     {
       "name": "v.blk.11.layer_norm2.weight",
-      "layer": null,
-      "component": "v.blk.11.layer_norm2",
-      "domain": "language",
+      "layer": 11,
+      "component": "vt.norm.ffn",
+      "domain": "vision",
       "kind": "weight",
       "shape": [
         1152
@@ -1213,9 +1221,9 @@
     },
     {
       "name": "v.blk.11.mlp.fc1.bias",
-      "layer": null,
-      "component": "v.blk.11.mlp.fc1",
-      "domain": "language",
+      "layer": 11,
+      "component": "vt.ff.up",
+      "domain": "vision",
       "kind": "bias",
       "shape": [
         4304
@@ -1231,9 +1239,9 @@
     },
     {
       "name": "v.blk.11.mlp.fc1.weight",
-      "layer": null,
-      "component": "v.blk.11.mlp.fc1",
-      "domain": "language",
+      "layer": 11,
+      "component": "vt.ff.up",
+      "domain": "vision",
       "kind": "weight",
       "shape": [
         4304,
@@ -1250,9 +1258,9 @@
     },
     {
       "name": "v.blk.11.mlp.fc2.bias",
-      "layer": null,
-      "component": "v.blk.11.mlp.fc2",
-      "domain": "language",
+      "layer": 11,
+      "component": "vt.ff.down",
+      "domain": "vision",
       "kind": "bias",
       "shape": [
         1152
@@ -1268,9 +1276,9 @@
     },
     {
       "name": "v.blk.11.mlp.fc2.weight",
-      "layer": null,
-      "component": "v.blk.11.mlp.fc2",
-      "domain": "language",
+      "layer": 11,
+      "component": "vt.ff.down",
+      "domain": "vision",
       "kind": "weight",
       "shape": [
         1152,
@@ -1287,9 +1295,9 @@
     },
     {
       "name": "v.blk.12.attn_k.bias",
-      "layer": null,
-      "component": "v.blk.12.attn_k",
-      "domain": "language",
+      "layer": 12,
+      "component": "vt.attn.k",
+      "domain": "vision",
       "kind": "bias",
       "shape": [
         1152
@@ -1305,9 +1313,9 @@
     },
     {
       "name": "v.blk.12.attn_k.weight",
-      "layer": null,
-      "component": "v.blk.12.attn_k",
-      "domain": "language",
+      "layer": 12,
+      "component": "vt.attn.k",
+      "domain": "vision",
       "kind": "weight",
       "shape": [
         1152,
@@ -1324,9 +1332,9 @@
     },
     {
       "name": "v.blk.12.attn_output.bias",
-      "layer": null,
-      "component": "v.blk.12.attn_output",
-      "domain": "language",
+      "layer": 12,
+      "component": "vt.attn.o",
+      "domain": "vision",
       "kind": "bias",
       "shape": [
         1152
@@ -1342,9 +1350,9 @@
     },
     {
       "name": "v.blk.12.attn_output.weight",
-      "layer": null,
-      "component": "v.blk.12.attn_output",
-      "domain": "language",
+      "layer": 12,
+      "component": "vt.attn.o",
+      "domain": "vision",
       "kind": "weight",
       "shape": [
         1152,
@@ -1361,9 +1369,9 @@
     },
     {
       "name": "v.blk.12.attn_q.bias",
-      "layer": null,
-      "component": "v.blk.12.attn_q",
-      "domain": "language",
+      "layer": 12,
+      "component": "vt.attn.q",
+      "domain": "vision",
       "kind": "bias",
       "shape": [
         1152
@@ -1379,9 +1387,9 @@
     },
     {
       "name": "v.blk.12.attn_q.weight",
-      "layer": null,
-      "component": "v.blk.12.attn_q",
-      "domain": "language",
+      "layer": 12,
+      "component": "vt.attn.q",
+      "domain": "vision",
       "kind": "weight",
       "shape": [
         1152,
@@ -1398,9 +1406,9 @@
     },
     {
       "name": "v.blk.12.attn_v.bias",
-      "layer": null,
-      "component": "v.blk.12.attn_v",
-      "domain": "language",
+      "layer": 12,
+      "component": "vt.attn.v",
+      "domain": "vision",
       "kind": "bias",
       "shape": [
         1152
@@ -1416,9 +1424,9 @@
     },
     {
       "name": "v.blk.12.attn_v.weight",
-      "layer": null,
-      "component": "v.blk.12.attn_v",
-      "domain": "language",
+      "layer": 12,
+      "component": "vt.attn.v",
+      "domain": "vision",
       "kind": "weight",
       "shape": [
         1152,
@@ -1435,9 +1443,9 @@
     },
     {
       "name": "v.blk.12.layer_norm1.bias",
-      "layer": null,
-      "component": "v.blk.12.layer_norm1",
-      "domain": "language",
+      "layer": 12,
+      "component": "vt.norm.attn",
+      "domain": "vision",
       "kind": "bias",
       "shape": [
         1152
@@ -1453,9 +1461,9 @@
     },
     {
       "name": "v.blk.12.layer_norm1.weight",
-      "layer": null,
-      "component": "v.blk.12.layer_norm1",
-      "domain": "language",
+      "layer": 12,
+      "component": "vt.norm.attn",
+      "domain": "vision",
       "kind": "weight",
       "shape": [
         1152
@@ -1471,9 +1479,9 @@
     },
     {
       "name": "v.blk.12.layer_norm2.bias",
-      "layer": null,
-      "component": "v.blk.12.layer_norm2",
-      "domain": "language",
+      "layer": 12,
+      "component": "vt.norm.ffn",
+      "domain": "vision",
       "kind": "bias",
       "shape": [
         1152
@@ -1489,9 +1497,9 @@
     },
     {
       "name": "v.blk.12.layer_norm2.weight",
-      "layer": null,
-      "component": "v.blk.12.layer_norm2",
-      "domain": "language",
+      "layer": 12,
+      "component": "vt.norm.ffn",
+      "domain": "vision",
       "kind": "weight",
       "shape": [
         1152
@@ -1507,9 +1515,9 @@
     },
     {
       "name": "v.blk.12.mlp.fc1.bias",
-      "layer": null,
-      "component": "v.blk.12.mlp.fc1",
-      "domain": "language",
+      "layer": 12,
+      "component": "vt.ff.up",
+      "domain": "vision",
       "kind": "bias",
       "shape": [
         4304
@@ -1525,9 +1533,9 @@
     },
     {
       "name": "v.blk.12.mlp.fc1.weight",
-      "layer": null,
-      "component": "v.blk.12.mlp.fc1",
-      "domain": "language",
+      "layer": 12,
+      "component": "vt.ff.up",
+      "domain": "vision",
       "kind": "weight",
       "shape": [
         4304,
@@ -1544,9 +1552,9 @@
     },
     {
       "name": "v.blk.12.mlp.fc2.bias",
-      "layer": null,
-      "component": "v.blk.12.mlp.fc2",
-      "domain": "language",
+      "layer": 12,
+      "component": "vt.ff.down",
+      "domain": "vision",
       "kind": "bias",
       "shape": [
         1152
@@ -1562,9 +1570,9 @@
     },
     {
       "name": "v.blk.12.mlp.fc2.weight",
-      "layer": null,
-      "component": "v.blk.12.mlp.fc2",
-      "domain": "language",
+      "layer": 12,
+      "component": "vt.ff.down",
+      "domain": "vision",
       "kind": "weight",
       "shape": [
         1152,
@@ -1581,9 +1589,9 @@
     },
     {
       "name": "v.blk.13.attn_k.bias",
-      "layer": null,
-      "component": "v.blk.13.attn_k",
-      "domain": "language",
+      "layer": 13,
+      "component": "vt.attn.k",
+      "domain": "vision",
       "kind": "bias",
       "shape": [
         1152
@@ -1599,9 +1607,9 @@
     },
     {
       "name": "v.blk.13.attn_k.weight",
-      "layer": null,
-      "component": "v.blk.13.attn_k",
-      "domain": "language",
+      "layer": 13,
+      "component": "vt.attn.k",
+      "domain": "vision",
       "kind": "weight",
       "shape": [
         1152,
@@ -1618,9 +1626,9 @@
     },
     {
       "name": "v.blk.13.attn_output.bias",
-      "layer": null,
-      "component": "v.blk.13.attn_output",
-      "domain": "language",
+      "layer": 13,
+      "component": "vt.attn.o",
+      "domain": "vision",
       "kind": "bias",
       "shape": [
         1152
@@ -1636,9 +1644,9 @@
     },
     {
       "name": "v.blk.13.attn_output.weight",
-      "layer": null,
-      "component": "v.blk.13.attn_output",
-      "domain": "language",
+      "layer": 13,
+      "component": "vt.attn.o",
+      "domain": "vision",
       "kind": "weight",
       "shape": [
         1152,
@@ -1655,9 +1663,9 @@
     },
     {
       "name": "v.blk.13.attn_q.bias",
-      "layer": null,
-      "component": "v.blk.13.attn_q",
-      "domain": "language",
+      "layer": 13,
+      "component": "vt.attn.q",
+      "domain": "vision",
       "kind": "bias",
       "shape": [
         1152
@@ -1673,9 +1681,9 @@
     },
     {
       "name": "v.blk.13.attn_q.weight",
-      "layer": null,
-      "component": "v.blk.13.attn_q",
-      "domain": "language",
+      "layer": 13,
+      "component": "vt.attn.q",
+      "domain": "vision",
       "kind": "weight",
       "shape": [
         1152,
@@ -1692,9 +1700,9 @@
     },
     {
       "name": "v.blk.13.attn_v.bias",
-      "layer": null,
-      "component": "v.blk.13.attn_v",
-      "domain": "language",
+      "layer": 13,
+      "component": "vt.attn.v",
+      "domain": "vision",
       "kind": "bias",
       "shape": [
         1152
@@ -1710,9 +1718,9 @@
     },
     {
       "name": "v.blk.13.attn_v.weight",
-      "layer": null,
-      "component": "v.blk.13.attn_v",
-      "domain": "language",
+      "layer": 13,
+      "component": "vt.attn.v",
+      "domain": "vision",
       "kind": "weight",
       "shape": [
         1152,
@@ -1729,9 +1737,9 @@
     },
     {
       "name": "v.blk.13.layer_norm1.bias",
-      "layer": null,
-      "component": "v.blk.13.layer_norm1",
-      "domain": "language",
+      "layer": 13,
+      "component": "vt.norm.attn",
+      "domain": "vision",
       "kind": "bias",
       "shape": [
         1152
@@ -1747,9 +1755,9 @@
     },
     {
       "name": "v.blk.13.layer_norm1.weight",
-      "layer": null,
-      "component": "v.blk.13.layer_norm1",
-      "domain": "language",
+      "layer": 13,
+      "component": "vt.norm.attn",
+      "domain": "vision",
       "kind": "weight",
       "shape": [
         1152
@@ -1765,9 +1773,9 @@
     },
     {
       "name": "v.blk.13.layer_norm2.bias",
-      "layer": null,
-      "component": "v.blk.13.layer_norm2",
-      "domain": "language",
+      "layer": 13,
+      "component": "vt.norm.ffn",
+      "domain": "vision",
       "kind": "bias",
       "shape": [
         1152
@@ -1783,9 +1791,9 @@
     },
     {
       "name": "v.blk.13.layer_norm2.weight",
-      "layer": null,
-      "component": "v.blk.13.layer_norm2",
-      "domain": "language",
+      "layer": 13,
+      "component": "vt.norm.ffn",
+      "domain": "vision",
       "kind": "weight",
       "shape": [
         1152
@@ -1801,9 +1809,9 @@
     },
     {
       "name": "v.blk.13.mlp.fc1.bias",
-      "layer": null,
-      "component": "v.blk.13.mlp.fc1",
-      "domain": "language",
+      "layer": 13,
+      "component": "vt.ff.up",
+      "domain": "vision",
       "kind": "bias",
       "shape": [
         4304
@@ -1819,9 +1827,9 @@
     },
     {
       "name": "v.blk.13.mlp.fc1.weight",
-      "layer": null,
-      "component": "v.blk.13.mlp.fc1",
-      "domain": "language",
+      "layer": 13,
+      "component": "vt.ff.up",
+      "domain": "vision",
       "kind": "weight",
       "shape": [
         4304,
@@ -1838,9 +1846,9 @@
     },
     {
       "name": "v.blk.13.mlp.fc2.bias",
-      "layer": null,
-      "component": "v.blk.13.mlp.fc2",
-      "domain": "language",
+      "layer": 13,
+      "component": "vt.ff.down",
+      "domain": "vision",
       "kind": "bias",
       "shape": [
         1152
@@ -1856,9 +1864,9 @@
     },
     {
       "name": "v.blk.13.mlp.fc2.weight",
-      "layer": null,
-      "component": "v.blk.13.mlp.fc2",
-      "domain": "language",
+      "layer": 13,
+      "component": "vt.ff.down",
+      "domain": "vision",
       "kind": "weight",
       "shape": [
         1152,
@@ -1875,9 +1883,9 @@
     },
     {
       "name": "v.blk.14.attn_k.bias",
-      "layer": null,
-      "component": "v.blk.14.attn_k",
-      "domain": "language",
+      "layer": 14,
+      "component": "vt.attn.k",
+      "domain": "vision",
       "kind": "bias",
       "shape": [
         1152
@@ -1893,9 +1901,9 @@
     },
     {
       "name": "v.blk.14.attn_k.weight",
-      "layer": null,
-      "component": "v.blk.14.attn_k",
-      "domain": "language",
+      "layer": 14,
+      "component": "vt.attn.k",
+      "domain": "vision",
       "kind": "weight",
       "shape": [
         1152,
@@ -1912,9 +1920,9 @@
     },
     {
       "name": "v.blk.14.attn_output.bias",
-      "layer": null,
-      "component": "v.blk.14.attn_output",
-      "domain": "language",
+      "layer": 14,
+      "component": "vt.attn.o",
+      "domain": "vision",
       "kind": "bias",
       "shape": [
         1152
@@ -1930,9 +1938,9 @@
     },
     {
       "name": "v.blk.14.attn_output.weight",
-      "layer": null,
-      "component": "v.blk.14.attn_output",
-      "domain": "language",
+      "layer": 14,
+      "component": "vt.attn.o",
+      "domain": "vision",
       "kind": "weight",
       "shape": [
         1152,
@@ -1949,9 +1957,9 @@
     },
     {
       "name": "v.blk.14.attn_q.bias",
-      "layer": null,
-      "component": "v.blk.14.attn_q",
-      "domain": "language",
+      "layer": 14,
+      "component": "vt.attn.q",
+      "domain": "vision",
       "kind": "bias",
       "shape": [
         1152
@@ -1967,9 +1975,9 @@
     },
     {
       "name": "v.blk.14.attn_q.weight",
-      "layer": null,
-      "component": "v.blk.14.attn_q",
-      "domain": "language",
+      "layer": 14,
+      "component": "vt.attn.q",
+      "domain": "vision",
       "kind": "weight",
       "shape": [
         1152,
@@ -1986,9 +1994,9 @@
     },
     {
       "name": "v.blk.14.attn_v.bias",
-      "layer": null,
-      "component": "v.blk.14.attn_v",
-      "domain": "language",
+      "layer": 14,
+      "component": "vt.attn.v",
+      "domain": "vision",
       "kind": "bias",
       "shape": [
         1152
@@ -2004,9 +2012,9 @@
     },
     {
       "name": "v.blk.14.attn_v.weight",
-      "layer": null,
-      "component": "v.blk.14.attn_v",
-      "domain": "language",
+      "layer": 14,
+      "component": "vt.attn.v",
+      "domain": "vision",
       "kind": "weight",
       "shape": [
         1152,
@@ -2023,9 +2031,9 @@
     },
     {
       "name": "v.blk.14.layer_norm1.bias",
-      "layer": null,
-      "component": "v.blk.14.layer_norm1",
-      "domain": "language",
+      "layer": 14,
+      "component": "vt.norm.attn",
+      "domain": "vision",
       "kind": "bias",
       "shape": [
         1152
@@ -2041,9 +2049,9 @@
     },
     {
       "name": "v.blk.14.layer_norm1.weight",
-      "layer": null,
-      "component": "v.blk.14.layer_norm1",
-      "domain": "language",
+      "layer": 14,
+      "component": "vt.norm.attn",
+      "domain": "vision",
       "kind": "weight",
       "shape": [
         1152
@@ -2059,9 +2067,9 @@
     },
     {
       "name": "v.blk.14.layer_norm2.bias",
-      "layer": null,
-      "component": "v.blk.14.layer_norm2",
-      "domain": "language",
+      "layer": 14,
+      "component": "vt.norm.ffn",
+      "domain": "vision",
       "kind": "bias",
       "shape": [
         1152
@@ -2077,9 +2085,9 @@
     },
     {
       "name": "v.blk.14.layer_norm2.weight",
-      "layer": null,
-      "component": "v.blk.14.layer_norm2",
-      "domain": "language",
+      "layer": 14,
+      "component": "vt.norm.ffn",
+      "domain": "vision",
       "kind": "weight",
       "shape": [
         1152
@@ -2095,9 +2103,9 @@
     },
     {
       "name": "v.blk.14.mlp.fc1.bias",
-      "layer": null,
-      "component": "v.blk.14.mlp.fc1",
-      "domain": "language",
+      "layer": 14,
+      "component": "vt.ff.up",
+      "domain": "vision",
       "kind": "bias",
       "shape": [
         4304
@@ -2113,9 +2121,9 @@
     },
     {
       "name": "v.blk.14.mlp.fc1.weight",
-      "layer": null,
-      "component": "v.blk.14.mlp.fc1",
-      "domain": "language",
+      "layer": 14,
+      "component": "vt.ff.up",
+      "domain": "vision",
       "kind": "weight",
       "shape": [
         4304,
@@ -2132,9 +2140,9 @@
     },
     {
       "name": "v.blk.14.mlp.fc2.bias",
-      "layer": null,
-      "component": "v.blk.14.mlp.fc2",
-      "domain": "language",
+      "layer": 14,
+      "component": "vt.ff.down",
+      "domain": "vision",
       "kind": "bias",
       "shape": [
         1152
@@ -2150,9 +2158,9 @@
     },
     {
       "name": "v.blk.14.mlp.fc2.weight",
-      "layer": null,
-      "component": "v.blk.14.mlp.fc2",
-      "domain": "language",
+      "layer": 14,
+      "component": "vt.ff.down",
+      "domain": "vision",
       "kind": "weight",
       "shape": [
         1152,
@@ -2169,9 +2177,9 @@
     },
     {
       "name": "v.blk.15.attn_k.bias",
-      "layer": null,
-      "component": "v.blk.15.attn_k",
-      "domain": "language",
+      "layer": 15,
+      "component": "vt.attn.k",
+      "domain": "vision",
       "kind": "bias",
       "shape": [
         1152
@@ -2187,9 +2195,9 @@
     },
     {
       "name": "v.blk.15.attn_k.weight",
-      "layer": null,
-      "component": "v.blk.15.attn_k",
-      "domain": "language",
+      "layer": 15,
+      "component": "vt.attn.k",
+      "domain": "vision",
       "kind": "weight",
       "shape": [
         1152,
@@ -2206,9 +2214,9 @@
     },
     {
       "name": "v.blk.15.attn_output.bias",
-      "layer": null,
-      "component": "v.blk.15.attn_output",
-      "domain": "language",
+      "layer": 15,
+      "component": "vt.attn.o",
+      "domain": "vision",
       "kind": "bias",
       "shape": [
         1152
@@ -2224,9 +2232,9 @@
     },
     {
       "name": "v.blk.15.attn_output.weight",
-      "layer": null,
-      "component": "v.blk.15.attn_output",
-      "domain": "language",
+      "layer": 15,
+      "component": "vt.attn.o",
+      "domain": "vision",
       "kind": "weight",
       "shape": [
         1152,
@@ -2243,9 +2251,9 @@
     },
     {
       "name": "v.blk.15.attn_q.bias",
-      "layer": null,
-      "component": "v.blk.15.attn_q",
-      "domain": "language",
+      "layer": 15,
+      "component": "vt.attn.q",
+      "domain": "vision",
       "kind": "bias",
       "shape": [
         1152
@@ -2261,9 +2269,9 @@
     },
     {
       "name": "v.blk.15.attn_q.weight",
-      "layer": null,
-      "component": "v.blk.15.attn_q",
-      "domain": "language",
+      "layer": 15,
+      "component": "vt.attn.q",
+      "domain": "vision",
       "kind": "weight",
       "shape": [
         1152,
@@ -2280,9 +2288,9 @@
     },
     {
       "name": "v.blk.15.attn_v.bias",
-      "layer": null,
-      "component": "v.blk.15.attn_v",
-      "domain": "language",
+      "layer": 15,
+      "component": "vt.attn.v",
+      "domain": "vision",
       "kind": "bias",
       "shape": [
         1152
@@ -2298,9 +2306,9 @@
     },
     {
       "name": "v.blk.15.attn_v.weight",
-      "layer": null,
-      "component": "v.blk.15.attn_v",
-      "domain": "language",
+      "layer": 15,
+      "component": "vt.attn.v",
+      "domain": "vision",
       "kind": "weight",
       "shape": [
         1152,
@@ -2317,9 +2325,9 @@
     },
     {
       "name": "v.blk.15.layer_norm1.bias",
-      "layer": null,
-      "component": "v.blk.15.layer_norm1",
-      "domain": "language",
+      "layer": 15,
+      "component": "vt.norm.attn",
+      "domain": "vision",
       "kind": "bias",
       "shape": [
         1152
@@ -2335,9 +2343,9 @@
     },
     {
       "name": "v.blk.15.layer_norm1.weight",
-      "layer": null,
-      "component": "v.blk.15.layer_norm1",
-      "domain": "language",
+      "layer": 15,
+      "component": "vt.norm.attn",
+      "domain": "vision",
       "kind": "weight",
       "shape": [
         1152
@@ -2353,9 +2361,9 @@
     },
     {
       "name": "v.blk.15.layer_norm2.bias",
-      "layer": null,
-      "component": "v.blk.15.layer_norm2",
-      "domain": "language",
+      "layer": 15,
+      "component": "vt.norm.ffn",
+      "domain": "vision",
       "kind": "bias",
       "shape": [
         1152
@@ -2371,9 +2379,9 @@
     },
     {
       "name": "v.blk.15.layer_norm2.weight",
-      "layer": null,
-      "component": "v.blk.15.layer_norm2",
-      "domain": "language",
+      "layer": 15,
+      "component": "vt.norm.ffn",
+      "domain": "vision",
       "kind": "weight",
       "shape": [
         1152
@@ -2389,9 +2397,9 @@
     },
     {
       "name": "v.blk.15.mlp.fc1.bias",
-      "layer": null,
-      "component": "v.blk.15.mlp.fc1",
-      "domain": "language",
+      "layer": 15,
+      "component": "vt.ff.up",
+      "domain": "vision",
       "kind": "bias",
       "shape": [
         4304
@@ -2407,9 +2415,9 @@
     },
     {
       "name": "v.blk.15.mlp.fc1.weight",
-      "layer": null,
-      "component": "v.blk.15.mlp.fc1",
-      "domain": "language",
+      "layer": 15,
+      "component": "vt.ff.up",
+      "domain": "vision",
       "kind": "weight",
       "shape": [
         4304,
@@ -2426,9 +2434,9 @@
     },
     {
       "name": "v.blk.15.mlp.fc2.bias",
-      "layer": null,
-      "component": "v.blk.15.mlp.fc2",
-      "domain": "language",
+      "layer": 15,
+      "component": "vt.ff.down",
+      "domain": "vision",
       "kind": "bias",
       "shape": [
         1152
@@ -2444,9 +2452,9 @@
     },
     {
       "name": "v.blk.15.mlp.fc2.weight",
-      "layer": null,
-      "component": "v.blk.15.mlp.fc2",
-      "domain": "language",
+      "layer": 15,
+      "component": "vt.ff.down",
+      "domain": "vision",
       "kind": "weight",
       "shape": [
         1152,
@@ -2463,9 +2471,9 @@
     },
     {
       "name": "v.blk.16.attn_k.bias",
-      "layer": null,
-      "component": "v.blk.16.attn_k",
-      "domain": "language",
+      "layer": 16,
+      "component": "vt.attn.k",
+      "domain": "vision",
       "kind": "bias",
       "shape": [
         1152
@@ -2481,9 +2489,9 @@
     },
     {
       "name": "v.blk.16.attn_k.weight",
-      "layer": null,
-      "component": "v.blk.16.attn_k",
-      "domain": "language",
+      "layer": 16,
+      "component": "vt.attn.k",
+      "domain": "vision",
       "kind": "weight",
       "shape": [
         1152,
@@ -2500,9 +2508,9 @@
     },
     {
       "name": "v.blk.16.attn_output.bias",
-      "layer": null,
-      "component": "v.blk.16.attn_output",
-      "domain": "language",
+      "layer": 16,
+      "component": "vt.attn.o",
+      "domain": "vision",
       "kind": "bias",
       "shape": [
         1152
@@ -2518,9 +2526,9 @@
     },
     {
       "name": "v.blk.16.attn_output.weight",
-      "layer": null,
-      "component": "v.blk.16.attn_output",
-      "domain": "language",
+      "layer": 16,
+      "component": "vt.attn.o",
+      "domain": "vision",
       "kind": "weight",
       "shape": [
         1152,
@@ -2537,9 +2545,9 @@
     },
     {
       "name": "v.blk.16.attn_q.bias",
-      "layer": null,
-      "component": "v.blk.16.attn_q",
-      "domain": "language",
+      "layer": 16,
+      "component": "vt.attn.q",
+      "domain": "vision",
       "kind": "bias",
       "shape": [
         1152
@@ -2555,9 +2563,9 @@
     },
     {
       "name": "v.blk.16.attn_q.weight",
-      "layer": null,
-      "component": "v.blk.16.attn_q",
-      "domain": "language",
+      "layer": 16,
+      "component": "vt.attn.q",
+      "domain": "vision",
       "kind": "weight",
       "shape": [
         1152,
@@ -2574,9 +2582,9 @@
     },
     {
       "name": "v.blk.16.attn_v.bias",
-      "layer": null,
-      "component": "v.blk.16.attn_v",
-      "domain": "language",
+      "layer": 16,
+      "component": "vt.attn.v",
+      "domain": "vision",
       "kind": "bias",
       "shape": [
         1152
@@ -2592,9 +2600,9 @@
     },
     {
       "name": "v.blk.16.attn_v.weight",
-      "layer": null,
-      "component": "v.blk.16.attn_v",
-      "domain": "language",
+      "layer": 16,
+      "component": "vt.attn.v",
+      "domain": "vision",
       "kind": "weight",
       "shape": [
         1152,
@@ -2611,9 +2619,9 @@
     },
     {
       "name": "v.blk.16.layer_norm1.bias",
-      "layer": null,
-      "component": "v.blk.16.layer_norm1",
-      "domain": "language",
+      "layer": 16,
+      "component": "vt.norm.attn",
+      "domain": "vision",
       "kind": "bias",
       "shape": [
         1152
@@ -2629,9 +2637,9 @@
     },
     {
       "name": "v.blk.16.layer_norm1.weight",
-      "layer": null,
-      "component": "v.blk.16.layer_norm1",
-      "domain": "language",
+      "layer": 16,
+      "component": "vt.norm.attn",
+      "domain": "vision",
       "kind": "weight",
       "shape": [
         1152
@@ -2647,9 +2655,9 @@
     },
     {
       "name": "v.blk.16.layer_norm2.bias",
-      "layer": null,
-      "component": "v.blk.16.layer_norm2",
-      "domain": "language",
+      "layer": 16,
+      "component": "vt.norm.ffn",
+      "domain": "vision",
       "kind": "bias",
       "shape": [
         1152
@@ -2665,9 +2673,9 @@
     },
     {
       "name": "v.blk.16.layer_norm2.weight",
-      "layer": null,
-      "component": "v.blk.16.layer_norm2",
-      "domain": "language",
+      "layer": 16,
+      "component": "vt.norm.ffn",
+      "domain": "vision",
       "kind": "weight",
       "shape": [
         1152
@@ -2683,9 +2691,9 @@
     },
     {
       "name": "v.blk.16.mlp.fc1.bias",
-      "layer": null,
-      "component": "v.blk.16.mlp.fc1",
-      "domain": "language",
+      "layer": 16,
+      "component": "vt.ff.up",
+      "domain": "vision",
       "kind": "bias",
       "shape": [
         4304
@@ -2701,9 +2709,9 @@
     },
     {
       "name": "v.blk.16.mlp.fc1.weight",
-      "layer": null,
-      "component": "v.blk.16.mlp.fc1",
-      "domain": "language",
+      "layer": 16,
+      "component": "vt.ff.up",
+      "domain": "vision",
       "kind": "weight",
       "shape": [
         4304,
@@ -2720,9 +2728,9 @@
     },
     {
       "name": "v.blk.16.mlp.fc2.bias",
-      "layer": null,
-      "component": "v.blk.16.mlp.fc2",
-      "domain": "language",
+      "layer": 16,
+      "component": "vt.ff.down",
+      "domain": "vision",
       "kind": "bias",
       "shape": [
         1152
@@ -2738,9 +2746,9 @@
     },
     {
       "name": "v.blk.16.mlp.fc2.weight",
-      "layer": null,
-      "component": "v.blk.16.mlp.fc2",
-      "domain": "language",
+      "layer": 16,
+      "component": "vt.ff.down",
+      "domain": "vision",
       "kind": "weight",
       "shape": [
         1152,
@@ -2757,9 +2765,9 @@
     },
     {
       "name": "v.blk.17.attn_k.bias",
-      "layer": null,
-      "component": "v.blk.17.attn_k",
-      "domain": "language",
+      "layer": 17,
+      "component": "vt.attn.k",
+      "domain": "vision",
       "kind": "bias",
       "shape": [
         1152
@@ -2775,9 +2783,9 @@
     },
     {
       "name": "v.blk.17.attn_k.weight",
-      "layer": null,
-      "component": "v.blk.17.attn_k",
-      "domain": "language",
+      "layer": 17,
+      "component": "vt.attn.k",
+      "domain": "vision",
       "kind": "weight",
       "shape": [
         1152,
@@ -2794,9 +2802,9 @@
     },
     {
       "name": "v.blk.17.attn_output.bias",
-      "layer": null,
-      "component": "v.blk.17.attn_output",
-      "domain": "language",
+      "layer": 17,
+      "component": "vt.attn.o",
+      "domain": "vision",
       "kind": "bias",
       "shape": [
         1152
@@ -2812,9 +2820,9 @@
     },
     {
       "name": "v.blk.17.attn_output.weight",
-      "layer": null,
-      "component": "v.blk.17.attn_output",
-      "domain": "language",
+      "layer": 17,
+      "component": "vt.attn.o",
+      "domain": "vision",
       "kind": "weight",
       "shape": [
         1152,
@@ -2831,9 +2839,9 @@
     },
     {
       "name": "v.blk.17.attn_q.bias",
-      "layer": null,
-      "component": "v.blk.17.attn_q",
-      "domain": "language",
+      "layer": 17,
+      "component": "vt.attn.q",
+      "domain": "vision",
       "kind": "bias",
       "shape": [
         1152
@@ -2849,9 +2857,9 @@
     },
     {
       "name": "v.blk.17.attn_q.weight",
-      "layer": null,
-      "component": "v.blk.17.attn_q",
-      "domain": "language",
+      "layer": 17,
+      "component": "vt.attn.q",
+      "domain": "vision",
       "kind": "weight",
       "shape": [
         1152,
@@ -2868,9 +2876,9 @@
     },
     {
       "name": "v.blk.17.attn_v.bias",
-      "layer": null,
-      "component": "v.blk.17.attn_v",
-      "domain": "language",
+      "layer": 17,
+      "component": "vt.attn.v",
+      "domain": "vision",
       "kind": "bias",
       "shape": [
         1152
@@ -2886,9 +2894,9 @@
     },
     {
       "name": "v.blk.17.attn_v.weight",
-      "layer": null,
-      "component": "v.blk.17.attn_v",
-      "domain": "language",
+      "layer": 17,
+      "component": "vt.attn.v",
+      "domain": "vision",
       "kind": "weight",
       "shape": [
         1152,
@@ -2905,9 +2913,9 @@
     },
     {
       "name": "v.blk.17.layer_norm1.bias",
-      "layer": null,
-      "component": "v.blk.17.layer_norm1",
-      "domain": "language",
+      "layer": 17,
+      "component": "vt.norm.attn",
+      "domain": "vision",
       "kind": "bias",
       "shape": [
         1152
@@ -2923,9 +2931,9 @@
     },
     {
       "name": "v.blk.17.layer_norm1.weight",
-      "layer": null,
-      "component": "v.blk.17.layer_norm1",
-      "domain": "language",
+      "layer": 17,
+      "component": "vt.norm.attn",
+      "domain": "vision",
       "kind": "weight",
       "shape": [
         1152
@@ -2941,9 +2949,9 @@
     },
     {
       "name": "v.blk.17.layer_norm2.bias",
-      "layer": null,
-      "component": "v.blk.17.layer_norm2",
-      "domain": "language",
+      "layer": 17,
+      "component": "vt.norm.ffn",
+      "domain": "vision",
       "kind": "bias",
       "shape": [
         1152
@@ -2959,9 +2967,9 @@
     },
     {
       "name": "v.blk.17.layer_norm2.weight",
-      "layer": null,
-      "component": "v.blk.17.layer_norm2",
-      "domain": "language",
+      "layer": 17,
+      "component": "vt.norm.ffn",
+      "domain": "vision",
       "kind": "weight",
       "shape": [
         1152
@@ -2977,9 +2985,9 @@
     },
     {
       "name": "v.blk.17.mlp.fc1.bias",
-      "layer": null,
-      "component": "v.blk.17.mlp.fc1",
-      "domain": "language",
+      "layer": 17,
+      "component": "vt.ff.up",
+      "domain": "vision",
       "kind": "bias",
       "shape": [
         4304
@@ -2995,9 +3003,9 @@
     },
     {
       "name": "v.blk.17.mlp.fc1.weight",
-      "layer": null,
-      "component": "v.blk.17.mlp.fc1",
-      "domain": "language",
+      "layer": 17,
+      "component": "vt.ff.up",
+      "domain": "vision",
       "kind": "weight",
       "shape": [
         4304,
@@ -3014,9 +3022,9 @@
     },
     {
       "name": "v.blk.17.mlp.fc2.bias",
-      "layer": null,
-      "component": "v.blk.17.mlp.fc2",
-      "domain": "language",
+      "layer": 17,
+      "component": "vt.ff.down",
+      "domain": "vision",
       "kind": "bias",
       "shape": [
         1152
@@ -3032,9 +3040,9 @@
     },
     {
       "name": "v.blk.17.mlp.fc2.weight",
-      "layer": null,
-      "component": "v.blk.17.mlp.fc2",
-      "domain": "language",
+      "layer": 17,
+      "component": "vt.ff.down",
+      "domain": "vision",
       "kind": "weight",
       "shape": [
         1152,
@@ -3051,9 +3059,9 @@
     },
     {
       "name": "v.blk.18.attn_k.bias",
-      "layer": null,
-      "component": "v.blk.18.attn_k",
-      "domain": "language",
+      "layer": 18,
+      "component": "vt.attn.k",
+      "domain": "vision",
       "kind": "bias",
       "shape": [
         1152
@@ -3069,9 +3077,9 @@
     },
     {
       "name": "v.blk.18.attn_k.weight",
-      "layer": null,
-      "component": "v.blk.18.attn_k",
-      "domain": "language",
+      "layer": 18,
+      "component": "vt.attn.k",
+      "domain": "vision",
       "kind": "weight",
       "shape": [
         1152,
@@ -3088,9 +3096,9 @@
     },
     {
       "name": "v.blk.18.attn_output.bias",
-      "layer": null,
-      "component": "v.blk.18.attn_output",
-      "domain": "language",
+      "layer": 18,
+      "component": "vt.attn.o",
+      "domain": "vision",
       "kind": "bias",
       "shape": [
         1152
@@ -3106,9 +3114,9 @@
     },
     {
       "name": "v.blk.18.attn_output.weight",
-      "layer": null,
-      "component": "v.blk.18.attn_output",
-      "domain": "language",
+      "layer": 18,
+      "component": "vt.attn.o",
+      "domain": "vision",
       "kind": "weight",
       "shape": [
         1152,
@@ -3125,9 +3133,9 @@
     },
     {
       "name": "v.blk.18.attn_q.bias",
-      "layer": null,
-      "component": "v.blk.18.attn_q",
-      "domain": "language",
+      "layer": 18,
+      "component": "vt.attn.q",
+      "domain": "vision",
       "kind": "bias",
       "shape": [
         1152
@@ -3143,9 +3151,9 @@
     },
     {
       "name": "v.blk.18.attn_q.weight",
-      "layer": null,
-      "component": "v.blk.18.attn_q",
-      "domain": "language",
+      "layer": 18,
+      "component": "vt.attn.q",
+      "domain": "vision",
       "kind": "weight",
       "shape": [
         1152,
@@ -3162,9 +3170,9 @@
     },
     {
       "name": "v.blk.18.attn_v.bias",
-      "layer": null,
-      "component": "v.blk.18.attn_v",
-      "domain": "language",
+      "layer": 18,
+      "component": "vt.attn.v",
+      "domain": "vision",
       "kind": "bias",
       "shape": [
         1152
@@ -3180,9 +3188,9 @@
     },
     {
       "name": "v.blk.18.attn_v.weight",
-      "layer": null,
-      "component": "v.blk.18.attn_v",
-      "domain": "language",
+      "layer": 18,
+      "component": "vt.attn.v",
+      "domain": "vision",
       "kind": "weight",
       "shape": [
         1152,
@@ -3199,9 +3207,9 @@
     },
     {
       "name": "v.blk.18.layer_norm1.bias",
-      "layer": null,
-      "component": "v.blk.18.layer_norm1",
-      "domain": "language",
+      "layer": 18,
+      "component": "vt.norm.attn",
+      "domain": "vision",
       "kind": "bias",
       "shape": [
         1152
@@ -3217,9 +3225,9 @@
     },
     {
       "name": "v.blk.18.layer_norm1.weight",
-      "layer": null,
-      "component": "v.blk.18.layer_norm1",
-      "domain": "language",
+      "layer": 18,
+      "component": "vt.norm.attn",
+      "domain": "vision",
       "kind": "weight",
       "shape": [
         1152
@@ -3235,9 +3243,9 @@
     },
     {
       "name": "v.blk.18.layer_norm2.bias",
-      "layer": null,
-      "component": "v.blk.18.layer_norm2",
-      "domain": "language",
+      "layer": 18,
+      "component": "vt.norm.ffn",
+      "domain": "vision",
       "kind": "bias",
       "shape": [
         1152
@@ -3253,9 +3261,9 @@
     },
     {
       "name": "v.blk.18.layer_norm2.weight",
-      "layer": null,
-      "component": "v.blk.18.layer_norm2",
-      "domain": "language",
+      "layer": 18,
+      "component": "vt.norm.ffn",
+      "domain": "vision",
       "kind": "weight",
       "shape": [
         1152
@@ -3271,9 +3279,9 @@
     },
     {
       "name": "v.blk.18.mlp.fc1.bias",
-      "layer": null,
-      "component": "v.blk.18.mlp.fc1",
-      "domain": "language",
+      "layer": 18,
+      "component": "vt.ff.up",
+      "domain": "vision",
       "kind": "bias",
       "shape": [
         4304
@@ -3289,9 +3297,9 @@
     },
     {
       "name": "v.blk.18.mlp.fc1.weight",
-      "layer": null,
-      "component": "v.blk.18.mlp.fc1",
-      "domain": "language",
+      "layer": 18,
+      "component": "vt.ff.up",
+      "domain": "vision",
       "kind": "weight",
       "shape": [
         4304,
@@ -3308,9 +3316,9 @@
     },
     {
       "name": "v.blk.18.mlp.fc2.bias",
-      "layer": null,
-      "component": "v.blk.18.mlp.fc2",
-      "domain": "language",
+      "layer": 18,
+      "component": "vt.ff.down",
+      "domain": "vision",
       "kind": "bias",
       "shape": [
         1152
@@ -3326,9 +3334,9 @@
     },
     {
       "name": "v.blk.18.mlp.fc2.weight",
-      "layer": null,
-      "component": "v.blk.18.mlp.fc2",
-      "domain": "language",
+      "layer": 18,
+      "component": "vt.ff.down",
+      "domain": "vision",
       "kind": "weight",
       "shape": [
         1152,
@@ -3345,9 +3353,9 @@
     },
     {
       "name": "v.blk.19.attn_k.bias",
-      "layer": null,
-      "component": "v.blk.19.attn_k",
-      "domain": "language",
+      "layer": 19,
+      "component": "vt.attn.k",
+      "domain": "vision",
       "kind": "bias",
       "shape": [
         1152
@@ -3363,9 +3371,9 @@
     },
     {
       "name": "v.blk.19.attn_k.weight",
-      "layer": null,
-      "component": "v.blk.19.attn_k",
-      "domain": "language",
+      "layer": 19,
+      "component": "vt.attn.k",
+      "domain": "vision",
       "kind": "weight",
       "shape": [
         1152,
@@ -3382,9 +3390,9 @@
     },
     {
       "name": "v.blk.19.attn_output.bias",
-      "layer": null,
-      "component": "v.blk.19.attn_output",
-      "domain": "language",
+      "layer": 19,
+      "component": "vt.attn.o",
+      "domain": "vision",
       "kind": "bias",
       "shape": [
         1152
@@ -3400,9 +3408,9 @@
     },
     {
       "name": "v.blk.19.attn_output.weight",
-      "layer": null,
-      "component": "v.blk.19.attn_output",
-      "domain": "language",
+      "layer": 19,
+      "component": "vt.attn.o",
+      "domain": "vision",
       "kind": "weight",
       "shape": [
         1152,
@@ -3419,9 +3427,9 @@
     },
     {
       "name": "v.blk.19.attn_q.bias",
-      "layer": null,
-      "component": "v.blk.19.attn_q",
-      "domain": "language",
+      "layer": 19,
+      "component": "vt.attn.q",
+      "domain": "vision",
       "kind": "bias",
       "shape": [
         1152
@@ -3437,9 +3445,9 @@
     },
     {
       "name": "v.blk.19.attn_q.weight",
-      "layer": null,
-      "component": "v.blk.19.attn_q",
-      "domain": "language",
+      "layer": 19,
+      "component": "vt.attn.q",
+      "domain": "vision",
       "kind": "weight",
       "shape": [
         1152,
@@ -3456,9 +3464,9 @@
     },
     {
       "name": "v.blk.19.attn_v.bias",
-      "layer": null,
-      "component": "v.blk.19.attn_v",
-      "domain": "language",
+      "layer": 19,
+      "component": "vt.attn.v",
+      "domain": "vision",
       "kind": "bias",
       "shape": [
         1152
@@ -3474,9 +3482,9 @@
     },
     {
       "name": "v.blk.19.attn_v.weight",
-      "layer": null,
-      "component": "v.blk.19.attn_v",
-      "domain": "language",
+      "layer": 19,
+      "component": "vt.attn.v",
+      "domain": "vision",
       "kind": "weight",
       "shape": [
         1152,
@@ -3493,9 +3501,9 @@
     },
     {
       "name": "v.blk.19.layer_norm1.bias",
-      "layer": null,
-      "component": "v.blk.19.layer_norm1",
-      "domain": "language",
+      "layer": 19,
+      "component": "vt.norm.attn",
+      "domain": "vision",
       "kind": "bias",
       "shape": [
         1152
@@ -3511,9 +3519,9 @@
     },
     {
       "name": "v.blk.19.layer_norm1.weight",
-      "layer": null,
-      "component": "v.blk.19.layer_norm1",
-      "domain": "language",
+      "layer": 19,
+      "component": "vt.norm.attn",
+      "domain": "vision",
       "kind": "weight",
       "shape": [
         1152
@@ -3529,9 +3537,9 @@
     },
     {
       "name": "v.blk.19.layer_norm2.bias",
-      "layer": null,
-      "component": "v.blk.19.layer_norm2",
-      "domain": "language",
+      "layer": 19,
+      "component": "vt.norm.ffn",
+      "domain": "vision",
       "kind": "bias",
       "shape": [
         1152
@@ -3547,9 +3555,9 @@
     },
     {
       "name": "v.blk.19.layer_norm2.weight",
-      "layer": null,
-      "component": "v.blk.19.layer_norm2",
-      "domain": "language",
+      "layer": 19,
+      "component": "vt.norm.ffn",
+      "domain": "vision",
       "kind": "weight",
       "shape": [
         1152
@@ -3565,9 +3573,9 @@
     },
     {
       "name": "v.blk.19.mlp.fc1.bias",
-      "layer": null,
-      "component": "v.blk.19.mlp.fc1",
-      "domain": "language",
+      "layer": 19,
+      "component": "vt.ff.up",
+      "domain": "vision",
       "kind": "bias",
       "shape": [
         4304
@@ -3583,9 +3591,9 @@
     },
     {
       "name": "v.blk.19.mlp.fc1.weight",
-      "layer": null,
-      "component": "v.blk.19.mlp.fc1",
-      "domain": "language",
+      "layer": 19,
+      "component": "vt.ff.up",
+      "domain": "vision",
       "kind": "weight",
       "shape": [
         4304,
@@ -3602,9 +3610,9 @@
     },
     {
       "name": "v.blk.19.mlp.fc2.bias",
-      "layer": null,
-      "component": "v.blk.19.mlp.fc2",
-      "domain": "language",
+      "layer": 19,
+      "component": "vt.ff.down",
+      "domain": "vision",
       "kind": "bias",
       "shape": [
         1152
@@ -3620,9 +3628,9 @@
     },
     {
       "name": "v.blk.19.mlp.fc2.weight",
-      "layer": null,
-      "component": "v.blk.19.mlp.fc2",
-      "domain": "language",
+      "layer": 19,
+      "component": "vt.ff.down",
+      "domain": "vision",
       "kind": "weight",
       "shape": [
         1152,
@@ -3639,9 +3647,9 @@
     },
     {
       "name": "v.blk.2.attn_k.bias",
-      "layer": null,
-      "component": "v.blk.2.attn_k",
-      "domain": "language",
+      "layer": 2,
+      "component": "vt.attn.k",
+      "domain": "vision",
       "kind": "bias",
       "shape": [
         1152
@@ -3657,9 +3665,9 @@
     },
     {
       "name": "v.blk.2.attn_k.weight",
-      "layer": null,
-      "component": "v.blk.2.attn_k",
-      "domain": "language",
+      "layer": 2,
+      "component": "vt.attn.k",
+      "domain": "vision",
       "kind": "weight",
       "shape": [
         1152,
@@ -3676,9 +3684,9 @@
     },
     {
       "name": "v.blk.2.attn_output.bias",
-      "layer": null,
-      "component": "v.blk.2.attn_output",
-      "domain": "language",
+      "layer": 2,
+      "component": "vt.attn.o",
+      "domain": "vision",
       "kind": "bias",
       "shape": [
         1152
@@ -3694,9 +3702,9 @@
     },
     {
       "name": "v.blk.2.attn_output.weight",
-      "layer": null,
-      "component": "v.blk.2.attn_output",
-      "domain": "language",
+      "layer": 2,
+      "component": "vt.attn.o",
+      "domain": "vision",
       "kind": "weight",
       "shape": [
         1152,
@@ -3713,9 +3721,9 @@
     },
     {
       "name": "v.blk.2.attn_q.bias",
-      "layer": null,
-      "component": "v.blk.2.attn_q",
-      "domain": "language",
+      "layer": 2,
+      "component": "vt.attn.q",
+      "domain": "vision",
       "kind": "bias",
       "shape": [
         1152
@@ -3731,9 +3739,9 @@
     },
     {
       "name": "v.blk.2.attn_q.weight",
-      "layer": null,
-      "component": "v.blk.2.attn_q",
-      "domain": "language",
+      "layer": 2,
+      "component": "vt.attn.q",
+      "domain": "vision",
       "kind": "weight",
       "shape": [
         1152,
@@ -3750,9 +3758,9 @@
     },
     {
       "name": "v.blk.2.attn_v.bias",
-      "layer": null,
-      "component": "v.blk.2.attn_v",
-      "domain": "language",
+      "layer": 2,
+      "component": "vt.attn.v",
+      "domain": "vision",
       "kind": "bias",
       "shape": [
         1152
@@ -3768,9 +3776,9 @@
     },
     {
       "name": "v.blk.2.attn_v.weight",
-      "layer": null,
-      "component": "v.blk.2.attn_v",
-      "domain": "language",
+      "layer": 2,
+      "component": "vt.attn.v",
+      "domain": "vision",
       "kind": "weight",
       "shape": [
         1152,
@@ -3787,9 +3795,9 @@
     },
     {
       "name": "v.blk.2.layer_norm1.bias",
-      "layer": null,
-      "component": "v.blk.2.layer_norm1",
-      "domain": "language",
+      "layer": 2,
+      "component": "vt.norm.attn",
+      "domain": "vision",
       "kind": "bias",
       "shape": [
         1152
@@ -3805,9 +3813,9 @@
     },
     {
       "name": "v.blk.2.layer_norm1.weight",
-      "layer": null,
-      "component": "v.blk.2.layer_norm1",
-      "domain": "language",
+      "layer": 2,
+      "component": "vt.norm.attn",
+      "domain": "vision",
       "kind": "weight",
       "shape": [
         1152
@@ -3823,9 +3831,9 @@
     },
     {
       "name": "v.blk.2.layer_norm2.bias",
-      "layer": null,
-      "component": "v.blk.2.layer_norm2",
-      "domain": "language",
+      "layer": 2,
+      "component": "vt.norm.ffn",
+      "domain": "vision",
       "kind": "bias",
       "shape": [
         1152
@@ -3841,9 +3849,9 @@
     },
     {
       "name": "v.blk.2.layer_norm2.weight",
-      "layer": null,
-      "component": "v.blk.2.layer_norm2",
-      "domain": "language",
+      "layer": 2,
+      "component": "vt.norm.ffn",
+      "domain": "vision",
       "kind": "weight",
       "shape": [
         1152
@@ -3859,9 +3867,9 @@
     },
     {
       "name": "v.blk.2.mlp.fc1.bias",
-      "layer": null,
-      "component": "v.blk.2.mlp.fc1",
-      "domain": "language",
+      "layer": 2,
+      "component": "vt.ff.up",
+      "domain": "vision",
       "kind": "bias",
       "shape": [
         4304
@@ -3877,9 +3885,9 @@
     },
     {
       "name": "v.blk.2.mlp.fc1.weight",
-      "layer": null,
-      "component": "v.blk.2.mlp.fc1",
-      "domain": "language",
+      "layer": 2,
+      "component": "vt.ff.up",
+      "domain": "vision",
       "kind": "weight",
       "shape": [
         4304,
@@ -3896,9 +3904,9 @@
     },
     {
       "name": "v.blk.2.mlp.fc2.bias",
-      "layer": null,
-      "component": "v.blk.2.mlp.fc2",
-      "domain": "language",
+      "layer": 2,
+      "component": "vt.ff.down",
+      "domain": "vision",
       "kind": "bias",
       "shape": [
         1152
@@ -3914,9 +3922,9 @@
     },
     {
       "name": "v.blk.2.mlp.fc2.weight",
-      "layer": null,
-      "component": "v.blk.2.mlp.fc2",
-      "domain": "language",
+      "layer": 2,
+      "component": "vt.ff.down",
+      "domain": "vision",
       "kind": "weight",
       "shape": [
         1152,
@@ -3933,9 +3941,9 @@
     },
     {
       "name": "v.blk.20.attn_k.bias",
-      "layer": null,
-      "component": "v.blk.20.attn_k",
-      "domain": "language",
+      "layer": 20,
+      "component": "vt.attn.k",
+      "domain": "vision",
       "kind": "bias",
       "shape": [
         1152
@@ -3951,9 +3959,9 @@
     },
     {
       "name": "v.blk.20.attn_k.weight",
-      "layer": null,
-      "component": "v.blk.20.attn_k",
-      "domain": "language",
+      "layer": 20,
+      "component": "vt.attn.k",
+      "domain": "vision",
       "kind": "weight",
       "shape": [
         1152,
@@ -3970,9 +3978,9 @@
     },
     {
       "name": "v.blk.20.attn_output.bias",
-      "layer": null,
-      "component": "v.blk.20.attn_output",
-      "domain": "language",
+      "layer": 20,
+      "component": "vt.attn.o",
+      "domain": "vision",
       "kind": "bias",
       "shape": [
         1152
@@ -3988,9 +3996,9 @@
     },
     {
       "name": "v.blk.20.attn_output.weight",
-      "layer": null,
-      "component": "v.blk.20.attn_output",
-      "domain": "language",
+      "layer": 20,
+      "component": "vt.attn.o",
+      "domain": "vision",
       "kind": "weight",
       "shape": [
         1152,
@@ -4007,9 +4015,9 @@
     },
     {
       "name": "v.blk.20.attn_q.bias",
-      "layer": null,
-      "component": "v.blk.20.attn_q",
-      "domain": "language",
+      "layer": 20,
+      "component": "vt.attn.q",
+      "domain": "vision",
       "kind": "bias",
       "shape": [
         1152
@@ -4025,9 +4033,9 @@
     },
     {
       "name": "v.blk.20.attn_q.weight",
-      "layer": null,
-      "component": "v.blk.20.attn_q",
-      "domain": "language",
+      "layer": 20,
+      "component": "vt.attn.q",
+      "domain": "vision",
       "kind": "weight",
       "shape": [
         1152,
@@ -4044,9 +4052,9 @@
     },
     {
       "name": "v.blk.20.attn_v.bias",
-      "layer": null,
-      "component": "v.blk.20.attn_v",
-      "domain": "language",
+      "layer": 20,
+      "component": "vt.attn.v",
+      "domain": "vision",
       "kind": "bias",
       "shape": [
         1152
@@ -4062,9 +4070,9 @@
     },
     {
       "name": "v.blk.20.attn_v.weight",
-      "layer": null,
-      "component": "v.blk.20.attn_v",
-      "domain": "language",
+      "layer": 20,
+      "component": "vt.attn.v",
+      "domain": "vision",
       "kind": "weight",
       "shape": [
         1152,
@@ -4081,9 +4089,9 @@
     },
     {
       "name": "v.blk.20.layer_norm1.bias",
-      "layer": null,
-      "component": "v.blk.20.layer_norm1",
-      "domain": "language",
+      "layer": 20,
+      "component": "vt.norm.attn",
+      "domain": "vision",
       "kind": "bias",
       "shape": [
         1152
@@ -4099,9 +4107,9 @@
     },
     {
       "name": "v.blk.20.layer_norm1.weight",
-      "layer": null,
-      "component": "v.blk.20.layer_norm1",
-      "domain": "language",
+      "layer": 20,
+      "component": "vt.norm.attn",
+      "domain": "vision",
       "kind": "weight",
       "shape": [
         1152
@@ -4117,9 +4125,9 @@
     },
     {
       "name": "v.blk.20.layer_norm2.bias",
-      "layer": null,
-      "component": "v.blk.20.layer_norm2",
-      "domain": "language",
+      "layer": 20,
+      "component": "vt.norm.ffn",
+      "domain": "vision",
       "kind": "bias",
       "shape": [
         1152
@@ -4135,9 +4143,9 @@
     },
     {
       "name": "v.blk.20.layer_norm2.weight",
-      "layer": null,
-      "component": "v.blk.20.layer_norm2",
-      "domain": "language",
+      "layer": 20,
+      "component": "vt.norm.ffn",
+      "domain": "vision",
       "kind": "weight",
       "shape": [
         1152
@@ -4153,9 +4161,9 @@
     },
     {
       "name": "v.blk.20.mlp.fc1.bias",
-      "layer": null,
-      "component": "v.blk.20.mlp.fc1",
-      "domain": "language",
+      "layer": 20,
+      "component": "vt.ff.up",
+      "domain": "vision",
       "kind": "bias",
       "shape": [
         4304
@@ -4171,9 +4179,9 @@
     },
     {
       "name": "v.blk.20.mlp.fc1.weight",
-      "layer": null,
-      "component": "v.blk.20.mlp.fc1",
-      "domain": "language",
+      "layer": 20,
+      "component": "vt.ff.up",
+      "domain": "vision",
       "kind": "weight",
       "shape": [
         4304,
@@ -4190,9 +4198,9 @@
     },
     {
       "name": "v.blk.20.mlp.fc2.bias",
-      "layer": null,
-      "component": "v.blk.20.mlp.fc2",
-      "domain": "language",
+      "layer": 20,
+      "component": "vt.ff.down",
+      "domain": "vision",
       "kind": "bias",
       "shape": [
         1152
@@ -4208,9 +4216,9 @@
     },
     {
       "name": "v.blk.20.mlp.fc2.weight",
-      "layer": null,
-      "component": "v.blk.20.mlp.fc2",
-      "domain": "language",
+      "layer": 20,
+      "component": "vt.ff.down",
+      "domain": "vision",
       "kind": "weight",
       "shape": [
         1152,
@@ -4227,9 +4235,9 @@
     },
     {
       "name": "v.blk.21.attn_k.bias",
-      "layer": null,
-      "component": "v.blk.21.attn_k",
-      "domain": "language",
+      "layer": 21,
+      "component": "vt.attn.k",
+      "domain": "vision",
       "kind": "bias",
       "shape": [
         1152
@@ -4245,9 +4253,9 @@
     },
     {
       "name": "v.blk.21.attn_k.weight",
-      "layer": null,
-      "component": "v.blk.21.attn_k",
-      "domain": "language",
+      "layer": 21,
+      "component": "vt.attn.k",
+      "domain": "vision",
       "kind": "weight",
       "shape": [
         1152,
@@ -4264,9 +4272,9 @@
     },
     {
       "name": "v.blk.21.attn_output.bias",
-      "layer": null,
-      "component": "v.blk.21.attn_output",
-      "domain": "language",
+      "layer": 21,
+      "component": "vt.attn.o",
+      "domain": "vision",
       "kind": "bias",
       "shape": [
         1152
@@ -4282,9 +4290,9 @@
     },
     {
       "name": "v.blk.21.attn_output.weight",
-      "layer": null,
-      "component": "v.blk.21.attn_output",
-      "domain": "language",
+      "layer": 21,
+      "component": "vt.attn.o",
+      "domain": "vision",
       "kind": "weight",
       "shape": [
         1152,
@@ -4301,9 +4309,9 @@
     },
     {
       "name": "v.blk.21.attn_q.bias",
-      "layer": null,
-      "component": "v.blk.21.attn_q",
-      "domain": "language",
+      "layer": 21,
+      "component": "vt.attn.q",
+      "domain": "vision",
       "kind": "bias",
       "shape": [
         1152
@@ -4319,9 +4327,9 @@
     },
     {
       "name": "v.blk.21.attn_q.weight",
-      "layer": null,
-      "component": "v.blk.21.attn_q",
-      "domain": "language",
+      "layer": 21,
+      "component": "vt.attn.q",
+      "domain": "vision",
       "kind": "weight",
       "shape": [
         1152,
@@ -4338,9 +4346,9 @@
     },
     {
       "name": "v.blk.21.attn_v.bias",
-      "layer": null,
-      "component": "v.blk.21.attn_v",
-      "domain": "language",
+      "layer": 21,
+      "component": "vt.attn.v",
+      "domain": "vision",
       "kind": "bias",
       "shape": [
         1152
@@ -4356,9 +4364,9 @@
     },
     {
       "name": "v.blk.21.attn_v.weight",
-      "layer": null,
-      "component": "v.blk.21.attn_v",
-      "domain": "language",
+      "layer": 21,
+      "component": "vt.attn.v",
+      "domain": "vision",
       "kind": "weight",
       "shape": [
         1152,
@@ -4375,9 +4383,9 @@
     },
     {
       "name": "v.blk.21.layer_norm1.bias",
-      "layer": null,
-      "component": "v.blk.21.layer_norm1",
-      "domain": "language",
+      "layer": 21,
+      "component": "vt.norm.attn",
+      "domain": "vision",
       "kind": "bias",
       "shape": [
         1152
@@ -4393,9 +4401,9 @@
     },
     {
       "name": "v.blk.21.layer_norm1.weight",
-      "layer": null,
-      "component": "v.blk.21.layer_norm1",
-      "domain": "language",
+      "layer": 21,
+      "component": "vt.norm.attn",
+      "domain": "vision",
       "kind": "weight",
       "shape": [
         1152
@@ -4411,9 +4419,9 @@
     },
     {
       "name": "v.blk.21.layer_norm2.bias",
-      "layer": null,
-      "component": "v.blk.21.layer_norm2",
-      "domain": "language",
+      "layer": 21,
+      "component": "vt.norm.ffn",
+      "domain": "vision",
       "kind": "bias",
       "shape": [
         1152
@@ -4429,9 +4437,9 @@
     },
     {
       "name": "v.blk.21.layer_norm2.weight",
-      "layer": null,
-      "component": "v.blk.21.layer_norm2",
-      "domain": "language",
+      "layer": 21,
+      "component": "vt.norm.ffn",
+      "domain": "vision",
       "kind": "weight",
       "shape": [
         1152
@@ -4447,9 +4455,9 @@
     },
     {
       "name": "v.blk.21.mlp.fc1.bias",
-      "layer": null,
-      "component": "v.blk.21.mlp.fc1",
-      "domain": "language",
+      "layer": 21,
+      "component": "vt.ff.up",
+      "domain": "vision",
       "kind": "bias",
       "shape": [
         4304
@@ -4465,9 +4473,9 @@
     },
     {
       "name": "v.blk.21.mlp.fc1.weight",
-      "layer": null,
-      "component": "v.blk.21.mlp.fc1",
-      "domain": "language",
+      "layer": 21,
+      "component": "vt.ff.up",
+      "domain": "vision",
       "kind": "weight",
       "shape": [
         4304,
@@ -4484,9 +4492,9 @@
     },
     {
       "name": "v.blk.21.mlp.fc2.bias",
-      "layer": null,
-      "component": "v.blk.21.mlp.fc2",
-      "domain": "language",
+      "layer": 21,
+      "component": "vt.ff.down",
+      "domain": "vision",
       "kind": "bias",
       "shape": [
         1152
@@ -4502,9 +4510,9 @@
     },
     {
       "name": "v.blk.21.mlp.fc2.weight",
-      "layer": null,
-      "component": "v.blk.21.mlp.fc2",
-      "domain": "language",
+      "layer": 21,
+      "component": "vt.ff.down",
+      "domain": "vision",
       "kind": "weight",
       "shape": [
         1152,
@@ -4521,9 +4529,9 @@
     },
     {
       "name": "v.blk.22.attn_k.bias",
-      "layer": null,
-      "component": "v.blk.22.attn_k",
-      "domain": "language",
+      "layer": 22,
+      "component": "vt.attn.k",
+      "domain": "vision",
       "kind": "bias",
       "shape": [
         1152
@@ -4539,9 +4547,9 @@
     },
     {
       "name": "v.blk.22.attn_k.weight",
-      "layer": null,
-      "component": "v.blk.22.attn_k",
-      "domain": "language",
+      "layer": 22,
+      "component": "vt.attn.k",
+      "domain": "vision",
       "kind": "weight",
       "shape": [
         1152,
@@ -4558,9 +4566,9 @@
     },
     {
       "name": "v.blk.22.attn_output.bias",
-      "layer": null,
-      "component": "v.blk.22.attn_output",
-      "domain": "language",
+      "layer": 22,
+      "component": "vt.attn.o",
+      "domain": "vision",
       "kind": "bias",
       "shape": [
         1152
@@ -4576,9 +4584,9 @@
     },
     {
       "name": "v.blk.22.attn_output.weight",
-      "layer": null,
-      "component": "v.blk.22.attn_output",
-      "domain": "language",
+      "layer": 22,
+      "component": "vt.attn.o",
+      "domain": "vision",
       "kind": "weight",
       "shape": [
         1152,
@@ -4595,9 +4603,9 @@
     },
     {
       "name": "v.blk.22.attn_q.bias",
-      "layer": null,
-      "component": "v.blk.22.attn_q",
-      "domain": "language",
+      "layer": 22,
+      "component": "vt.attn.q",
+      "domain": "vision",
       "kind": "bias",
       "shape": [
         1152
@@ -4613,9 +4621,9 @@
     },
     {
       "name": "v.blk.22.attn_q.weight",
-      "layer": null,
-      "component": "v.blk.22.attn_q",
-      "domain": "language",
+      "layer": 22,
+      "component": "vt.attn.q",
+      "domain": "vision",
       "kind": "weight",
       "shape": [
         1152,
@@ -4632,9 +4640,9 @@
     },
     {
       "name": "v.blk.22.attn_v.bias",
-      "layer": null,
-      "component": "v.blk.22.attn_v",
-      "domain": "language",
+      "layer": 22,
+      "component": "vt.attn.v",
+      "domain": "vision",
       "kind": "bias",
       "shape": [
         1152
@@ -4650,9 +4658,9 @@
     },
     {
       "name": "v.blk.22.attn_v.weight",
-      "layer": null,
-      "component": "v.blk.22.attn_v",
-      "domain": "language",
+      "layer": 22,
+      "component": "vt.attn.v",
+      "domain": "vision",
       "kind": "weight",
       "shape": [
         1152,
@@ -4669,9 +4677,9 @@
     },
     {
       "name": "v.blk.22.layer_norm1.bias",
-      "layer": null,
-      "component": "v.blk.22.layer_norm1",
-      "domain": "language",
+      "layer": 22,
+      "component": "vt.norm.attn",
+      "domain": "vision",
       "kind": "bias",
       "shape": [
         1152
@@ -4687,9 +4695,9 @@
     },
     {
       "name": "v.blk.22.layer_norm1.weight",
-      "layer": null,
-      "component": "v.blk.22.layer_norm1",
-      "domain": "language",
+      "layer": 22,
+      "component": "vt.norm.attn",
+      "domain": "vision",
       "kind": "weight",
       "shape": [
         1152
@@ -4705,9 +4713,9 @@
     },
     {
       "name": "v.blk.22.layer_norm2.bias",
-      "layer": null,
-      "component": "v.blk.22.layer_norm2",
-      "domain": "language",
+      "layer": 22,
+      "component": "vt.norm.ffn",
+      "domain": "vision",
       "kind": "bias",
       "shape": [
         1152
@@ -4723,9 +4731,9 @@
     },
     {
       "name": "v.blk.22.layer_norm2.weight",
-      "layer": null,
-      "component": "v.blk.22.layer_norm2",
-      "domain": "language",
+      "layer": 22,
+      "component": "vt.norm.ffn",
+      "domain": "vision",
       "kind": "weight",
       "shape": [
         1152
@@ -4741,9 +4749,9 @@
     },
     {
       "name": "v.blk.22.mlp.fc1.bias",
-      "layer": null,
-      "component": "v.blk.22.mlp.fc1",
-      "domain": "language",
+      "layer": 22,
+      "component": "vt.ff.up",
+      "domain": "vision",
       "kind": "bias",
       "shape": [
         4304
@@ -4759,9 +4767,9 @@
     },
     {
       "name": "v.blk.22.mlp.fc1.weight",
-      "layer": null,
-      "component": "v.blk.22.mlp.fc1",
-      "domain": "language",
+      "layer": 22,
+      "component": "vt.ff.up",
+      "domain": "vision",
       "kind": "weight",
       "shape": [
         4304,
@@ -4778,9 +4786,9 @@
     },
     {
       "name": "v.blk.22.mlp.fc2.bias",
-      "layer": null,
-      "component": "v.blk.22.mlp.fc2",
-      "domain": "language",
+      "layer": 22,
+      "component": "vt.ff.down",
+      "domain": "vision",
       "kind": "bias",
       "shape": [
         1152
@@ -4796,9 +4804,9 @@
     },
     {
       "name": "v.blk.22.mlp.fc2.weight",
-      "layer": null,
-      "component": "v.blk.22.mlp.fc2",
-      "domain": "language",
+      "layer": 22,
+      "component": "vt.ff.down",
+      "domain": "vision",
       "kind": "weight",
       "shape": [
         1152,
@@ -4815,9 +4823,9 @@
     },
     {
       "name": "v.blk.23.attn_k.bias",
-      "layer": null,
-      "component": "v.blk.23.attn_k",
-      "domain": "language",
+      "layer": 23,
+      "component": "vt.attn.k",
+      "domain": "vision",
       "kind": "bias",
       "shape": [
         1152
@@ -4833,9 +4841,9 @@
     },
     {
       "name": "v.blk.23.attn_k.weight",
-      "layer": null,
-      "component": "v.blk.23.attn_k",
-      "domain": "language",
+      "layer": 23,
+      "component": "vt.attn.k",
+      "domain": "vision",
       "kind": "weight",
       "shape": [
         1152,
@@ -4852,9 +4860,9 @@
     },
     {
       "name": "v.blk.23.attn_output.bias",
-      "layer": null,
-      "component": "v.blk.23.attn_output",
-      "domain": "language",
+      "layer": 23,
+      "component": "vt.attn.o",
+      "domain": "vision",
       "kind": "bias",
       "shape": [
         1152
@@ -4870,9 +4878,9 @@
     },
     {
       "name": "v.blk.23.attn_output.weight",
-      "layer": null,
-      "component": "v.blk.23.attn_output",
-      "domain": "language",
+      "layer": 23,
+      "component": "vt.attn.o",
+      "domain": "vision",
       "kind": "weight",
       "shape": [
         1152,
@@ -4889,9 +4897,9 @@
     },
     {
       "name": "v.blk.23.attn_q.bias",
-      "layer": null,
-      "component": "v.blk.23.attn_q",
-      "domain": "language",
+      "layer": 23,
+      "component": "vt.attn.q",
+      "domain": "vision",
       "kind": "bias",
       "shape": [
         1152
@@ -4907,9 +4915,9 @@
     },
     {
       "name": "v.blk.23.attn_q.weight",
-      "layer": null,
-      "component": "v.blk.23.attn_q",
-      "domain": "language",
+      "layer": 23,
+      "component": "vt.attn.q",
+      "domain": "vision",
       "kind": "weight",
       "shape": [
         1152,
@@ -4926,9 +4934,9 @@
     },
     {
       "name": "v.blk.23.attn_v.bias",
-      "layer": null,
-      "component": "v.blk.23.attn_v",
-      "domain": "language",
+      "layer": 23,
+      "component": "vt.attn.v",
+      "domain": "vision",
       "kind": "bias",
       "shape": [
         1152
@@ -4944,9 +4952,9 @@
     },
     {
       "name": "v.blk.23.attn_v.weight",
-      "layer": null,
-      "component": "v.blk.23.attn_v",
-      "domain": "language",
+      "layer": 23,
+      "component": "vt.attn.v",
+      "domain": "vision",
       "kind": "weight",
       "shape": [
         1152,
@@ -4963,9 +4971,9 @@
     },
     {
       "name": "v.blk.23.layer_norm1.bias",
-      "layer": null,
-      "component": "v.blk.23.layer_norm1",
-      "domain": "language",
+      "layer": 23,
+      "component": "vt.norm.attn",
+      "domain": "vision",
       "kind": "bias",
       "shape": [
         1152
@@ -4981,9 +4989,9 @@
     },
     {
       "name": "v.blk.23.layer_norm1.weight",
-      "layer": null,
-      "component": "v.blk.23.layer_norm1",
-      "domain": "language",
+      "layer": 23,
+      "component": "vt.norm.attn",
+      "domain": "vision",
       "kind": "weight",
       "shape": [
         1152
@@ -4999,9 +5007,9 @@
     },
     {
       "name": "v.blk.23.layer_norm2.bias",
-      "layer": null,
-      "component": "v.blk.23.layer_norm2",
-      "domain": "language",
+      "layer": 23,
+      "component": "vt.norm.ffn",
+      "domain": "vision",
       "kind": "bias",
       "shape": [
         1152
@@ -5017,9 +5025,9 @@
     },
     {
       "name": "v.blk.23.layer_norm2.weight",
-      "layer": null,
-      "component": "v.blk.23.layer_norm2",
-      "domain": "language",
+      "layer": 23,
+      "component": "vt.norm.ffn",
+      "domain": "vision",
       "kind": "weight",
       "shape": [
         1152
@@ -5035,9 +5043,9 @@
     },
     {
       "name": "v.blk.23.mlp.fc1.bias",
-      "layer": null,
-      "component": "v.blk.23.mlp.fc1",
-      "domain": "language",
+      "layer": 23,
+      "component": "vt.ff.up",
+      "domain": "vision",
       "kind": "bias",
       "shape": [
         4304
@@ -5053,9 +5061,9 @@
     },
     {
       "name": "v.blk.23.mlp.fc1.weight",
-      "layer": null,
-      "component": "v.blk.23.mlp.fc1",
-      "domain": "language",
+      "layer": 23,
+      "component": "vt.ff.up",
+      "domain": "vision",
       "kind": "weight",
       "shape": [
         4304,
@@ -5072,9 +5080,9 @@
     },
     {
       "name": "v.blk.23.mlp.fc2.bias",
-      "layer": null,
-      "component": "v.blk.23.mlp.fc2",
-      "domain": "language",
+      "layer": 23,
+      "component": "vt.ff.down",
+      "domain": "vision",
       "kind": "bias",
       "shape": [
         1152
@@ -5090,9 +5098,9 @@
     },
     {
       "name": "v.blk.23.mlp.fc2.weight",
-      "layer": null,
-      "component": "v.blk.23.mlp.fc2",
-      "domain": "language",
+      "layer": 23,
+      "component": "vt.ff.down",
+      "domain": "vision",
       "kind": "weight",
       "shape": [
         1152,
@@ -5109,9 +5117,9 @@
     },
     {
       "name": "v.blk.24.attn_k.bias",
-      "layer": null,
-      "component": "v.blk.24.attn_k",
-      "domain": "language",
+      "layer": 24,
+      "component": "vt.attn.k",
+      "domain": "vision",
       "kind": "bias",
       "shape": [
         1152
@@ -5127,9 +5135,9 @@
     },
     {
       "name": "v.blk.24.attn_k.weight",
-      "layer": null,
-      "component": "v.blk.24.attn_k",
-      "domain": "language",
+      "layer": 24,
+      "component": "vt.attn.k",
+      "domain": "vision",
       "kind": "weight",
       "shape": [
         1152,
@@ -5146,9 +5154,9 @@
     },
     {
       "name": "v.blk.24.attn_output.bias",
-      "layer": null,
-      "component": "v.blk.24.attn_output",
-      "domain": "language",
+      "layer": 24,
+      "component": "vt.attn.o",
+      "domain": "vision",
       "kind": "bias",
       "shape": [
         1152
@@ -5164,9 +5172,9 @@
     },
     {
       "name": "v.blk.24.attn_output.weight",
-      "layer": null,
-      "component": "v.blk.24.attn_output",
-      "domain": "language",
+      "layer": 24,
+      "component": "vt.attn.o",
+      "domain": "vision",
       "kind": "weight",
       "shape": [
         1152,
@@ -5183,9 +5191,9 @@
     },
     {
       "name": "v.blk.24.attn_q.bias",
-      "layer": null,
-      "component": "v.blk.24.attn_q",
-      "domain": "language",
+      "layer": 24,
+      "component": "vt.attn.q",
+      "domain": "vision",
       "kind": "bias",
       "shape": [
         1152
@@ -5201,9 +5209,9 @@
     },
     {
       "name": "v.blk.24.attn_q.weight",
-      "layer": null,
-      "component": "v.blk.24.attn_q",
-      "domain": "language",
+      "layer": 24,
+      "component": "vt.attn.q",
+      "domain": "vision",
       "kind": "weight",
       "shape": [
         1152,
@@ -5220,9 +5228,9 @@
     },
     {
       "name": "v.blk.24.attn_v.bias",
-      "layer": null,
-      "component": "v.blk.24.attn_v",
-      "domain": "language",
+      "layer": 24,
+      "component": "vt.attn.v",
+      "domain": "vision",
       "kind": "bias",
       "shape": [
         1152
@@ -5238,9 +5246,9 @@
     },
     {
       "name": "v.blk.24.attn_v.weight",
-      "layer": null,
-      "component": "v.blk.24.attn_v",
-      "domain": "language",
+      "layer": 24,
+      "component": "vt.attn.v",
+      "domain": "vision",
       "kind": "weight",
       "shape": [
         1152,
@@ -5257,9 +5265,9 @@
     },
     {
       "name": "v.blk.24.layer_norm1.bias",
-      "layer": null,
-      "component": "v.blk.24.layer_norm1",
-      "domain": "language",
+      "layer": 24,
+      "component": "vt.norm.attn",
+      "domain": "vision",
       "kind": "bias",
       "shape": [
         1152
@@ -5275,9 +5283,9 @@
     },
     {
       "name": "v.blk.24.layer_norm1.weight",
-      "layer": null,
-      "component": "v.blk.24.layer_norm1",
-      "domain": "language",
+      "layer": 24,
+      "component": "vt.norm.attn",
+      "domain": "vision",
       "kind": "weight",
       "shape": [
         1152
@@ -5293,9 +5301,9 @@
     },
     {
       "name": "v.blk.24.layer_norm2.bias",
-      "layer": null,
-      "component": "v.blk.24.layer_norm2",
-      "domain": "language",
+      "layer": 24,
+      "component": "vt.norm.ffn",
+      "domain": "vision",
       "kind": "bias",
       "shape": [
         1152
@@ -5311,9 +5319,9 @@
     },
     {
       "name": "v.blk.24.layer_norm2.weight",
-      "layer": null,
-      "component": "v.blk.24.layer_norm2",
-      "domain": "language",
+      "layer": 24,
+      "component": "vt.norm.ffn",
+      "domain": "vision",
       "kind": "weight",
       "shape": [
         1152
@@ -5329,9 +5337,9 @@
     },
     {
       "name": "v.blk.24.mlp.fc1.bias",
-      "layer": null,
-      "component": "v.blk.24.mlp.fc1",
-      "domain": "language",
+      "layer": 24,
+      "component": "vt.ff.up",
+      "domain": "vision",
       "kind": "bias",
       "shape": [
         4304
@@ -5347,9 +5355,9 @@
     },
     {
       "name": "v.blk.24.mlp.fc1.weight",
-      "layer": null,
-      "component": "v.blk.24.mlp.fc1",
-      "domain": "language",
+      "layer": 24,
+      "component": "vt.ff.up",
+      "domain": "vision",
       "kind": "weight",
       "shape": [
         4304,
@@ -5366,9 +5374,9 @@
     },
     {
       "name": "v.blk.24.mlp.fc2.bias",
-      "layer": null,
-      "component": "v.blk.24.mlp.fc2",
-      "domain": "language",
+      "layer": 24,
+      "component": "vt.ff.down",
+      "domain": "vision",
       "kind": "bias",
       "shape": [
         1152
@@ -5384,9 +5392,9 @@
     },
     {
       "name": "v.blk.24.mlp.fc2.weight",
-      "layer": null,
-      "component": "v.blk.24.mlp.fc2",
-      "domain": "language",
+      "layer": 24,
+      "component": "vt.ff.down",
+      "domain": "vision",
       "kind": "weight",
       "shape": [
         1152,
@@ -5403,9 +5411,9 @@
     },
     {
       "name": "v.blk.25.attn_k.bias",
-      "layer": null,
-      "component": "v.blk.25.attn_k",
-      "domain": "language",
+      "layer": 25,
+      "component": "vt.attn.k",
+      "domain": "vision",
       "kind": "bias",
       "shape": [
         1152
@@ -5421,9 +5429,9 @@
     },
     {
       "name": "v.blk.25.attn_k.weight",
-      "layer": null,
-      "component": "v.blk.25.attn_k",
-      "domain": "language",
+      "layer": 25,
+      "component": "vt.attn.k",
+      "domain": "vision",
       "kind": "weight",
       "shape": [
         1152,
@@ -5440,9 +5448,9 @@
     },
     {
       "name": "v.blk.25.attn_output.bias",
-      "layer": null,
-      "component": "v.blk.25.attn_output",
-      "domain": "language",
+      "layer": 25,
+      "component": "vt.attn.o",
+      "domain": "vision",
       "kind": "bias",
       "shape": [
         1152
@@ -5458,9 +5466,9 @@
     },
     {
       "name": "v.blk.25.attn_output.weight",
-      "layer": null,
-      "component": "v.blk.25.attn_output",
-      "domain": "language",
+      "layer": 25,
+      "component": "vt.attn.o",
+      "domain": "vision",
       "kind": "weight",
       "shape": [
         1152,
@@ -5477,9 +5485,9 @@
     },
     {
       "name": "v.blk.25.attn_q.bias",
-      "layer": null,
-      "component": "v.blk.25.attn_q",
-      "domain": "language",
+      "layer": 25,
+      "component": "vt.attn.q",
+      "domain": "vision",
       "kind": "bias",
       "shape": [
         1152
@@ -5495,9 +5503,9 @@
     },
     {
       "name": "v.blk.25.attn_q.weight",
-      "layer": null,
-      "component": "v.blk.25.attn_q",
-      "domain": "language",
+      "layer": 25,
+      "component": "vt.attn.q",
+      "domain": "vision",
       "kind": "weight",
       "shape": [
         1152,
@@ -5514,9 +5522,9 @@
     },
     {
       "name": "v.blk.25.attn_v.bias",
-      "layer": null,
-      "component": "v.blk.25.attn_v",
-      "domain": "language",
+      "layer": 25,
+      "component": "vt.attn.v",
+      "domain": "vision",
       "kind": "bias",
       "shape": [
         1152
@@ -5532,9 +5540,9 @@
     },
     {
       "name": "v.blk.25.attn_v.weight",
-      "layer": null,
-      "component": "v.blk.25.attn_v",
-      "domain": "language",
+      "layer": 25,
+      "component": "vt.attn.v",
+      "domain": "vision",
       "kind": "weight",
       "shape": [
         1152,
@@ -5551,9 +5559,9 @@
     },
     {
       "name": "v.blk.25.layer_norm1.bias",
-      "layer": null,
-      "component": "v.blk.25.layer_norm1",
-      "domain": "language",
+      "layer": 25,
+      "component": "vt.norm.attn",
+      "domain": "vision",
       "kind": "bias",
       "shape": [
         1152
@@ -5569,9 +5577,9 @@
     },
     {
       "name": "v.blk.25.layer_norm1.weight",
-      "layer": null,
-      "component": "v.blk.25.layer_norm1",
-      "domain": "language",
+      "layer": 25,
+      "component": "vt.norm.attn",
+      "domain": "vision",
       "kind": "weight",
       "shape": [
         1152
@@ -5587,9 +5595,9 @@
     },
     {
       "name": "v.blk.25.layer_norm2.bias",
-      "layer": null,
-      "component": "v.blk.25.layer_norm2",
-      "domain": "language",
+      "layer": 25,
+      "component": "vt.norm.ffn",
+      "domain": "vision",
       "kind": "bias",
       "shape": [
         1152
@@ -5605,9 +5613,9 @@
     },
     {
       "name": "v.blk.25.layer_norm2.weight",
-      "layer": null,
-      "component": "v.blk.25.layer_norm2",
-      "domain": "language",
+      "layer": 25,
+      "component": "vt.norm.ffn",
+      "domain": "vision",
       "kind": "weight",
       "shape": [
         1152
@@ -5623,9 +5631,9 @@
     },
     {
       "name": "v.blk.25.mlp.fc1.bias",
-      "layer": null,
-      "component": "v.blk.25.mlp.fc1",
-      "domain": "language",
+      "layer": 25,
+      "component": "vt.ff.up",
+      "domain": "vision",
       "kind": "bias",
       "shape": [
         4304
@@ -5641,9 +5649,9 @@
     },
     {
       "name": "v.blk.25.mlp.fc1.weight",
-      "layer": null,
-      "component": "v.blk.25.mlp.fc1",
-      "domain": "language",
+      "layer": 25,
+      "component": "vt.ff.up",
+      "domain": "vision",
       "kind": "weight",
       "shape": [
         4304,
@@ -5660,9 +5668,9 @@
     },
     {
       "name": "v.blk.25.mlp.fc2.bias",
-      "layer": null,
-      "component": "v.blk.25.mlp.fc2",
-      "domain": "language",
+      "layer": 25,
+      "component": "vt.ff.down",
+      "domain": "vision",
       "kind": "bias",
       "shape": [
         1152
@@ -5678,9 +5686,9 @@
     },
     {
       "name": "v.blk.25.mlp.fc2.weight",
-      "layer": null,
-      "component": "v.blk.25.mlp.fc2",
-      "domain": "language",
+      "layer": 25,
+      "component": "vt.ff.down",
+      "domain": "vision",
       "kind": "weight",
       "shape": [
         1152,
@@ -5697,9 +5705,9 @@
     },
     {
       "name": "v.blk.26.attn_k.bias",
-      "layer": null,
-      "component": "v.blk.26.attn_k",
-      "domain": "language",
+      "layer": 26,
+      "component": "vt.attn.k",
+      "domain": "vision",
       "kind": "bias",
       "shape": [
         1152
@@ -5715,9 +5723,9 @@
     },
     {
       "name": "v.blk.26.attn_k.weight",
-      "layer": null,
-      "component": "v.blk.26.attn_k",
-      "domain": "language",
+      "layer": 26,
+      "component": "vt.attn.k",
+      "domain": "vision",
       "kind": "weight",
       "shape": [
         1152,
@@ -5734,9 +5742,9 @@
     },
     {
       "name": "v.blk.26.attn_output.bias",
-      "layer": null,
-      "component": "v.blk.26.attn_output",
-      "domain": "language",
+      "layer": 26,
+      "component": "vt.attn.o",
+      "domain": "vision",
       "kind": "bias",
       "shape": [
         1152
@@ -5752,9 +5760,9 @@
     },
     {
       "name": "v.blk.26.attn_output.weight",
-      "layer": null,
-      "component": "v.blk.26.attn_output",
-      "domain": "language",
+      "layer": 26,
+      "component": "vt.attn.o",
+      "domain": "vision",
       "kind": "weight",
       "shape": [
         1152,
@@ -5771,9 +5779,9 @@
     },
     {
       "name": "v.blk.26.attn_q.bias",
-      "layer": null,
-      "component": "v.blk.26.attn_q",
-      "domain": "language",
+      "layer": 26,
+      "component": "vt.attn.q",
+      "domain": "vision",
       "kind": "bias",
       "shape": [
         1152
@@ -5789,9 +5797,9 @@
     },
     {
       "name": "v.blk.26.attn_q.weight",
-      "layer": null,
-      "component": "v.blk.26.attn_q",
-      "domain": "language",
+      "layer": 26,
+      "component": "vt.attn.q",
+      "domain": "vision",
       "kind": "weight",
       "shape": [
         1152,
@@ -5808,9 +5816,9 @@
     },
     {
       "name": "v.blk.26.attn_v.bias",
-      "layer": null,
-      "component": "v.blk.26.attn_v",
-      "domain": "language",
+      "layer": 26,
+      "component": "vt.attn.v",
+      "domain": "vision",
       "kind": "bias",
       "shape": [
         1152
@@ -5826,9 +5834,9 @@
     },
     {
       "name": "v.blk.26.attn_v.weight",
-      "layer": null,
-      "component": "v.blk.26.attn_v",
-      "domain": "language",
+      "layer": 26,
+      "component": "vt.attn.v",
+      "domain": "vision",
       "kind": "weight",
       "shape": [
         1152,
@@ -5845,9 +5853,9 @@
     },
     {
       "name": "v.blk.26.layer_norm1.bias",
-      "layer": null,
-      "component": "v.blk.26.layer_norm1",
-      "domain": "language",
+      "layer": 26,
+      "component": "vt.norm.attn",
+      "domain": "vision",
       "kind": "bias",
       "shape": [
         1152
@@ -5863,9 +5871,9 @@
     },
     {
       "name": "v.blk.26.layer_norm1.weight",
-      "layer": null,
-      "component": "v.blk.26.layer_norm1",
-      "domain": "language",
+      "layer": 26,
+      "component": "vt.norm.attn",
+      "domain": "vision",
       "kind": "weight",
       "shape": [
         1152
@@ -5881,9 +5889,9 @@
     },
     {
       "name": "v.blk.26.layer_norm2.bias",
-      "layer": null,
-      "component": "v.blk.26.layer_norm2",
-      "domain": "language",
+      "layer": 26,
+      "component": "vt.norm.ffn",
+      "domain": "vision",
       "kind": "bias",
       "shape": [
         1152
@@ -5899,9 +5907,9 @@
     },
     {
       "name": "v.blk.26.layer_norm2.weight",
-      "layer": null,
-      "component": "v.blk.26.layer_norm2",
-      "domain": "language",
+      "layer": 26,
+      "component": "vt.norm.ffn",
+      "domain": "vision",
       "kind": "weight",
       "shape": [
         1152
@@ -5917,9 +5925,9 @@
     },
     {
       "name": "v.blk.26.mlp.fc1.bias",
-      "layer": null,
-      "component": "v.blk.26.mlp.fc1",
-      "domain": "language",
+      "layer": 26,
+      "component": "vt.ff.up",
+      "domain": "vision",
       "kind": "bias",
       "shape": [
         4304
@@ -5935,9 +5943,9 @@
     },
     {
       "name": "v.blk.26.mlp.fc1.weight",
-      "layer": null,
-      "component": "v.blk.26.mlp.fc1",
-      "domain": "language",
+      "layer": 26,
+      "component": "vt.ff.up",
+      "domain": "vision",
       "kind": "weight",
       "shape": [
         4304,
@@ -5954,9 +5962,9 @@
     },
     {
       "name": "v.blk.26.mlp.fc2.bias",
-      "layer": null,
-      "component": "v.blk.26.mlp.fc2",
-      "domain": "language",
+      "layer": 26,
+      "component": "vt.ff.down",
+      "domain": "vision",
       "kind": "bias",
       "shape": [
         1152
@@ -5972,9 +5980,9 @@
     },
     {
       "name": "v.blk.26.mlp.fc2.weight",
-      "layer": null,
-      "component": "v.blk.26.mlp.fc2",
-      "domain": "language",
+      "layer": 26,
+      "component": "vt.ff.down",
+      "domain": "vision",
       "kind": "weight",
       "shape": [
         1152,
@@ -5991,9 +5999,9 @@
     },
     {
       "name": "v.blk.3.attn_k.bias",
-      "layer": null,
-      "component": "v.blk.3.attn_k",
-      "domain": "language",
+      "layer": 3,
+      "component": "vt.attn.k",
+      "domain": "vision",
       "kind": "bias",
       "shape": [
         1152
@@ -6009,9 +6017,9 @@
     },
     {
       "name": "v.blk.3.attn_k.weight",
-      "layer": null,
-      "component": "v.blk.3.attn_k",
-      "domain": "language",
+      "layer": 3,
+      "component": "vt.attn.k",
+      "domain": "vision",
       "kind": "weight",
       "shape": [
         1152,
@@ -6028,9 +6036,9 @@
     },
     {
       "name": "v.blk.3.attn_output.bias",
-      "layer": null,
-      "component": "v.blk.3.attn_output",
-      "domain": "language",
+      "layer": 3,
+      "component": "vt.attn.o",
+      "domain": "vision",
       "kind": "bias",
       "shape": [
         1152
@@ -6046,9 +6054,9 @@
     },
     {
       "name": "v.blk.3.attn_output.weight",
-      "layer": null,
-      "component": "v.blk.3.attn_output",
-      "domain": "language",
+      "layer": 3,
+      "component": "vt.attn.o",
+      "domain": "vision",
       "kind": "weight",
       "shape": [
         1152,
@@ -6065,9 +6073,9 @@
     },
     {
       "name": "v.blk.3.attn_q.bias",
-      "layer": null,
-      "component": "v.blk.3.attn_q",
-      "domain": "language",
+      "layer": 3,
+      "component": "vt.attn.q",
+      "domain": "vision",
       "kind": "bias",
       "shape": [
         1152
@@ -6083,9 +6091,9 @@
     },
     {
       "name": "v.blk.3.attn_q.weight",
-      "layer": null,
-      "component": "v.blk.3.attn_q",
-      "domain": "language",
+      "layer": 3,
+      "component": "vt.attn.q",
+      "domain": "vision",
       "kind": "weight",
       "shape": [
         1152,
@@ -6102,9 +6110,9 @@
     },
     {
       "name": "v.blk.3.attn_v.bias",
-      "layer": null,
-      "component": "v.blk.3.attn_v",
-      "domain": "language",
+      "layer": 3,
+      "component": "vt.attn.v",
+      "domain": "vision",
       "kind": "bias",
       "shape": [
         1152
@@ -6120,9 +6128,9 @@
     },
     {
       "name": "v.blk.3.attn_v.weight",
-      "layer": null,
-      "component": "v.blk.3.attn_v",
-      "domain": "language",
+      "layer": 3,
+      "component": "vt.attn.v",
+      "domain": "vision",
       "kind": "weight",
       "shape": [
         1152,
@@ -6139,9 +6147,9 @@
     },
     {
       "name": "v.blk.3.layer_norm1.bias",
-      "layer": null,
-      "component": "v.blk.3.layer_norm1",
-      "domain": "language",
+      "layer": 3,
+      "component": "vt.norm.attn",
+      "domain": "vision",
       "kind": "bias",
       "shape": [
         1152
@@ -6157,9 +6165,9 @@
     },
     {
       "name": "v.blk.3.layer_norm1.weight",
-      "layer": null,
-      "component": "v.blk.3.layer_norm1",
-      "domain": "language",
+      "layer": 3,
+      "component": "vt.norm.attn",
+      "domain": "vision",
       "kind": "weight",
       "shape": [
         1152
@@ -6175,9 +6183,9 @@
     },
     {
       "name": "v.blk.3.layer_norm2.bias",
-      "layer": null,
-      "component": "v.blk.3.layer_norm2",
-      "domain": "language",
+      "layer": 3,
+      "component": "vt.norm.ffn",
+      "domain": "vision",
       "kind": "bias",
       "shape": [
         1152
@@ -6193,9 +6201,9 @@
     },
     {
       "name": "v.blk.3.layer_norm2.weight",
-      "layer": null,
-      "component": "v.blk.3.layer_norm2",
-      "domain": "language",
+      "layer": 3,
+      "component": "vt.norm.ffn",
+      "domain": "vision",
       "kind": "weight",
       "shape": [
         1152
@@ -6211,9 +6219,9 @@
     },
     {
       "name": "v.blk.3.mlp.fc1.bias",
-      "layer": null,
-      "component": "v.blk.3.mlp.fc1",
-      "domain": "language",
+      "layer": 3,
+      "component": "vt.ff.up",
+      "domain": "vision",
       "kind": "bias",
       "shape": [
         4304
@@ -6229,9 +6237,9 @@
     },
     {
       "name": "v.blk.3.mlp.fc1.weight",
-      "layer": null,
-      "component": "v.blk.3.mlp.fc1",
-      "domain": "language",
+      "layer": 3,
+      "component": "vt.ff.up",
+      "domain": "vision",
       "kind": "weight",
       "shape": [
         4304,
@@ -6248,9 +6256,9 @@
     },
     {
       "name": "v.blk.3.mlp.fc2.bias",
-      "layer": null,
-      "component": "v.blk.3.mlp.fc2",
-      "domain": "language",
+      "layer": 3,
+      "component": "vt.ff.down",
+      "domain": "vision",
       "kind": "bias",
       "shape": [
         1152
@@ -6266,9 +6274,9 @@
     },
     {
       "name": "v.blk.3.mlp.fc2.weight",
-      "layer": null,
-      "component": "v.blk.3.mlp.fc2",
-      "domain": "language",
+      "layer": 3,
+      "component": "vt.ff.down",
+      "domain": "vision",
       "kind": "weight",
       "shape": [
         1152,
@@ -6285,9 +6293,9 @@
     },
     {
       "name": "v.blk.4.attn_k.bias",
-      "layer": null,
-      "component": "v.blk.4.attn_k",
-      "domain": "language",
+      "layer": 4,
+      "component": "vt.attn.k",
+      "domain": "vision",
       "kind": "bias",
       "shape": [
         1152
@@ -6303,9 +6311,9 @@
     },
     {
       "name": "v.blk.4.attn_k.weight",
-      "layer": null,
-      "component": "v.blk.4.attn_k",
-      "domain": "language",
+      "layer": 4,
+      "component": "vt.attn.k",
+      "domain": "vision",
       "kind": "weight",
       "shape": [
         1152,
@@ -6322,9 +6330,9 @@
     },
     {
       "name": "v.blk.4.attn_output.bias",
-      "layer": null,
-      "component": "v.blk.4.attn_output",
-      "domain": "language",
+      "layer": 4,
+      "component": "vt.attn.o",
+      "domain": "vision",
       "kind": "bias",
       "shape": [
         1152
@@ -6340,9 +6348,9 @@
     },
     {
       "name": "v.blk.4.attn_output.weight",
-      "layer": null,
-      "component": "v.blk.4.attn_output",
-      "domain": "language",
+      "layer": 4,
+      "component": "vt.attn.o",
+      "domain": "vision",
       "kind": "weight",
       "shape": [
         1152,
@@ -6359,9 +6367,9 @@
     },
     {
       "name": "v.blk.4.attn_q.bias",
-      "layer": null,
-      "component": "v.blk.4.attn_q",
-      "domain": "language",
+      "layer": 4,
+      "component": "vt.attn.q",
+      "domain": "vision",
       "kind": "bias",
       "shape": [
         1152
@@ -6377,9 +6385,9 @@
     },
     {
       "name": "v.blk.4.attn_q.weight",
-      "layer": null,
-      "component": "v.blk.4.attn_q",
-      "domain": "language",
+      "layer": 4,
+      "component": "vt.attn.q",
+      "domain": "vision",
       "kind": "weight",
       "shape": [
         1152,
@@ -6396,9 +6404,9 @@
     },
     {
       "name": "v.blk.4.attn_v.bias",
-      "layer": null,
-      "component": "v.blk.4.attn_v",
-      "domain": "language",
+      "layer": 4,
+      "component": "vt.attn.v",
+      "domain": "vision",
       "kind": "bias",
       "shape": [
         1152
@@ -6414,9 +6422,9 @@
     },
     {
       "name": "v.blk.4.attn_v.weight",
-      "layer": null,
-      "component": "v.blk.4.attn_v",
-      "domain": "language",
+      "layer": 4,
+      "component": "vt.attn.v",
+      "domain": "vision",
       "kind": "weight",
       "shape": [
         1152,
@@ -6433,9 +6441,9 @@
     },
     {
       "name": "v.blk.4.layer_norm1.bias",
-      "layer": null,
-      "component": "v.blk.4.layer_norm1",
-      "domain": "language",
+      "layer": 4,
+      "component": "vt.norm.attn",
+      "domain": "vision",
       "kind": "bias",
       "shape": [
         1152
@@ -6451,9 +6459,9 @@
     },
     {
       "name": "v.blk.4.layer_norm1.weight",
-      "layer": null,
-      "component": "v.blk.4.layer_norm1",
-      "domain": "language",
+      "layer": 4,
+      "component": "vt.norm.attn",
+      "domain": "vision",
       "kind": "weight",
       "shape": [
         1152
@@ -6469,9 +6477,9 @@
     },
     {
       "name": "v.blk.4.layer_norm2.bias",
-      "layer": null,
-      "component": "v.blk.4.layer_norm2",
-      "domain": "language",
+      "layer": 4,
+      "component": "vt.norm.ffn",
+      "domain": "vision",
       "kind": "bias",
       "shape": [
         1152
@@ -6487,9 +6495,9 @@
     },
     {
       "name": "v.blk.4.layer_norm2.weight",
-      "layer": null,
-      "component": "v.blk.4.layer_norm2",
-      "domain": "language",
+      "layer": 4,
+      "component": "vt.norm.ffn",
+      "domain": "vision",
       "kind": "weight",
       "shape": [
         1152
@@ -6505,9 +6513,9 @@
     },
     {
       "name": "v.blk.4.mlp.fc1.bias",
-      "layer": null,
-      "component": "v.blk.4.mlp.fc1",
-      "domain": "language",
+      "layer": 4,
+      "component": "vt.ff.up",
+      "domain": "vision",
       "kind": "bias",
       "shape": [
         4304
@@ -6523,9 +6531,9 @@
     },
     {
       "name": "v.blk.4.mlp.fc1.weight",
-      "layer": null,
-      "component": "v.blk.4.mlp.fc1",
-      "domain": "language",
+      "layer": 4,
+      "component": "vt.ff.up",
+      "domain": "vision",
       "kind": "weight",
       "shape": [
         4304,
@@ -6542,9 +6550,9 @@
     },
     {
       "name": "v.blk.4.mlp.fc2.bias",
-      "layer": null,
-      "component": "v.blk.4.mlp.fc2",
-      "domain": "language",
+      "layer": 4,
+      "component": "vt.ff.down",
+      "domain": "vision",
       "kind": "bias",
       "shape": [
         1152
@@ -6560,9 +6568,9 @@
     },
     {
       "name": "v.blk.4.mlp.fc2.weight",
-      "layer": null,
-      "component": "v.blk.4.mlp.fc2",
-      "domain": "language",
+      "layer": 4,
+      "component": "vt.ff.down",
+      "domain": "vision",
       "kind": "weight",
       "shape": [
         1152,
@@ -6579,9 +6587,9 @@
     },
     {
       "name": "v.blk.5.attn_k.bias",
-      "layer": null,
-      "component": "v.blk.5.attn_k",
-      "domain": "language",
+      "layer": 5,
+      "component": "vt.attn.k",
+      "domain": "vision",
       "kind": "bias",
       "shape": [
         1152
@@ -6597,9 +6605,9 @@
     },
     {
       "name": "v.blk.5.attn_k.weight",
-      "layer": null,
-      "component": "v.blk.5.attn_k",
-      "domain": "language",
+      "layer": 5,
+      "component": "vt.attn.k",
+      "domain": "vision",
       "kind": "weight",
       "shape": [
         1152,
@@ -6616,9 +6624,9 @@
     },
     {
       "name": "v.blk.5.attn_output.bias",
-      "layer": null,
-      "component": "v.blk.5.attn_output",
-      "domain": "language",
+      "layer": 5,
+      "component": "vt.attn.o",
+      "domain": "vision",
       "kind": "bias",
       "shape": [
         1152
@@ -6634,9 +6642,9 @@
     },
     {
       "name": "v.blk.5.attn_output.weight",
-      "layer": null,
-      "component": "v.blk.5.attn_output",
-      "domain": "language",
+      "layer": 5,
+      "component": "vt.attn.o",
+      "domain": "vision",
       "kind": "weight",
       "shape": [
         1152,
@@ -6653,9 +6661,9 @@
     },
     {
       "name": "v.blk.5.attn_q.bias",
-      "layer": null,
-      "component": "v.blk.5.attn_q",
-      "domain": "language",
+      "layer": 5,
+      "component": "vt.attn.q",
+      "domain": "vision",
       "kind": "bias",
       "shape": [
         1152
@@ -6671,9 +6679,9 @@
     },
     {
       "name": "v.blk.5.attn_q.weight",
-      "layer": null,
-      "component": "v.blk.5.attn_q",
-      "domain": "language",
+      "layer": 5,
+      "component": "vt.attn.q",
+      "domain": "vision",
       "kind": "weight",
       "shape": [
         1152,
@@ -6690,9 +6698,9 @@
     },
     {
       "name": "v.blk.5.attn_v.bias",
-      "layer": null,
-      "component": "v.blk.5.attn_v",
-      "domain": "language",
+      "layer": 5,
+      "component": "vt.attn.v",
+      "domain": "vision",
       "kind": "bias",
       "shape": [
         1152
@@ -6708,9 +6716,9 @@
     },
     {
       "name": "v.blk.5.attn_v.weight",
-      "layer": null,
-      "component": "v.blk.5.attn_v",
-      "domain": "language",
+      "layer": 5,
+      "component": "vt.attn.v",
+      "domain": "vision",
       "kind": "weight",
       "shape": [
         1152,
@@ -6727,9 +6735,9 @@
     },
     {
       "name": "v.blk.5.layer_norm1.bias",
-      "layer": null,
-      "component": "v.blk.5.layer_norm1",
-      "domain": "language",
+      "layer": 5,
+      "component": "vt.norm.attn",
+      "domain": "vision",
       "kind": "bias",
       "shape": [
         1152
@@ -6745,9 +6753,9 @@
     },
     {
       "name": "v.blk.5.layer_norm1.weight",
-      "layer": null,
-      "component": "v.blk.5.layer_norm1",
-      "domain": "language",
+      "layer": 5,
+      "component": "vt.norm.attn",
+      "domain": "vision",
       "kind": "weight",
       "shape": [
         1152
@@ -6763,9 +6771,9 @@
     },
     {
       "name": "v.blk.5.layer_norm2.bias",
-      "layer": null,
-      "component": "v.blk.5.layer_norm2",
-      "domain": "language",
+      "layer": 5,
+      "component": "vt.norm.ffn",
+      "domain": "vision",
       "kind": "bias",
       "shape": [
         1152
@@ -6781,9 +6789,9 @@
     },
     {
       "name": "v.blk.5.layer_norm2.weight",
-      "layer": null,
-      "component": "v.blk.5.layer_norm2",
-      "domain": "language",
+      "layer": 5,
+      "component": "vt.norm.ffn",
+      "domain": "vision",
       "kind": "weight",
       "shape": [
         1152
@@ -6799,9 +6807,9 @@
     },
     {
       "name": "v.blk.5.mlp.fc1.bias",
-      "layer": null,
-      "component": "v.blk.5.mlp.fc1",
-      "domain": "language",
+      "layer": 5,
+      "component": "vt.ff.up",
+      "domain": "vision",
       "kind": "bias",
       "shape": [
         4304
@@ -6817,9 +6825,9 @@
     },
     {
       "name": "v.blk.5.mlp.fc1.weight",
-      "layer": null,
-      "component": "v.blk.5.mlp.fc1",
-      "domain": "language",
+      "layer": 5,
+      "component": "vt.ff.up",
+      "domain": "vision",
       "kind": "weight",
       "shape": [
         4304,
@@ -6836,9 +6844,9 @@
     },
     {
       "name": "v.blk.5.mlp.fc2.bias",
-      "layer": null,
-      "component": "v.blk.5.mlp.fc2",
-      "domain": "language",
+      "layer": 5,
+      "component": "vt.ff.down",
+      "domain": "vision",
       "kind": "bias",
       "shape": [
         1152
@@ -6854,9 +6862,9 @@
     },
     {
       "name": "v.blk.5.mlp.fc2.weight",
-      "layer": null,
-      "component": "v.blk.5.mlp.fc2",
-      "domain": "language",
+      "layer": 5,
+      "component": "vt.ff.down",
+      "domain": "vision",
       "kind": "weight",
       "shape": [
         1152,
@@ -6873,9 +6881,9 @@
     },
     {
       "name": "v.blk.6.attn_k.bias",
-      "layer": null,
-      "component": "v.blk.6.attn_k",
-      "domain": "language",
+      "layer": 6,
+      "component": "vt.attn.k",
+      "domain": "vision",
       "kind": "bias",
       "shape": [
         1152
@@ -6891,9 +6899,9 @@
     },
     {
       "name": "v.blk.6.attn_k.weight",
-      "layer": null,
-      "component": "v.blk.6.attn_k",
-      "domain": "language",
+      "layer": 6,
+      "component": "vt.attn.k",
+      "domain": "vision",
       "kind": "weight",
       "shape": [
         1152,
@@ -6910,9 +6918,9 @@
     },
     {
       "name": "v.blk.6.attn_output.bias",
-      "layer": null,
-      "component": "v.blk.6.attn_output",
-      "domain": "language",
+      "layer": 6,
+      "component": "vt.attn.o",
+      "domain": "vision",
       "kind": "bias",
       "shape": [
         1152
@@ -6928,9 +6936,9 @@
     },
     {
       "name": "v.blk.6.attn_output.weight",
-      "layer": null,
-      "component": "v.blk.6.attn_output",
-      "domain": "language",
+      "layer": 6,
+      "component": "vt.attn.o",
+      "domain": "vision",
       "kind": "weight",
       "shape": [
         1152,
@@ -6947,9 +6955,9 @@
     },
     {
       "name": "v.blk.6.attn_q.bias",
-      "layer": null,
-      "component": "v.blk.6.attn_q",
-      "domain": "language",
+      "layer": 6,
+      "component": "vt.attn.q",
+      "domain": "vision",
       "kind": "bias",
       "shape": [
         1152
@@ -6965,9 +6973,9 @@
     },
     {
       "name": "v.blk.6.attn_q.weight",
-      "layer": null,
-      "component": "v.blk.6.attn_q",
-      "domain": "language",
+      "layer": 6,
+      "component": "vt.attn.q",
+      "domain": "vision",
       "kind": "weight",
       "shape": [
         1152,
@@ -6984,9 +6992,9 @@
     },
     {
       "name": "v.blk.6.attn_v.bias",
-      "layer": null,
-      "component": "v.blk.6.attn_v",
-      "domain": "language",
+      "layer": 6,
+      "component": "vt.attn.v",
+      "domain": "vision",
       "kind": "bias",
       "shape": [
         1152
@@ -7002,9 +7010,9 @@
     },
     {
       "name": "v.blk.6.attn_v.weight",
-      "layer": null,
-      "component": "v.blk.6.attn_v",
-      "domain": "language",
+      "layer": 6,
+      "component": "vt.attn.v",
+      "domain": "vision",
       "kind": "weight",
       "shape": [
         1152,
@@ -7021,9 +7029,9 @@
     },
     {
       "name": "v.blk.6.layer_norm1.bias",
-      "layer": null,
-      "component": "v.blk.6.layer_norm1",
-      "domain": "language",
+      "layer": 6,
+      "component": "vt.norm.attn",
+      "domain": "vision",
       "kind": "bias",
       "shape": [
         1152
@@ -7039,9 +7047,9 @@
     },
     {
       "name": "v.blk.6.layer_norm1.weight",
-      "layer": null,
-      "component": "v.blk.6.layer_norm1",
-      "domain": "language",
+      "layer": 6,
+      "component": "vt.norm.attn",
+      "domain": "vision",
       "kind": "weight",
       "shape": [
         1152
@@ -7057,9 +7065,9 @@
     },
     {
       "name": "v.blk.6.layer_norm2.bias",
-      "layer": null,
-      "component": "v.blk.6.layer_norm2",
-      "domain": "language",
+      "layer": 6,
+      "component": "vt.norm.ffn",
+      "domain": "vision",
       "kind": "bias",
       "shape": [
         1152
@@ -7075,9 +7083,9 @@
     },
     {
       "name": "v.blk.6.layer_norm2.weight",
-      "layer": null,
-      "component": "v.blk.6.layer_norm2",
-      "domain": "language",
+      "layer": 6,
+      "component": "vt.norm.ffn",
+      "domain": "vision",
       "kind": "weight",
       "shape": [
         1152
@@ -7093,9 +7101,9 @@
     },
     {
       "name": "v.blk.6.mlp.fc1.bias",
-      "layer": null,
-      "component": "v.blk.6.mlp.fc1",
-      "domain": "language",
+      "layer": 6,
+      "component": "vt.ff.up",
+      "domain": "vision",
       "kind": "bias",
       "shape": [
         4304
@@ -7111,9 +7119,9 @@
     },
     {
       "name": "v.blk.6.mlp.fc1.weight",
-      "layer": null,
-      "component": "v.blk.6.mlp.fc1",
-      "domain": "language",
+      "layer": 6,
+      "component": "vt.ff.up",
+      "domain": "vision",
       "kind": "weight",
       "shape": [
         4304,
@@ -7130,9 +7138,9 @@
     },
     {
       "name": "v.blk.6.mlp.fc2.bias",
-      "layer": null,
-      "component": "v.blk.6.mlp.fc2",
-      "domain": "language",
+      "layer": 6,
+      "component": "vt.ff.down",
+      "domain": "vision",
       "kind": "bias",
       "shape": [
         1152
@@ -7148,9 +7156,9 @@
     },
     {
       "name": "v.blk.6.mlp.fc2.weight",
-      "layer": null,
-      "component": "v.blk.6.mlp.fc2",
-      "domain": "language",
+      "layer": 6,
+      "component": "vt.ff.down",
+      "domain": "vision",
       "kind": "weight",
       "shape": [
         1152,
@@ -7167,9 +7175,9 @@
     },
     {
       "name": "v.blk.7.attn_k.bias",
-      "layer": null,
-      "component": "v.blk.7.attn_k",
-      "domain": "language",
+      "layer": 7,
+      "component": "vt.attn.k",
+      "domain": "vision",
       "kind": "bias",
       "shape": [
         1152
@@ -7185,9 +7193,9 @@
     },
     {
       "name": "v.blk.7.attn_k.weight",
-      "layer": null,
-      "component": "v.blk.7.attn_k",
-      "domain": "language",
+      "layer": 7,
+      "component": "vt.attn.k",
+      "domain": "vision",
       "kind": "weight",
       "shape": [
         1152,
@@ -7204,9 +7212,9 @@
     },
     {
       "name": "v.blk.7.attn_output.bias",
-      "layer": null,
-      "component": "v.blk.7.attn_output",
-      "domain": "language",
+      "layer": 7,
+      "component": "vt.attn.o",
+      "domain": "vision",
       "kind": "bias",
       "shape": [
         1152
@@ -7222,9 +7230,9 @@
     },
     {
       "name": "v.blk.7.attn_output.weight",
-      "layer": null,
-      "component": "v.blk.7.attn_output",
-      "domain": "language",
+      "layer": 7,
+      "component": "vt.attn.o",
+      "domain": "vision",
       "kind": "weight",
       "shape": [
         1152,
@@ -7241,9 +7249,9 @@
     },
     {
       "name": "v.blk.7.attn_q.bias",
-      "layer": null,
-      "component": "v.blk.7.attn_q",
-      "domain": "language",
+      "layer": 7,
+      "component": "vt.attn.q",
+      "domain": "vision",
       "kind": "bias",
       "shape": [
         1152
@@ -7259,9 +7267,9 @@
     },
     {
       "name": "v.blk.7.attn_q.weight",
-      "layer": null,
-      "component": "v.blk.7.attn_q",
-      "domain": "language",
+      "layer": 7,
+      "component": "vt.attn.q",
+      "domain": "vision",
       "kind": "weight",
       "shape": [
         1152,
@@ -7278,9 +7286,9 @@
     },
     {
       "name": "v.blk.7.attn_v.bias",
-      "layer": null,
-      "component": "v.blk.7.attn_v",
-      "domain": "language",
+      "layer": 7,
+      "component": "vt.attn.v",
+      "domain": "vision",
       "kind": "bias",
       "shape": [
         1152
@@ -7296,9 +7304,9 @@
     },
     {
       "name": "v.blk.7.attn_v.weight",
-      "layer": null,
-      "component": "v.blk.7.attn_v",
-      "domain": "language",
+      "layer": 7,
+      "component": "vt.attn.v",
+      "domain": "vision",
       "kind": "weight",
       "shape": [
         1152,
@@ -7315,9 +7323,9 @@
     },
     {
       "name": "v.blk.7.layer_norm1.bias",
-      "layer": null,
-      "component": "v.blk.7.layer_norm1",
-      "domain": "language",
+      "layer": 7,
+      "component": "vt.norm.attn",
+      "domain": "vision",
       "kind": "bias",
       "shape": [
         1152
@@ -7333,9 +7341,9 @@
     },
     {
       "name": "v.blk.7.layer_norm1.weight",
-      "layer": null,
-      "component": "v.blk.7.layer_norm1",
-      "domain": "language",
+      "layer": 7,
+      "component": "vt.norm.attn",
+      "domain": "vision",
       "kind": "weight",
       "shape": [
         1152
@@ -7351,9 +7359,9 @@
     },
     {
       "name": "v.blk.7.layer_norm2.bias",
-      "layer": null,
-      "component": "v.blk.7.layer_norm2",
-      "domain": "language",
+      "layer": 7,
+      "component": "vt.norm.ffn",
+      "domain": "vision",
       "kind": "bias",
       "shape": [
         1152
@@ -7369,9 +7377,9 @@
     },
     {
       "name": "v.blk.7.layer_norm2.weight",
-      "layer": null,
-      "component": "v.blk.7.layer_norm2",
-      "domain": "language",
+      "layer": 7,
+      "component": "vt.norm.ffn",
+      "domain": "vision",
       "kind": "weight",
       "shape": [
         1152
@@ -7387,9 +7395,9 @@
     },
     {
       "name": "v.blk.7.mlp.fc1.bias",
-      "layer": null,
-      "component": "v.blk.7.mlp.fc1",
-      "domain": "language",
+      "layer": 7,
+      "component": "vt.ff.up",
+      "domain": "vision",
       "kind": "bias",
       "shape": [
         4304
@@ -7405,9 +7413,9 @@
     },
     {
       "name": "v.blk.7.mlp.fc1.weight",
-      "layer": null,
-      "component": "v.blk.7.mlp.fc1",
-      "domain": "language",
+      "layer": 7,
+      "component": "vt.ff.up",
+      "domain": "vision",
       "kind": "weight",
       "shape": [
         4304,
@@ -7424,9 +7432,9 @@
     },
     {
       "name": "v.blk.7.mlp.fc2.bias",
-      "layer": null,
-      "component": "v.blk.7.mlp.fc2",
-      "domain": "language",
+      "layer": 7,
+      "component": "vt.ff.down",
+      "domain": "vision",
       "kind": "bias",
       "shape": [
         1152
@@ -7442,9 +7450,9 @@
     },
     {
       "name": "v.blk.7.mlp.fc2.weight",
-      "layer": null,
-      "component": "v.blk.7.mlp.fc2",
-      "domain": "language",
+      "layer": 7,
+      "component": "vt.ff.down",
+      "domain": "vision",
       "kind": "weight",
       "shape": [
         1152,
@@ -7461,9 +7469,9 @@
     },
     {
       "name": "v.blk.8.attn_k.bias",
-      "layer": null,
-      "component": "v.blk.8.attn_k",
-      "domain": "language",
+      "layer": 8,
+      "component": "vt.attn.k",
+      "domain": "vision",
       "kind": "bias",
       "shape": [
         1152
@@ -7479,9 +7487,9 @@
     },
     {
       "name": "v.blk.8.attn_k.weight",
-      "layer": null,
-      "component": "v.blk.8.attn_k",
-      "domain": "language",
+      "layer": 8,
+      "component": "vt.attn.k",
+      "domain": "vision",
       "kind": "weight",
       "shape": [
         1152,
@@ -7498,9 +7506,9 @@
     },
     {
       "name": "v.blk.8.attn_output.bias",
-      "layer": null,
-      "component": "v.blk.8.attn_output",
-      "domain": "language",
+      "layer": 8,
+      "component": "vt.attn.o",
+      "domain": "vision",
       "kind": "bias",
       "shape": [
         1152
@@ -7516,9 +7524,9 @@
     },
     {
       "name": "v.blk.8.attn_output.weight",
-      "layer": null,
-      "component": "v.blk.8.attn_output",
-      "domain": "language",
+      "layer": 8,
+      "component": "vt.attn.o",
+      "domain": "vision",
       "kind": "weight",
       "shape": [
         1152,
@@ -7535,9 +7543,9 @@
     },
     {
       "name": "v.blk.8.attn_q.bias",
-      "layer": null,
-      "component": "v.blk.8.attn_q",
-      "domain": "language",
+      "layer": 8,
+      "component": "vt.attn.q",
+      "domain": "vision",
       "kind": "bias",
       "shape": [
         1152
@@ -7553,9 +7561,9 @@
     },
     {
       "name": "v.blk.8.attn_q.weight",
-      "layer": null,
-      "component": "v.blk.8.attn_q",
-      "domain": "language",
+      "layer": 8,
+      "component": "vt.attn.q",
+      "domain": "vision",
       "kind": "weight",
       "shape": [
         1152,
@@ -7572,9 +7580,9 @@
     },
     {
       "name": "v.blk.8.attn_v.bias",
-      "layer": null,
-      "component": "v.blk.8.attn_v",
-      "domain": "language",
+      "layer": 8,
+      "component": "vt.attn.v",
+      "domain": "vision",
       "kind": "bias",
       "shape": [
         1152
@@ -7590,9 +7598,9 @@
     },
     {
       "name": "v.blk.8.attn_v.weight",
-      "layer": null,
-      "component": "v.blk.8.attn_v",
-      "domain": "language",
+      "layer": 8,
+      "component": "vt.attn.v",
+      "domain": "vision",
       "kind": "weight",
       "shape": [
         1152,
@@ -7609,9 +7617,9 @@
     },
     {
       "name": "v.blk.8.layer_norm1.bias",
-      "layer": null,
-      "component": "v.blk.8.layer_norm1",
-      "domain": "language",
+      "layer": 8,
+      "component": "vt.norm.attn",
+      "domain": "vision",
       "kind": "bias",
       "shape": [
         1152
@@ -7627,9 +7635,9 @@
     },
     {
       "name": "v.blk.8.layer_norm1.weight",
-      "layer": null,
-      "component": "v.blk.8.layer_norm1",
-      "domain": "language",
+      "layer": 8,
+      "component": "vt.norm.attn",
+      "domain": "vision",
       "kind": "weight",
       "shape": [
         1152
@@ -7645,9 +7653,9 @@
     },
     {
       "name": "v.blk.8.layer_norm2.bias",
-      "layer": null,
-      "component": "v.blk.8.layer_norm2",
-      "domain": "language",
+      "layer": 8,
+      "component": "vt.norm.ffn",
+      "domain": "vision",
       "kind": "bias",
       "shape": [
         1152
@@ -7663,9 +7671,9 @@
     },
     {
       "name": "v.blk.8.layer_norm2.weight",
-      "layer": null,
-      "component": "v.blk.8.layer_norm2",
-      "domain": "language",
+      "layer": 8,
+      "component": "vt.norm.ffn",
+      "domain": "vision",
       "kind": "weight",
       "shape": [
         1152
@@ -7681,9 +7689,9 @@
     },
     {
       "name": "v.blk.8.mlp.fc1.bias",
-      "layer": null,
-      "component": "v.blk.8.mlp.fc1",
-      "domain": "language",
+      "layer": 8,
+      "component": "vt.ff.up",
+      "domain": "vision",
       "kind": "bias",
       "shape": [
         4304
@@ -7699,9 +7707,9 @@
     },
     {
       "name": "v.blk.8.mlp.fc1.weight",
-      "layer": null,
-      "component": "v.blk.8.mlp.fc1",
-      "domain": "language",
+      "layer": 8,
+      "component": "vt.ff.up",
+      "domain": "vision",
       "kind": "weight",
       "shape": [
         4304,
@@ -7718,9 +7726,9 @@
     },
     {
       "name": "v.blk.8.mlp.fc2.bias",
-      "layer": null,
-      "component": "v.blk.8.mlp.fc2",
-      "domain": "language",
+      "layer": 8,
+      "component": "vt.ff.down",
+      "domain": "vision",
       "kind": "bias",
       "shape": [
         1152
@@ -7736,9 +7744,9 @@
     },
     {
       "name": "v.blk.8.mlp.fc2.weight",
-      "layer": null,
-      "component": "v.blk.8.mlp.fc2",
-      "domain": "language",
+      "layer": 8,
+      "component": "vt.ff.down",
+      "domain": "vision",
       "kind": "weight",
       "shape": [
         1152,
@@ -7755,9 +7763,9 @@
     },
     {
       "name": "v.blk.9.attn_k.bias",
-      "layer": null,
-      "component": "v.blk.9.attn_k",
-      "domain": "language",
+      "layer": 9,
+      "component": "vt.attn.k",
+      "domain": "vision",
       "kind": "bias",
       "shape": [
         1152
@@ -7773,9 +7781,9 @@
     },
     {
       "name": "v.blk.9.attn_k.weight",
-      "layer": null,
-      "component": "v.blk.9.attn_k",
-      "domain": "language",
+      "layer": 9,
+      "component": "vt.attn.k",
+      "domain": "vision",
       "kind": "weight",
       "shape": [
         1152,
@@ -7792,9 +7800,9 @@
     },
     {
       "name": "v.blk.9.attn_output.bias",
-      "layer": null,
-      "component": "v.blk.9.attn_output",
-      "domain": "language",
+      "layer": 9,
+      "component": "vt.attn.o",
+      "domain": "vision",
       "kind": "bias",
       "shape": [
         1152
@@ -7810,9 +7818,9 @@
     },
     {
       "name": "v.blk.9.attn_output.weight",
-      "layer": null,
-      "component": "v.blk.9.attn_output",
-      "domain": "language",
+      "layer": 9,
+      "component": "vt.attn.o",
+      "domain": "vision",
       "kind": "weight",
       "shape": [
         1152,
@@ -7829,9 +7837,9 @@
     },
     {
       "name": "v.blk.9.attn_q.bias",
-      "layer": null,
-      "component": "v.blk.9.attn_q",
-      "domain": "language",
+      "layer": 9,
+      "component": "vt.attn.q",
+      "domain": "vision",
       "kind": "bias",
       "shape": [
         1152
@@ -7847,9 +7855,9 @@
     },
     {
       "name": "v.blk.9.attn_q.weight",
-      "layer": null,
-      "component": "v.blk.9.attn_q",
-      "domain": "language",
+      "layer": 9,
+      "component": "vt.attn.q",
+      "domain": "vision",
       "kind": "weight",
       "shape": [
         1152,
@@ -7866,9 +7874,9 @@
     },
     {
       "name": "v.blk.9.attn_v.bias",
-      "layer": null,
-      "component": "v.blk.9.attn_v",
-      "domain": "language",
+      "layer": 9,
+      "component": "vt.attn.v",
+      "domain": "vision",
       "kind": "bias",
       "shape": [
         1152
@@ -7884,9 +7892,9 @@
     },
     {
       "name": "v.blk.9.attn_v.weight",
-      "layer": null,
-      "component": "v.blk.9.attn_v",
-      "domain": "language",
+      "layer": 9,
+      "component": "vt.attn.v",
+      "domain": "vision",
       "kind": "weight",
       "shape": [
         1152,
@@ -7903,9 +7911,9 @@
     },
     {
       "name": "v.blk.9.layer_norm1.bias",
-      "layer": null,
-      "component": "v.blk.9.layer_norm1",
-      "domain": "language",
+      "layer": 9,
+      "component": "vt.norm.attn",
+      "domain": "vision",
       "kind": "bias",
       "shape": [
         1152
@@ -7921,9 +7929,9 @@
     },
     {
       "name": "v.blk.9.layer_norm1.weight",
-      "layer": null,
-      "component": "v.blk.9.layer_norm1",
-      "domain": "language",
+      "layer": 9,
+      "component": "vt.norm.attn",
+      "domain": "vision",
       "kind": "weight",
       "shape": [
         1152
@@ -7939,9 +7947,9 @@
     },
     {
       "name": "v.blk.9.layer_norm2.bias",
-      "layer": null,
-      "component": "v.blk.9.layer_norm2",
-      "domain": "language",
+      "layer": 9,
+      "component": "vt.norm.ffn",
+      "domain": "vision",
       "kind": "bias",
       "shape": [
         1152
@@ -7957,9 +7965,9 @@
     },
     {
       "name": "v.blk.9.layer_norm2.weight",
-      "layer": null,
-      "component": "v.blk.9.layer_norm2",
-      "domain": "language",
+      "layer": 9,
+      "component": "vt.norm.ffn",
+      "domain": "vision",
       "kind": "weight",
       "shape": [
         1152
@@ -7975,9 +7983,9 @@
     },
     {
       "name": "v.blk.9.mlp.fc1.bias",
-      "layer": null,
-      "component": "v.blk.9.mlp.fc1",
-      "domain": "language",
+      "layer": 9,
+      "component": "vt.ff.up",
+      "domain": "vision",
       "kind": "bias",
       "shape": [
         4304
@@ -7993,9 +8001,9 @@
     },
     {
       "name": "v.blk.9.mlp.fc1.weight",
-      "layer": null,
-      "component": "v.blk.9.mlp.fc1",
-      "domain": "language",
+      "layer": 9,
+      "component": "vt.ff.up",
+      "domain": "vision",
       "kind": "weight",
       "shape": [
         4304,
@@ -8012,9 +8020,9 @@
     },
     {
       "name": "v.blk.9.mlp.fc2.bias",
-      "layer": null,
-      "component": "v.blk.9.mlp.fc2",
-      "domain": "language",
+      "layer": 9,
+      "component": "vt.ff.down",
+      "domain": "vision",
       "kind": "bias",
       "shape": [
         1152
@@ -8030,9 +8038,9 @@
     },
     {
       "name": "v.blk.9.mlp.fc2.weight",
-      "layer": null,
-      "component": "v.blk.9.mlp.fc2",
-      "domain": "language",
+      "layer": 9,
+      "component": "vt.ff.down",
+      "domain": "vision",
       "kind": "weight",
       "shape": [
         1152,
@@ -8050,8 +8058,8 @@
     {
       "name": "v.patch_embedding.bias",
       "layer": null,
-      "component": "v.patch_embedding",
-      "domain": "language",
+      "component": "vt.patch_embed",
+      "domain": "vision",
       "kind": "bias",
       "shape": [
         1152
@@ -8068,8 +8076,8 @@
     {
       "name": "v.patch_embedding.weight",
       "layer": null,
-      "component": "v.patch_embedding",
-      "domain": "language",
+      "component": "vt.patch_embed",
+      "domain": "vision",
       "kind": "weight",
       "shape": [
         1152,
@@ -8089,8 +8097,8 @@
     {
       "name": "v.position_embedding.weight",
       "layer": null,
-      "component": "v.position_embedding",
-      "domain": "language",
+      "component": "vt.pos_embed",
+      "domain": "vision",
       "kind": "weight",
       "shape": [
         4096,
@@ -8108,8 +8116,8 @@
     {
       "name": "v.post_layernorm.bias",
       "layer": null,
-      "component": "v.post_layernorm",
-      "domain": "language",
+      "component": "vt.norm.final",
+      "domain": "vision",
       "kind": "bias",
       "shape": [
         1152
@@ -8126,8 +8134,8 @@
     {
       "name": "v.post_layernorm.weight",
       "layer": null,
-      "component": "v.post_layernorm",
-      "domain": "language",
+      "component": "vt.norm.final",
+      "domain": "vision",
       "kind": "weight",
       "shape": [
         1152

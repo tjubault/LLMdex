@@ -772,13 +772,13 @@ html[data-lang="en"] text.t-fr { display: none; }
     <div class="guide-section-title"><span class="t-fr">Traits architecturaux</span><span class="t-en">Architectural traits</span></div>
     <dl class="guide-dl t-fr">
       <dt>Le spécimen miniature</dt>
-      <dd>Le même dessin que la planche comparative, mais pour ce modèle seul : la portion bleue est l'attention, la brune le feed-forward (rayée si MoE). La ligne pointillée dans le bleu marque la frontière GQA — la part des têtes qui partagent leurs clés/valeurs. Le petit carré vert, quand il y en a un, est la tour de vision, dessinée à sa taille réelle par rapport au reste du modèle.</dd>
+      <dd>Le même dessin que la planche comparative, mais pour ce modèle seul : la largeur se répartit selon le <strong>nombre réel de paramètres</strong> de chaque famille — bleu pour l'attention, vert (teinte foncée) pour l'attention linéaire des modèles à état comme Mamba ou hybrides, brun pour le feed-forward (rayé si MoE). Un modèle purement à état (aucune attention classique) se dessine donc tout en vert. La ligne pointillée dans le bleu marque la frontière GQA — la part des têtes qui partagent leurs clés/valeurs. Le petit carré vert clair séparé, quand il y en a un, est la tour de vision, dessinée à sa taille réelle par rapport au reste du modèle — à ne pas confondre avec le vert foncé de l'attention linéaire, qui fait partie du rectangle principal.</dd>
       <dt>Traits en texte</dt>
       <dd>Attention hybride (mélange de couches linéaires rapides et de couches d'attention complètes), MoE (mixture d'experts — seuls quelques experts s'activent par token), nombre de blocs de la tour de vision.</dd>
     </dl>
     <dl class="guide-dl t-en">
       <dt>The mini-specimen</dt>
-      <dd>The same drawing as the comparative plate, but for this model alone: the blue portion is attention, the brown one feed-forward (striped if MoE). The dashed line inside the blue marks the GQA boundary — the share of heads that share their keys/values. The small green square, when present, is the vision tower, drawn at its real size relative to the rest of the model.</dd>
+      <dd>The same drawing as the comparative plate, but for this model alone: width splits by each family's <strong>real parameter count</strong> — blue for attention, dark green for the linear attention of state-space models like Mamba or hybrids, brown for feed-forward (striped if MoE). A purely state-space model (no classic attention at all) draws entirely green. The dashed line inside the blue marks the GQA boundary — the share of heads that share their keys/values. The separate light-green square, when present, is the vision tower, drawn at its real size relative to the rest of the model — not to be confused with the darker green of linear attention, which is part of the main rectangle.</dd>
       <dt>Text traits</dt>
       <dd>Hybrid attention (a mix of fast linear layers and full attention layers), MoE (mixture of experts — only a few experts activate per token), number of vision tower blocks.</dd>
     </dl>
@@ -849,8 +849,8 @@ const STATIC_STRINGS = {
   footer:      { fr: 'LLMdex — Herbier numérique des modèles de langage locaux', en: 'LLMdex — A digital herbarium of local language models' },
   compTitle:   { fr: 'Planche comparative — à même échelle', en: 'Comparative plate — same scale' },
   compCaption: {
-    fr: 'Chaque bloc est dessiné à l\'échelle réelle de la taille du modèle <strong>sur le disque</strong> (l\'aire du rectangle lui est proportionnelle) — pas du nombre de paramètres, qui peut varier différemment selon la quantification. Sous chaque bloc : nombre de paramètres, puis taille sur le disque. La largeur se répartit entre attention (bleu) et feed-forward (brun) — plein si dense, rayé si le modèle utilise un mélange d\'experts (MoE).',
-    en: 'Each block is drawn to the real scale of the model\'s size <strong>on disk</strong> (the rectangle\'s area is proportional to it) — not its parameter count, which can vary differently depending on quantization. Below each block: parameter count, then size on disk. Width splits between attention (blue) and feed-forward (brown) — solid if dense, striped if the model uses a mixture of experts (MoE).',
+    fr: 'Chaque bloc est dessiné à l\'échelle réelle de la taille du modèle <strong>sur le disque</strong> (l\'aire du rectangle lui est proportionnelle) — pas du nombre de paramètres, qui peut varier différemment selon la quantification. Sous chaque bloc : nombre de paramètres, puis taille sur le disque. La largeur se répartit selon le <strong>nombre réel de paramètres</strong> de chaque famille — attention (bleu), attention linéaire (vert, modèles à état comme Mamba ou hybrides), feed-forward (brun, plein si dense, rayé si mélange d\'experts/MoE).',
+    en: 'Each block is drawn to the real scale of the model\'s size <strong>on disk</strong> (the rectangle\'s area is proportional to it) — not its parameter count, which can vary differently depending on quantization. Below each block: parameter count, then size on disk. Width splits by each family\'s <strong>real parameter count</strong> — attention (blue), linear attention (green, state-space models like Mamba or hybrids), feed-forward (brown, solid if dense, striped if mixture-of-experts/MoE).',
   },
 };
 
@@ -897,13 +897,17 @@ const STR = {
   attnTip:          { fr: (d, h) => `Attention\nd_embed = ${d}\n${h}`, en: (d, h) => `Attention\nd_embed = ${d}\n${h}` },
   ffTipMoE:         { fr: (n, d, a) => `Feed-Forward (MoE)\n${n} experts × ${d}\n${a} actifs par token`, en: (n, d, a) => `Feed-Forward (MoE)\n${n} experts × ${d}\n${a} active per token` },
   ffTipDense:       { fr: d => `Feed-Forward\nd_ff = ${d}`, en: d => `Feed-Forward\nd_ff = ${d}` },
+  linAttnTip:       { fr: d => `Attention linéaire\nd_embed = ${d}\n(état séquentiel, pas de "têtes")`, en: d => `Linear attention\nd_embed = ${d}\n(sequential state, no "heads")` },
   visionTip:        { fr: (p, d) => `Tour de vision\n${p} paramètres` + (d ? `\n${d} blocs` : ''), en: (p, d) => `Vision tower\n${p} parameters` + (d ? `\n${d} blocks` : '') },
-  legendAttn:       { fr: 'Attention (d_embed)', en: 'Attention (d_embed)' },
+  legendAttn:       { fr: 'Attention', en: 'Attention' },
   legendFFDense:    { fr: 'Feed-Forward — plein (dense)', en: 'Feed-Forward — solid (dense)' },
   legendFFMoE:      { fr: 'Feed-Forward — rayé (MoE)', en: 'Feed-Forward — striped (MoE)' },
   legendGQA:        { fr: 'Limite GQA (têtes clé/valeur partagées)', en: 'GQA boundary (shared key/value heads)' },
+  legendLinAttn:    { fr: 'Attention linéaire (état séquentiel)', en: 'Linear attention (sequential state)' },
   miniCapGQA:       { fr: 'tirets = limite GQA (têtes clé/valeur partagées)', en: 'dashes = GQA boundary (shared key/value heads)' },
   miniCapMoE:       { fr: 'rayures = MoE (experts actifs)', en: 'stripes = MoE (active experts)' },
+  miniCapLinAttn:   { fr: 'vert = attention linéaire (état séquentiel, pas de têtes)', en: 'green = linear attention (sequential state, no heads)' },
+  miniCapHybridAttn: { fr: 'vert = blocs à attention linéaire, bleu = attention complète', en: 'green = linear-attention blocks, blue = full attention' },
   figLabel:         { fr: n => `Fig. ${n}`, en: n => `Fig. ${n}` },
   specimenStats:    { fr: (p, b) => `${p} · ${b} disque`, en: (p, b) => `${p} · ${b} disk` },
   ttLayer:          { fr: l => `couche ${l}`, en: l => `layer ${l}` },
@@ -949,6 +953,25 @@ function getFamily(component) {
   if (component.startsWith('ff.')) return 'ff';
   if (component.startsWith('norm.')) return 'norm';
   return 'ff';
+}
+
+// Mass of each block-level family, summed from real per-tensor parameter counts
+// rather than inferred from d_embed/d_ff dimensions. A dimension ratio assumes
+// attention and feed-forward cost the same per unit of width, which breaks for
+// GQA (attn.k/attn.v tensors genuinely shrink with fewer kv heads) and collapses
+// entirely for a pure state-space model (no attention dimension at all — just
+// linear_attn tensors, which a dimension ratio reads as "0 attention, 100% of
+// something else" instead of "not attention at all"). Norm/embed/output and
+// vision-domain tensors are excluded: this is the mass of one language block,
+// not the whole model.
+function computeBlockMasses(stats) {
+  const masses = { attn: 0, linear_attn: 0, ff: 0 };
+  for (const t of stats) {
+    if (t.domain === 'vision' || t.layer === null) continue;
+    const fam = getFamily(t.component);
+    if (fam in masses) masses[fam] += t.n_params;
+  }
+  return masses;
 }
 
 function familyColor(family, opacity) {
@@ -1030,12 +1053,21 @@ function renderPlate(model, index) {
     [t('statParams'), formatNum(meta.params_total)],
     [t('statLayers'), meta.n_layers],
     ['d_embed', formatNum(meta.d_embed)],
-    ['d_ff', formatNum(meta.d_ff || meta.d_ff_expert)],
-    [t('statHeads'), meta.n_heads + (meta.n_kv_heads && meta.n_kv_heads !== meta.n_heads ? ` (${meta.n_kv_heads} kv)` : '')],
+  ];
+  // Omit d_ff / heads entirely rather than show "—" / "0" — a pure state-space
+  // model (Falcon-Mamba) genuinely has neither concept, and a literal zero reads
+  // as a broken extraction rather than "not applicable to this architecture".
+  if (meta.d_ff || meta.d_ff_expert) {
+    statItems.push(['d_ff', formatNum(meta.d_ff || meta.d_ff_expert)]);
+  }
+  if (meta.n_heads) {
+    statItems.push([t('statHeads'), meta.n_heads + (meta.n_kv_heads && meta.n_kv_heads !== meta.n_heads ? ` (${meta.n_kv_heads} kv)` : '')]);
+  }
+  statItems.push(
     [t('statContext'), formatNum(meta.context_length)],
     [t('statVocab'), formatNum(meta.vocab_size)],
     [t('statSize'), formatBytes(meta.file_size)],
-  ];
+  );
 
   if (meta.params_active && meta.params_active !== meta.params_language) {
     statItems.splice(1, 0, [t('statParamsActive'), formatNum(meta.params_active)]);
@@ -1066,7 +1098,10 @@ function renderPlate(model, index) {
   if (meta.n_experts) archBadges.push(t('archMoE', meta.n_experts, meta.d_ff_expert || '?'));
   if (meta.vision) archBadges.push(t('archVision', meta.vision.depth));
 
-  if (archBadges.length > 0 || meta.n_heads) {
+  const blockMasses = computeBlockMasses(stats);
+  const hasBlockMass = blockMasses.attn + blockMasses.linear_attn + blockMasses.ff > 0;
+
+  if (archBadges.length > 0 || hasBlockMass) {
     inner.appendChild(createRule());
     const sec = document.createElement('div');
     sec.className = 'arch-section';
@@ -1075,15 +1110,18 @@ function renderPlate(model, index) {
     secTitle.textContent = t('sectionArchTraits');
     sec.appendChild(secTitle);
 
-    if (meta.n_heads) {
+    if (hasBlockMass) {
       const specimenWrap = document.createElement('div');
       specimenWrap.className = 'mini-specimen-wrap';
-      renderMiniSpecimen(meta, specimenWrap);
+      renderMiniSpecimen(meta, stats, specimenWrap);
       sec.appendChild(specimenWrap);
 
       const capParts = [];
       if (meta.n_kv_heads && meta.n_kv_heads < meta.n_heads) capParts.push(t('miniCapGQA'));
       if (meta.n_experts) capParts.push(t('miniCapMoE'));
+      if (blockMasses.linear_attn > 0) {
+        capParts.push(blockMasses.attn > 0 ? t('miniCapHybridAttn') : t('miniCapLinAttn'));
+      }
       if (capParts.length > 0) {
         const cap = document.createElement('div');
         cap.className = 'mini-specimen-caption';
@@ -1518,20 +1556,18 @@ const MINI_SIDE_MAX = 62;
 const MINI_SIDE_FLOOR = 5;
 const MINI_ASPECT = 1.7;
 
-function renderMiniSpecimen(meta, container) {
+function renderMiniSpecimen(meta, stats, container) {
   const ns = 'http://www.w3.org/2000/svg';
   const maxFileSize = Math.max(...MODELS.map(m => m.meta.file_size || 0)) || 1;
   const side = Math.max(MINI_SIDE_FLOOR, MINI_SIDE_MAX * Math.sqrt((meta.file_size || 0) / maxFileSize));
   const width = side * MINI_ASPECT;
   const height = side;
 
-  const dEmbed = meta.d_embed || 0;
-  const dFF = meta.d_ff || 0;
   const dFFe = meta.d_ff_expert || 0;
   const nExp = meta.n_experts || 0;
   const nAct = meta.n_experts_active || 0;
-  const effectiveFF = nExp ? dFFe * nAct : dFF;
-  const attnShare = (dEmbed + effectiveFF) > 0 ? dEmbed / (dEmbed + effectiveFF) : 0.5;
+  const masses = computeBlockMasses(stats);
+  const totalMass = masses.attn + masses.linear_attn + masses.ff;
 
   const hasVision = !!(meta.vision || (meta.params_vision && meta.params_vision > 0));
   let visionSide = 0;
@@ -1596,50 +1632,69 @@ function renderMiniSpecimen(meta, container) {
 
   const bx = contentX;
   const by = topPad + (tallest - height);
-  const wAttn = width * attnShare;
-  const wFF = width - wAttn;
 
   if (headTxt) {
     text(bx + width / 2, topPad - 4, headTxt, { size: '8' });
   }
 
-  const attnRect = el('rect', {
-    x: bx, y: by, width: wAttn, height,
-    fill: 'hsla(212,55%,44%,0.82)', stroke: 'hsla(212,55%,30%,0.6)', 'stroke-width': '0.6',
-  });
-  const attnTip = document.createElementNS(ns, 'title');
-  attnTip.textContent = t('attnTip', meta.d_embed, t('headsPlain', meta.n_heads)) +
-    (meta.n_kv_heads && meta.n_kv_heads !== meta.n_heads ? ` (${meta.n_kv_heads} kv)` : '');
-  attnRect.appendChild(attnTip);
+  let cursor = bx;
 
-  if (meta.n_kv_heads && meta.n_kv_heads < meta.n_heads && wAttn > 3) {
-    const kvY = by + height * (1 - meta.n_kv_heads / meta.n_heads);
-    el('line', {
-      x1: bx, y1: kvY, x2: bx + wAttn, y2: kvY,
-      stroke: 'hsla(212,55%,75%,0.7)', 'stroke-width': '0.5', 'stroke-dasharray': '2,1.5',
+  if (masses.attn > 0) {
+    const wAttn = width * (masses.attn / totalMass);
+    const attnRect = el('rect', {
+      x: cursor, y: by, width: wAttn, height,
+      fill: 'hsla(212,55%,44%,0.82)', stroke: 'hsla(212,55%,30%,0.6)', 'stroke-width': '0.6',
     });
+    const attnTip = document.createElementNS(ns, 'title');
+    attnTip.textContent = t('attnTip', meta.d_embed, t('headsPlain', meta.n_heads)) +
+      (meta.n_kv_heads && meta.n_kv_heads !== meta.n_heads ? ` (${meta.n_kv_heads} kv)` : '');
+    attnRect.appendChild(attnTip);
+
+    if (meta.n_kv_heads && meta.n_kv_heads < meta.n_heads && wAttn > 3) {
+      const kvY = by + height * (1 - meta.n_kv_heads / meta.n_heads);
+      el('line', {
+        x1: cursor, y1: kvY, x2: cursor + wAttn, y2: kvY,
+        stroke: 'hsla(212,55%,75%,0.7)', 'stroke-width': '0.5', 'stroke-dasharray': '2,1.5',
+      });
+    }
+    cursor += wAttn;
   }
 
-  const ffRect = el('rect', {
-    x: bx + wAttn, y: by, width: wFF, height,
-    fill: nExp > 0 ? 'hsla(22,65%,40%,0.18)' : 'hsla(22,65%,40%,0.82)',
-    stroke: 'hsla(22,65%,30%,0.6)', 'stroke-width': '0.6',
-  });
-  const ffTip = document.createElementNS(ns, 'title');
-  ffTip.textContent = nExp > 0
-    ? t('ffTipMoE', nExp, dFFe, nAct)
-    : t('ffTipDense', meta.d_ff);
-  ffRect.appendChild(ffTip);
+  if (masses.linear_attn > 0) {
+    const wLin = width * (masses.linear_attn / totalMass);
+    const linRect = el('rect', {
+      x: cursor, y: by, width: wLin, height,
+      fill: familyColor('linear_attn', 0.82), stroke: familySolid('linear_attn'), 'stroke-width': '0.6',
+    });
+    const linTip = document.createElementNS(ns, 'title');
+    linTip.textContent = t('linAttnTip', meta.d_embed);
+    linRect.appendChild(linTip);
+    cursor += wLin;
+  }
 
-  if (nExp > 0 && wFF > 12) {
-    const bands = Math.max(2, Math.min(MOE_STRIPE_COUNT, Math.floor(wFF / 5)));
-    const stripeW = wFF / bands;
-    for (let k = 0; k < bands; k++) {
-      el('rect', {
-        x: bx + wAttn + k * stripeW, y: by,
-        width: Math.max(0.5, stripeW - 0.5), height,
-        fill: 'hsla(22,65%,40%,0.75)',
-      });
+  if (masses.ff > 0) {
+    const wFF = bx + width - cursor;
+    const ffRect = el('rect', {
+      x: cursor, y: by, width: wFF, height,
+      fill: nExp > 0 ? 'hsla(22,65%,40%,0.18)' : 'hsla(22,65%,40%,0.82)',
+      stroke: 'hsla(22,65%,30%,0.6)', 'stroke-width': '0.6',
+    });
+    const ffTip = document.createElementNS(ns, 'title');
+    ffTip.textContent = nExp > 0
+      ? t('ffTipMoE', nExp, dFFe, nAct)
+      : t('ffTipDense', meta.d_ff);
+    ffRect.appendChild(ffTip);
+
+    if (nExp > 0 && wFF > 12) {
+      const bands = Math.max(2, Math.min(MOE_STRIPE_COUNT, Math.floor(wFF / 5)));
+      const stripeW = wFF / bands;
+      for (let k = 0; k < bands; k++) {
+        el('rect', {
+          x: cursor + k * stripeW, y: by,
+          width: Math.max(0.5, stripeW - 0.5), height,
+          fill: 'hsla(22,65%,40%,0.75)',
+        });
+      }
     }
   }
 
@@ -1671,8 +1726,8 @@ function renderComparativeSection() {
 
   // Blocks are drawn true-to-scale: area ∝ file_size (weight on disk), sitting
   // on a common ground line — like specimens of very different sizes set side
-  // by side on the same plate. Width still splits into attention / feed-forward,
-  // exactly as before.
+  // by side on the same plate. Width still splits by family, now proportional
+  // to each family's real summed parameter mass (see computeBlockMasses).
   const sorted = [...MODELS].sort((a, b) => (a.meta.file_size || 0) - (b.meta.file_size || 0));
   const maxFileSize = Math.max(...sorted.map(m => m.meta.file_size || 0));
   if (maxFileSize === 0) return;
@@ -1701,16 +1756,13 @@ function renderComparativeSection() {
     const side = sideFor(m.file_size);
     const width = side * ASPECT;
     const height = side;
-    const dEmbed = m.d_embed || 0;
-    const dFF = m.d_ff || 0;
     const dFFe = m.d_ff_expert || 0;
     const nExp = m.n_experts || 0;
     const nAct = m.n_experts_active || 0;
-    const effectiveFF = nExp ? dFFe * nAct : dFF;
-    const attnShare = (dEmbed + effectiveFF) > 0 ? dEmbed / (dEmbed + effectiveFF) : 0.5;
+    const masses = computeBlockMasses(model.tensor_stats);
     const stats = t('specimenStats', formatNum(m.params_total), formatBytes(m.file_size || 0));
     const slot = Math.max(width, labelWidth(m.name, stats)) + GUTTER;
-    return { m, width, height, attnShare, nExp, nAct, dFFe, stats, slot };
+    return { m, width, height, masses, nExp, nAct, dFFe, stats, slot };
   });
 
   // Wrap into several rows instead of one long strip — closer to a real specimen
@@ -1777,6 +1829,7 @@ function renderComparativeSection() {
 
   let hasMoE = false;
   let hasGQA = false;
+  let hasLinAttn = false;
   let figIndex = 0;
 
   for (const { row, baselineY } of rowLayouts) {
@@ -1793,59 +1846,82 @@ function renderComparativeSection() {
     const bx = x + (s.slot - s.width) / 2;
     const by = baselineY - s.height;
     const cx = bx + s.width / 2;
-    const wAttn = Math.max(0, s.width * s.attnShare);
-    const wFF = s.width - wAttn;
+    const totalMass = s.masses.attn + s.masses.linear_attn + s.masses.ff;
 
     text(cx, by - FIG_GAP + 4, t('figLabel', figIndex), { size: '7.5', fill: 'var(--text-faint)', font: 'var(--font-mono)', italic: true });
 
-    // Attention portion (blue)
-    const attnRect = el('rect', {
-      x: bx, y: by, width: wAttn, height: s.height,
-      fill: 'hsla(212,55%,44%,0.82)', stroke: 'hsla(212,55%,30%,0.6)', 'stroke-width': '0.6',
-    });
-    const attnTip = document.createElementNS(ns, 'title');
-    attnTip.textContent = t('attnTip', s.m.d_embed, t('headsPlain', s.m.n_heads)) +
-      (s.m.n_kv_heads && s.m.n_kv_heads !== s.m.n_heads ? ` (${s.m.n_kv_heads} kv)` : '');
-    attnRect.appendChild(attnTip);
+    let cursor = bx;
 
-    // GQA divider: kv heads share only part of the block's height
-    if (s.m.n_kv_heads && s.m.n_kv_heads < s.m.n_heads && wAttn > 3) {
-      hasGQA = true;
-      const kvY = by + s.height * (1 - s.m.n_kv_heads / s.m.n_heads);
-      el('line', {
-        x1: bx, y1: kvY, x2: bx + wAttn, y2: kvY,
-        stroke: 'hsla(212,55%,75%,0.7)', 'stroke-width': '0.5', 'stroke-dasharray': '2,1.5',
+    // Attention portion (blue) — width proportional to real attn.* parameter mass
+    if (s.masses.attn > 0) {
+      const wAttn = s.width * (s.masses.attn / totalMass);
+      const attnRect = el('rect', {
+        x: cursor, y: by, width: wAttn, height: s.height,
+        fill: 'hsla(212,55%,44%,0.82)', stroke: 'hsla(212,55%,30%,0.6)', 'stroke-width': '0.6',
       });
+      const attnTip = document.createElementNS(ns, 'title');
+      attnTip.textContent = t('attnTip', s.m.d_embed, t('headsPlain', s.m.n_heads)) +
+        (s.m.n_kv_heads && s.m.n_kv_heads !== s.m.n_heads ? ` (${s.m.n_kv_heads} kv)` : '');
+      attnRect.appendChild(attnTip);
+
+      // GQA divider: kv heads share only part of the block's height
+      if (s.m.n_kv_heads && s.m.n_kv_heads < s.m.n_heads && wAttn > 3) {
+        hasGQA = true;
+        const kvY = by + s.height * (1 - s.m.n_kv_heads / s.m.n_heads);
+        el('line', {
+          x1: cursor, y1: kvY, x2: cursor + wAttn, y2: kvY,
+          stroke: 'hsla(212,55%,75%,0.7)', 'stroke-width': '0.5', 'stroke-dasharray': '2,1.5',
+        });
+      }
+      cursor += wAttn;
+    }
+
+    // Linear-attention portion (green) — pure SSM blocks (Falcon-Mamba) or the
+    // linear-attention layers of a hybrid model (qwen3.6-coding)
+    if (s.masses.linear_attn > 0) {
+      hasLinAttn = true;
+      const wLin = s.width * (s.masses.linear_attn / totalMass);
+      const linRect = el('rect', {
+        x: cursor, y: by, width: wLin, height: s.height,
+        fill: familyColor('linear_attn', 0.82), stroke: familySolid('linear_attn'), 'stroke-width': '0.6',
+      });
+      const linTip = document.createElementNS(ns, 'title');
+      linTip.textContent = t('linAttnTip', s.m.d_embed);
+      linRect.appendChild(linTip);
+      cursor += wLin;
     }
 
     // Feed-forward portion (brown) — striped into active experts for MoE models
-    const ffRect = el('rect', {
-      x: bx + wAttn, y: by, width: wFF, height: s.height,
-      fill: s.nExp > 0 ? 'hsla(22,65%,40%,0.18)' : 'hsla(22,65%,40%,0.82)',
-      stroke: 'hsla(22,65%,30%,0.6)', 'stroke-width': '0.6',
-    });
-    const ffTip = document.createElementNS(ns, 'title');
-    ffTip.textContent = s.nExp > 0
-      ? t('ffTipMoE', s.nExp, s.dFFe, s.nAct)
-      : t('ffTipDense', s.m.d_ff);
-    ffRect.appendChild(ffTip);
+    if (s.masses.ff > 0) {
+      const wFF = bx + s.width - cursor;
+      const ffRect = el('rect', {
+        x: cursor, y: by, width: wFF, height: s.height,
+        fill: s.nExp > 0 ? 'hsla(22,65%,40%,0.18)' : 'hsla(22,65%,40%,0.82)',
+        stroke: 'hsla(22,65%,30%,0.6)', 'stroke-width': '0.6',
+      });
+      const ffTip = document.createElementNS(ns, 'title');
+      ffTip.textContent = s.nExp > 0
+        ? t('ffTipMoE', s.nExp, s.dFFe, s.nAct)
+        : t('ffTipDense', s.m.d_ff);
+      ffRect.appendChild(ffTip);
 
-    if (s.nExp > 0) {
-      hasMoE = true;
-      if (wFF > 16) {
-        const bands = Math.max(2, Math.min(MOE_STRIPE_COUNT, Math.floor(wFF / 6)));
-        const stripeW = wFF / bands;
-        for (let k = 0; k < bands; k++) {
-          el('rect', {
-            x: bx + wAttn + k * stripeW, y: by,
-            width: Math.max(0.5, stripeW - 0.6), height: s.height,
-            fill: 'hsla(22,65%,40%,0.75)',
-          });
+      if (s.nExp > 0) {
+        hasMoE = true;
+        if (wFF > 16) {
+          const bands = Math.max(2, Math.min(MOE_STRIPE_COUNT, Math.floor(wFF / 6)));
+          const stripeW = wFF / bands;
+          for (let k = 0; k < bands; k++) {
+            el('rect', {
+              x: cursor + k * stripeW, y: by,
+              width: Math.max(0.5, stripeW - 0.6), height: s.height,
+              fill: 'hsla(22,65%,40%,0.75)',
+            });
+          }
         }
       }
     }
 
-    // Crisp outer frame over both portions
+    // Crisp outer frame over all portions
     el('rect', { x: bx, y: by, width: s.width, height: s.height, fill: 'none', stroke: 'var(--border)', 'stroke-width': '0.8' });
 
     // Caption: name in italics, then the raw numbers
@@ -1884,6 +1960,7 @@ function renderComparativeSection() {
   ];
   if (hasMoE) legend.push({ color: 'hsla(22,65%,40%,0.75)', label: t('legendFFMoE'), kind: 'striped' });
   if (hasGQA) legend.push({ color: 'hsla(212,55%,44%,0.82)', label: t('legendGQA'), kind: 'gqa' });
+  if (hasLinAttn) legend.push({ color: familyColor('linear_attn', 0.82), label: t('legendLinAttn'), kind: 'solid' });
   const legendW = legend.reduce((sum, it) => sum + SW + 5 + it.label.length * 5.2 + 20, 0) - 20;
   let lx = (svgW - legendW) / 2;
   const legY = svgH - 9;
